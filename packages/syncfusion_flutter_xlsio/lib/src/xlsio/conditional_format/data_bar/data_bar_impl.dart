@@ -299,10 +299,10 @@ class DataBarImpl implements DataBar {
   }
 
   int rgbValue(Color value) {
-    return ((value.a * 255).toInt() << 24) |
-        ((value.r * 255).toInt() << 16) |
-        ((value.g * 255).toInt() << 8) |
-        (value.b * 255).toInt();
+    return ((value.alpha * 255).toInt() << 24) |
+        ((value.red * 255).toInt() << 16) |
+        ((value.green * 255).toInt() << 8) |
+        (value.blue * 255).toInt();
   }
 }
 

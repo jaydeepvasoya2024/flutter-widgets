@@ -5,8 +5,7 @@ import '../../linear_gauge/pointers/linear_shape_renderer.dart';
 import '../../linear_gauge/utils/enum.dart';
 
 /// [LinearShapePointer] has properties for customizing the shape marker pointer.
-class LinearShapePointer extends LeafRenderObjectWidget
-    implements LinearMarkerPointer {
+class LinearShapePointer extends LeafRenderObjectWidget implements LinearMarkerPointer {
   /// Creates a shape marker pointer for linear axis.
   const LinearShapePointer(
       {Key? key,
@@ -446,8 +445,8 @@ class LinearShapePointer extends LeafRenderObjectWidget
     final Color shapePointerColor = isMaterial3
         ? theme.colorScheme.onSurfaceVariant
         : isDarkTheme
-            ? theme.colorScheme.onSurface.withValues(alpha: 0.70)
-            : theme.colorScheme.onSurface.withValues(alpha: 0.54);
+            ? theme.colorScheme.onSurface.withOpacity(0.70)
+            : theme.colorScheme.onSurface.withOpacity(0.54);
     return RenderLinearShapePointer(
         value: value,
         onChanged: onChanged,
@@ -457,8 +456,7 @@ class LinearShapePointer extends LeafRenderObjectWidget
         borderColor: borderColor ?? shapePointerColor,
         borderWidth: borderWidth,
         width: width ?? (shapeType == LinearShapePointerType.diamond ? 12 : 16),
-        height:
-            height ?? (shapeType == LinearShapePointerType.rectangle ? 8 : 16),
+        height: height ?? (shapeType == LinearShapePointerType.rectangle ? 8 : 16),
         offset: offset,
         position: position,
         shapeType: shapeType,
@@ -475,8 +473,7 @@ class LinearShapePointer extends LeafRenderObjectWidget
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, RenderLinearShapePointer renderObject) {
+  void updateRenderObject(BuildContext context, RenderLinearShapePointer renderObject) {
     final LinearGaugeScope linearGaugeScope = LinearGaugeScope.of(context);
     final ThemeData theme = Theme.of(context);
     final bool isDarkTheme = theme.brightness == Brightness.dark;
@@ -484,8 +481,8 @@ class LinearShapePointer extends LeafRenderObjectWidget
     final Color shapePointerColor = isMaterial3
         ? theme.colorScheme.onSurfaceVariant
         : isDarkTheme
-            ? theme.colorScheme.onSurface.withValues(alpha: 0.70)
-            : theme.colorScheme.onSurface.withValues(alpha: 0.54);
+            ? theme.colorScheme.onSurface.withOpacity(0.70)
+            : theme.colorScheme.onSurface.withOpacity(0.54);
 
     renderObject
       ..value = value
@@ -496,8 +493,7 @@ class LinearShapePointer extends LeafRenderObjectWidget
       ..borderColor = borderColor ?? shapePointerColor
       ..borderWidth = borderWidth
       ..width = width ?? (shapeType == LinearShapePointerType.diamond ? 12 : 16)
-      ..height =
-          height ?? (shapeType == LinearShapePointerType.rectangle ? 8 : 16)
+      ..height = height ?? (shapeType == LinearShapePointerType.rectangle ? 8 : 16)
       ..offset = offset
       ..position = position
       ..shapeType = shapeType

@@ -15,8 +15,7 @@ import 'data_label.dart';
 import 'element_widget.dart';
 
 // ignore: must_be_immutable
-base class PyramidChartDataLabelPositioned
-    extends ParentDataWidget<ChartElementParentData>
+base class PyramidChartDataLabelPositioned extends ParentDataWidget<ChartElementParentData>
     with LinkedListEntry<PyramidChartDataLabelPositioned> {
   PyramidChartDataLabelPositioned({
     super.key,
@@ -39,8 +38,7 @@ base class PyramidChartDataLabelPositioned
   @override
   void applyParentData(RenderObject renderObject) {
     assert(renderObject.parentData is ChartElementParentData);
-    final ChartElementParentData parentData =
-        renderObject.parentData! as ChartElementParentData;
+    final ChartElementParentData parentData = renderObject.parentData! as ChartElementParentData;
     bool needsLayout = false;
 
     if (parentData.x != x) {
@@ -92,40 +90,23 @@ class PyramidDataLabelContainer<T, D> extends StatefulWidget {
   final DataLabelSettings settings;
 
   @override
-  State<PyramidDataLabelContainer<T, D>> createState() =>
-      _PyramidDataLabelContainerState<T, D>();
+  State<PyramidDataLabelContainer<T, D>> createState() => _PyramidDataLabelContainerState<T, D>();
 }
 
-typedef _ChartDataLabelWidgetBuilder<T, D> = Widget Function(
-    T data,
-    ChartPoint<D> point,
-    PyramidSeries<T, D> series,
-    int pointIndex,
-    int seriesIndex,
-    ChartDataPointType position);
+typedef _ChartDataLabelWidgetBuilder<T, D> = Widget Function(T data, ChartPoint<D> point, PyramidSeries<T, D> series,
+    int pointIndex, int seriesIndex, ChartDataPointType position);
 
-class _PyramidDataLabelContainerState<T, D>
-    extends State<PyramidDataLabelContainer<T, D>>
+class _PyramidDataLabelContainerState<T, D> extends State<PyramidDataLabelContainer<T, D>>
     with ChartElementParentDataMixin<T, D> {
   List<PyramidChartDataLabelPositioned>? _builderChildren;
   LinkedList<PyramidChartDataLabelPositioned>? _textChildren;
 
-  Widget _dataLabelFromBuilder(
-      T data,
-      ChartPoint<D> point,
-      PyramidSeries<T, D> series,
-      int pointIndex,
-      int seriesIndex,
+  Widget _dataLabelFromBuilder(T data, ChartPoint<D> point, PyramidSeries<T, D> series, int pointIndex, int seriesIndex,
       ChartDataPointType position) {
     return widget.builder!(data, point, series, pointIndex, seriesIndex);
   }
 
-  Widget _dataLabelFromMapper(
-      T data,
-      ChartPoint<D> point,
-      PyramidSeries<T, D> series,
-      int pointIndex,
-      int seriesIndex,
+  Widget _dataLabelFromMapper(T data, ChartPoint<D> point, PyramidSeries<T, D> series, int pointIndex, int seriesIndex,
       ChartDataPointType position) {
     final String text = widget.mapper!(data, pointIndex) ?? '';
     return _buildDataLabelText(text, pointIndex);
@@ -147,10 +128,9 @@ class _PyramidDataLabelContainerState<T, D>
   Color _dataPointColor(int dataPointIndex) {
     final DataLabelSettings settings = widget.settings;
     if (settings.color != null) {
-      return settings.color!.withValues(alpha: settings.opacity);
+      return settings.color!.withOpacity(settings.opacity);
     } else if (settings.useSeriesColor) {
-      return renderer!.segments[dataPointIndex].fillPaint.color
-          .withValues(alpha: settings.opacity);
+      return renderer!.segments[dataPointIndex].fillPaint.color.withOpacity(settings.opacity);
     }
     return Colors.transparent;
   }
@@ -176,8 +156,7 @@ class _PyramidDataLabelContainerState<T, D>
     _textChildren!.add(child);
   }
 
-  void _buildDataLabels(_ChartDataLabelWidgetBuilder<T, D> callback,
-      Function(PyramidChartDataLabelPositioned) add) {
+  void _buildDataLabels(_ChartDataLabelWidgetBuilder<T, D> callback, Function(PyramidChartDataLabelPositioned) add) {
     const List<ChartDataPointType> positions = ChartDataPointType.values;
     final int yLength = yLists?.length ?? 0;
     final int posAdj = _positionIndex(yLength);
@@ -217,8 +196,7 @@ class _PyramidDataLabelContainerState<T, D>
       final List<num> yValues = yLists![k];
       point.y = yValues[index];
       final ChartDataPointType position = positions[k + posAdj];
-      final PyramidChartDataLabelPositioned child =
-          PyramidChartDataLabelPositioned(
+      final PyramidChartDataLabelPositioned child = PyramidChartDataLabelPositioned(
         x: x,
         y: yValues[index],
         dataPointIndex: index,
@@ -244,16 +222,11 @@ class _PyramidDataLabelContainerState<T, D>
         _ChartDataLabelWidgetBuilder<T, D> callback;
         _builderChildren?.clear();
         _textChildren?.clear();
-        if (renderer != null &&
-            renderer!.initialIsVisible &&
-            yLists != null &&
-            yLists!.isNotEmpty) {
+        if (renderer != null && renderer!.initialIsVisible && yLists != null && yLists!.isNotEmpty) {
           if (widget.builder != null) {
             callback = _dataLabelFromBuilder;
           } else {
-            callback = widget.mapper != null
-                ? _dataLabelFromMapper
-                : _defaultDataLabel;
+            callback = widget.mapper != null ? _dataLabelFromMapper : _defaultDataLabel;
           }
           void Function(PyramidChartDataLabelPositioned child) add;
           if (widget.builder != null) {
@@ -305,8 +278,7 @@ class PyramidDataLabelStack<T, D> extends ChartElementStack {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, RenderPyramidDataLabelStack<T, D> renderObject) {
+  void updateRenderObject(BuildContext context, RenderPyramidDataLabelStack<T, D> renderObject) {
     super.updateRenderObject(context, renderObject);
     renderObject
       ..series = series
@@ -330,8 +302,7 @@ class RenderPyramidDataLabelStack<T, D> extends RenderChartElementStack {
 
   @override
   bool hitTestSelf(Offset position) {
-    return series?.parent?.onDataLabelTapped != null &&
-        _findSelectedDataLabelIndex(position) != -1;
+    return series?.parent?.onDataLabelTapped != null && _findSelectedDataLabelIndex(position) != -1;
   }
 
   int _findSelectedDataLabelIndex(Offset localPosition) {
@@ -342,8 +313,7 @@ class RenderPyramidDataLabelStack<T, D> extends RenderChartElementStack {
     if (childCount > 0) {
       RenderBox? child = lastChild;
       while (child != null) {
-        final ChartElementParentData childParentData =
-            child.parentData! as ChartElementParentData;
+        final ChartElementParentData childParentData = child.parentData! as ChartElementParentData;
         if ((childParentData.offset & child.size).contains(localPosition)) {
           return childParentData.dataPointIndex;
         }
@@ -374,9 +344,7 @@ class RenderPyramidDataLabelStack<T, D> extends RenderChartElementStack {
         return;
       }
 
-      final String text = childCount > 0
-          ? ''
-          : (labels!.elementAt(selectedIndex).child as DataLabelText).text;
+      final String text = childCount > 0 ? '' : (labels!.elementAt(selectedIndex).child as DataLabelText).text;
       series!.parent!.onDataLabelTapped!(DataLabelTapDetails(
         series!.index,
         series!.viewportIndex(selectedIndex),
@@ -408,16 +376,13 @@ class RenderPyramidDataLabelStack<T, D> extends RenderChartElementStack {
     if (childCount > 0) {
       RenderBox? child = firstChild;
       while (child != null) {
-        final ChartElementParentData currentChildData =
-            child.parentData! as ChartElementParentData;
+        final ChartElementParentData currentChildData = child.parentData! as ChartElementParentData;
         final RenderBox? nextSibling = currentChildData.nextSibling;
         child.layout(constraints, parentUsesSize: true);
+        currentChildData.offset = series!.dataLabelPosition(currentChildData, child.size);
+        final Offset offset = _invokeDataLabelRender(currentChildData.dataPointIndex);
         currentChildData.offset =
-            series!.dataLabelPosition(currentChildData, child.size);
-        final Offset offset =
-            _invokeDataLabelRender(currentChildData.dataPointIndex);
-        currentChildData.offset = Offset(currentChildData.offset.dx + offset.dx,
-            currentChildData.offset.dy - offset.dy);
+            Offset(currentChildData.offset.dx + offset.dx, currentChildData.offset.dy - offset.dy);
         // TODO(Praveen): Builder works only for inner and outer position,
         // Need to handle for intersection.
         child = nextSibling;
@@ -430,17 +395,12 @@ class RenderPyramidDataLabelStack<T, D> extends RenderChartElementStack {
           ..dataPointIndex = currentLabel.dataPointIndex
           ..position = currentLabel.position;
         final DataLabelText details = currentLabel.child as DataLabelText;
-        final Offset offset =
-            _invokeDataLabelRender(currentLabel.dataPointIndex, details);
-        currentLabel.offset = Offset(currentLabel.offset.dx + offset.dx,
-            currentLabel.offset.dy - offset.dy);
+        final Offset offset = _invokeDataLabelRender(currentLabel.dataPointIndex, details);
+        currentLabel.offset = Offset(currentLabel.offset.dx + offset.dx, currentLabel.offset.dy - offset.dy);
         currentLabel.size = measureText(details.text, details.textStyle);
-        currentLabel.offset +=
-            series!.dataLabelPosition(currentLabelData, currentLabel.size);
-        currentLabel.connectorPath = _drawConnectorPath(
-            currentLabel.dataPointIndex,
-            currentLabel.offset,
-            currentLabel.size);
+        currentLabel.offset += series!.dataLabelPosition(currentLabelData, currentLabel.size);
+        currentLabel.connectorPath =
+            _drawConnectorPath(currentLabel.dataPointIndex, currentLabel.offset, currentLabel.size);
       }
     }
   }

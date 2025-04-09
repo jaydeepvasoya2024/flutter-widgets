@@ -66,9 +66,7 @@ class _ScrollHeadState extends State<ScrollHead> {
   void didChangeDependencies() {
     _isMaterial3 = Theme.of(context).useMaterial3;
     _pdfViewerThemeData = SfPdfViewerTheme.of(context);
-    _effectiveThemeData = _isMaterial3
-        ? SfPdfViewerThemeDataM3(context)
-        : SfPdfViewerThemeDataM2(context);
+    _effectiveThemeData = _isMaterial3 ? SfPdfViewerThemeDataM3(context) : SfPdfViewerThemeDataM2(context);
     super.didChangeDependencies();
   }
 
@@ -140,24 +138,20 @@ class _ScrollHeadState extends State<ScrollHead> {
         offset: Offset(0, 1),
       ),
     ];
-    final EdgeInsets edgeInsets =
-        widget.scrollDirection == PdfScrollDirection.horizontal
-            ? EdgeInsets.only(left: widget.scrollHeadOffset.dx)
-            : EdgeInsets.only(top: widget.scrollHeadOffset.dy);
-    final BorderRadius borderRadius =
-        widget.scrollDirection == PdfScrollDirection.horizontal
-            ? const BorderRadius.only(
-                topRight: Radius.circular(kPdfScrollHeadSize),
-                topLeft: Radius.circular(kPdfScrollHeadSize),
-              )
-            : const BorderRadius.only(
-                topLeft: Radius.circular(kPdfScrollHeadSize),
-                bottomLeft: Radius.circular(kPdfScrollHeadSize),
-              );
+    final EdgeInsets edgeInsets = widget.scrollDirection == PdfScrollDirection.horizontal
+        ? EdgeInsets.only(left: widget.scrollHeadOffset.dx)
+        : EdgeInsets.only(top: widget.scrollHeadOffset.dy);
+    final BorderRadius borderRadius = widget.scrollDirection == PdfScrollDirection.horizontal
+        ? const BorderRadius.only(
+            topRight: Radius.circular(kPdfScrollHeadSize),
+            topLeft: Radius.circular(kPdfScrollHeadSize),
+          )
+        : const BorderRadius.only(
+            topLeft: Radius.circular(kPdfScrollHeadSize),
+            bottomLeft: Radius.circular(kPdfScrollHeadSize),
+          );
     final Alignment alignment =
-        widget.scrollDirection == PdfScrollDirection.horizontal
-            ? Alignment.bottomLeft
-            : Alignment.topRight;
+        widget.scrollDirection == PdfScrollDirection.horizontal ? Alignment.bottomLeft : Alignment.topRight;
     return Align(
       alignment: alignment,
       child: Container(
@@ -175,8 +169,7 @@ class _ScrollHeadState extends State<ScrollHead> {
               decoration: BoxDecoration(
                 color: _pdfViewerThemeData!.scrollHeadStyle?.backgroundColor ??
                     _effectiveThemeData!.scrollHeadStyle?.backgroundColor ??
-                    (Theme.of(context).colorScheme.brightness ==
-                            Brightness.light
+                    (Theme.of(context).colorScheme.brightness == Brightness.light
                         ? const Color(0xFFFAFAFA)
                         : const Color(0xFF424242)),
                 borderRadius: borderRadius,
@@ -195,16 +188,13 @@ class _ScrollHeadState extends State<ScrollHead> {
                       .copyWith(
                         fontSize: _isMaterial3 ? 14 : 12,
                         color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.black.withValues(alpha: 0.87)
-                            : Colors.white.withValues(alpha: 0.87),
+                            ? Colors.black.withOpacity(0.87)
+                            : Colors.white.withOpacity(0.87),
                       )
                       .merge(
-                        _pdfViewerThemeData!
-                            .scrollHeadStyle?.pageNumberTextStyle,
+                        _pdfViewerThemeData!.scrollHeadStyle?.pageNumberTextStyle,
                       ),
-                  semanticsLabel: widget.isBookmarkViewOpen
-                      ? ''
-                      : widget.pdfViewerController.pageNumber.toString(),
+                  semanticsLabel: widget.isBookmarkViewOpen ? '' : widget.pdfViewerController.pageNumber.toString(),
                 ),
               ),
             ),

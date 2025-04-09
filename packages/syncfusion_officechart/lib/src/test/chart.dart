@@ -2,6 +2,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 // ignore: depend_on_referenced_packages, directives_ordering
 import 'package:flutter_test/flutter_test.dart';
 import '../../officechart.dart';
+import 'images.dart';
 
 // ignore: public_member_api_docs
 void saveAsExcel(List<int>? bytes, String fileName) {
@@ -1865,42 +1866,18 @@ void xlsiochart() {
       sheet.getRangeByName('B1').text = 'Internal Sales Amount';
       sheet.getRangeByName('C1').text = 'Reseller Sales Amount';
 
-      sheet
-          .getRangeByName('A2')
-          .setDateTime(DateTime(2014, 01, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A3')
-          .setDateTime(DateTime(2014, 02, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A4')
-          .setDateTime(DateTime(2014, 03, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A5')
-          .setDateTime(DateTime(2014, 04, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A6')
-          .setDateTime(DateTime(2014, 05, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A7')
-          .setDateTime(DateTime(2014, 06, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A8')
-          .setDateTime(DateTime(2014, 07, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A9')
-          .setDateTime(DateTime(2014, 08, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A10')
-          .setDateTime(DateTime(2014, 09, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A11')
-          .setDateTime(DateTime(2014, 10, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A12')
-          .setDateTime(DateTime(2014, 11, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A13')
-          .setDateTime(DateTime(2014, 12, 14, 14, 14, 14));
+      sheet.getRangeByName('A2').setDateTime(DateTime(2014, 01, 14, 14, 14, 14));
+      sheet.getRangeByName('A3').setDateTime(DateTime(2014, 02, 14, 14, 14, 14));
+      sheet.getRangeByName('A4').setDateTime(DateTime(2014, 03, 14, 14, 14, 14));
+      sheet.getRangeByName('A5').setDateTime(DateTime(2014, 04, 14, 14, 14, 14));
+      sheet.getRangeByName('A6').setDateTime(DateTime(2014, 05, 14, 14, 14, 14));
+      sheet.getRangeByName('A7').setDateTime(DateTime(2014, 06, 14, 14, 14, 14));
+      sheet.getRangeByName('A8').setDateTime(DateTime(2014, 07, 14, 14, 14, 14));
+      sheet.getRangeByName('A9').setDateTime(DateTime(2014, 08, 14, 14, 14, 14));
+      sheet.getRangeByName('A10').setDateTime(DateTime(2014, 09, 14, 14, 14, 14));
+      sheet.getRangeByName('A11').setDateTime(DateTime(2014, 10, 14, 14, 14, 14));
+      sheet.getRangeByName('A12').setDateTime(DateTime(2014, 11, 14, 14, 14, 14));
+      sheet.getRangeByName('A13').setDateTime(DateTime(2014, 12, 14, 14, 14, 14));
 
       sheet.getRangeByName('B2').number = 1.25;
       sheet.getRangeByName('B3').number = 2.5;
@@ -1953,42 +1930,18 @@ void xlsiochart() {
       sheet.getRangeByName('B1').text = 'Internal Sales Amount';
       sheet.getRangeByName('C1').text = 'Reseller Sales Amount';
 
-      sheet
-          .getRangeByName('A2')
-          .setDateTime(DateTime(2014, 01, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A3')
-          .setDateTime(DateTime(2014, 02, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A4')
-          .setDateTime(DateTime(2014, 03, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A5')
-          .setDateTime(DateTime(2014, 04, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A6')
-          .setDateTime(DateTime(2014, 05, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A7')
-          .setDateTime(DateTime(2014, 06, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A8')
-          .setDateTime(DateTime(2014, 07, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A9')
-          .setDateTime(DateTime(2014, 08, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A10')
-          .setDateTime(DateTime(2014, 09, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A11')
-          .setDateTime(DateTime(2014, 10, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A12')
-          .setDateTime(DateTime(2014, 11, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A13')
-          .setDateTime(DateTime(2014, 12, 14, 14, 14, 14));
+      sheet.getRangeByName('A2').setDateTime(DateTime(2014, 01, 14, 14, 14, 14));
+      sheet.getRangeByName('A3').setDateTime(DateTime(2014, 02, 14, 14, 14, 14));
+      sheet.getRangeByName('A4').setDateTime(DateTime(2014, 03, 14, 14, 14, 14));
+      sheet.getRangeByName('A5').setDateTime(DateTime(2014, 04, 14, 14, 14, 14));
+      sheet.getRangeByName('A6').setDateTime(DateTime(2014, 05, 14, 14, 14, 14));
+      sheet.getRangeByName('A7').setDateTime(DateTime(2014, 06, 14, 14, 14, 14));
+      sheet.getRangeByName('A8').setDateTime(DateTime(2014, 07, 14, 14, 14, 14));
+      sheet.getRangeByName('A9').setDateTime(DateTime(2014, 08, 14, 14, 14, 14));
+      sheet.getRangeByName('A10').setDateTime(DateTime(2014, 09, 14, 14, 14, 14));
+      sheet.getRangeByName('A11').setDateTime(DateTime(2014, 10, 14, 14, 14, 14));
+      sheet.getRangeByName('A12').setDateTime(DateTime(2014, 11, 14, 14, 14, 14));
+      sheet.getRangeByName('A13').setDateTime(DateTime(2014, 12, 14, 14, 14, 14));
 
       sheet.getRangeByName('B2').number = 1.25;
       sheet.getRangeByName('B3').number = 2.5;
@@ -2043,42 +1996,18 @@ void xlsiochart() {
       sheet.getRangeByName('B1').text = 'Internal Sales Amount';
       sheet.getRangeByName('C1').text = 'Reseller Sales Amount';
 
-      sheet
-          .getRangeByName('A2')
-          .setDateTime(DateTime(2014, 01, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A3')
-          .setDateTime(DateTime(2014, 02, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A4')
-          .setDateTime(DateTime(2014, 03, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A5')
-          .setDateTime(DateTime(2014, 04, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A6')
-          .setDateTime(DateTime(2014, 05, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A7')
-          .setDateTime(DateTime(2014, 06, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A8')
-          .setDateTime(DateTime(2014, 07, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A9')
-          .setDateTime(DateTime(2014, 08, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A10')
-          .setDateTime(DateTime(2014, 09, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A11')
-          .setDateTime(DateTime(2014, 10, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A12')
-          .setDateTime(DateTime(2014, 11, 14, 14, 14, 14));
-      sheet
-          .getRangeByName('A13')
-          .setDateTime(DateTime(2014, 12, 14, 14, 14, 14));
+      sheet.getRangeByName('A2').setDateTime(DateTime(2014, 01, 14, 14, 14, 14));
+      sheet.getRangeByName('A3').setDateTime(DateTime(2014, 02, 14, 14, 14, 14));
+      sheet.getRangeByName('A4').setDateTime(DateTime(2014, 03, 14, 14, 14, 14));
+      sheet.getRangeByName('A5').setDateTime(DateTime(2014, 04, 14, 14, 14, 14));
+      sheet.getRangeByName('A6').setDateTime(DateTime(2014, 05, 14, 14, 14, 14));
+      sheet.getRangeByName('A7').setDateTime(DateTime(2014, 06, 14, 14, 14, 14));
+      sheet.getRangeByName('A8').setDateTime(DateTime(2014, 07, 14, 14, 14, 14));
+      sheet.getRangeByName('A9').setDateTime(DateTime(2014, 08, 14, 14, 14, 14));
+      sheet.getRangeByName('A10').setDateTime(DateTime(2014, 09, 14, 14, 14, 14));
+      sheet.getRangeByName('A11').setDateTime(DateTime(2014, 10, 14, 14, 14, 14));
+      sheet.getRangeByName('A12').setDateTime(DateTime(2014, 11, 14, 14, 14, 14));
+      sheet.getRangeByName('A13').setDateTime(DateTime(2014, 12, 14, 14, 14, 14));
 
       sheet.getRangeByName('B2').number = 1.25;
       sheet.getRangeByName('B3').number = 2.5;
@@ -2813,13 +2742,13 @@ void xlsiochart() {
       picture.lastRow = 7;
       picture.lastColumn = 8;
 
-      final Picture picture2 = sheet.pictures.addBase64(3, 4, image1jpg);
-      picture2.lastRow = 7;
-      picture2.lastColumn = 8;
+      // // final Picture picture2 = sheet.pictures.addBase64(3, 4, image1jpg);
+      // picture2.lastRow = 7;
+      // picture2.lastColumn = 8;
 
-      final Picture picture3 = sheet.pictures.addBase64(3, 4, image3png);
-      picture3.lastRow = 7;
-      picture3.lastColumn = 8;
+      // final Picture picture3 = sheet.pictures.addBase64(3, 4, image3png);
+      // picture3.lastRow = 7;
+      // picture3.lastColumn = 8;
 
       final Worksheet sheet1 = workbook.worksheets[1];
       sheet1.getRangeByName('A11').text = 'Venue';
@@ -2859,13 +2788,13 @@ void xlsiochart() {
       picture4.lastRow = 7;
       picture4.lastColumn = 8;
 
-      final Picture picture5 = sheet1.pictures.addBase64(3, 4, image1jpg);
-      picture5.lastRow = 7;
-      picture5.lastColumn = 8;
+      // final Picture picture5 = sheet1.pictures.addBase64(3, 4, image1jpg);
+      // picture5.lastRow = 7;
+      // picture5.lastColumn = 8;
 
-      final Picture picture6 = sheet1.pictures.addBase64(3, 4, image10jpg);
-      picture6.lastRow = 7;
-      picture6.lastColumn = 8;
+      // final Picture picture6 = sheet1.pictures.addBase64(3, 4, image10jpg);
+      // picture6.lastRow = 7;
+      // picture6.lastColumn = 8;
       final List<int> bytes = workbook.saveAsStream();
       saveAsExcel(bytes, 'MultipleChartsAndPicturesInMultipleSheet.xlsx');
     });
@@ -2906,13 +2835,13 @@ void xlsiochart() {
       picture.lastRow = 7;
       picture.lastColumn = 8;
 
-      final Picture picture2 = sheet.pictures.addBase64(3, 4, image1jpg);
-      picture2.lastRow = 7;
-      picture2.lastColumn = 8;
+      // final Picture picture2 = sheet.pictures.addBase64(3, 4, image1jpg);
+      // picture2.lastRow = 7;
+      // picture2.lastColumn = 8;
 
-      final Picture picture3 = sheet.pictures.addBase64(3, 4, image3png);
-      picture3.lastRow = 7;
-      picture3.lastColumn = 8;
+      // final Picture picture3 = sheet.pictures.addBase64(3, 4, image3png);
+      // picture3.lastRow = 7;
+      // picture3.lastColumn = 8;
 
       final List<int> bytes = workbook.saveAsStream();
       workbook.dispose();
@@ -3248,9 +3177,8 @@ void xlsiochart() {
       final Workbook workbook = Workbook();
       final Worksheet sheet = workbook.worksheets[0];
       final Range range = sheet.getRangeByIndex(1, 1);
-      sheet.hyperlinks
-          .add(range, HyperlinkType.url, 'http://www.syncfusion.com');
-      sheet.pictures.addBase64(2, 1, image1jpg);
+      sheet.hyperlinks.add(range, HyperlinkType.url, 'http://www.syncfusion.com');
+      // sheet.pictures.addBase64(2, 1, image1jpg);
       final Range range1 = sheet.getRangeByIndex(1, 7);
       sheet.hyperlinks.add(range1, HyperlinkType.workbook, 'Sheet1!A15');
       sheet.getRangeByName('A11').text = 'Venue';

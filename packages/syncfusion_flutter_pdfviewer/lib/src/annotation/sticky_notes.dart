@@ -119,8 +119,7 @@ extension StickyNoteAnnotationExtension on StickyNoteAnnotation {
 }
 
 /// A widget representing a sticky note annotation.
-class StickyNoteAnnotationView extends InteractiveGraphicsView
-    with AnnotationView {
+class StickyNoteAnnotationView extends InteractiveGraphicsView with AnnotationView {
   /// Creates a [StickyNoteAnnotationView].
   StickyNoteAnnotationView({
     Key? key,
@@ -314,18 +313,16 @@ class RenderStickyNoteAnnotationView extends RenderInteractiveGraphicsView {
 
   void _drawStickyNoteIcon(Canvas canvas, Offset offset) {
     final Paint fillPaint = Paint();
-    fillPaint.color = color.withValues(alpha: opacity);
+    fillPaint.color = color.withOpacity(opacity);
     fillPaint.style = PaintingStyle.fill;
 
     final Paint strokePaint = Paint()
-      ..color = Colors.black.withValues(alpha: opacity)
+      ..color = Colors.black.withOpacity(opacity)
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke;
 
     final Rect paintRect = _getPaintRect(
-      stickyNoteAnnotation.isSelected
-          ? stickyNoteAnnotation.intermediateBounds
-          : stickyNoteAnnotation.boundingBox,
+      stickyNoteAnnotation.isSelected ? stickyNoteAnnotation.intermediateBounds : stickyNoteAnnotation.boundingBox,
       offset,
     );
     canvas.save();

@@ -588,8 +588,7 @@ typedef _ChartDataLabelWidgetBuilder<T, D> = Widget Function(
 );
 
 // ignore: must_be_immutable
-base class CartesianChartDataLabelPositioned
-    extends ParentDataWidget<ChartElementParentData>
+base class CartesianChartDataLabelPositioned extends ParentDataWidget<ChartElementParentData>
     with LinkedListEntry<CartesianChartDataLabelPositioned> {
   CartesianChartDataLabelPositioned({
     super.key,
@@ -615,8 +614,7 @@ base class CartesianChartDataLabelPositioned
   @override
   void applyParentData(RenderObject renderObject) {
     assert(renderObject.parentData is ChartElementParentData);
-    final ChartElementParentData parentData =
-        renderObject.parentData! as ChartElementParentData;
+    final ChartElementParentData parentData = renderObject.parentData! as ChartElementParentData;
     bool needsLayout = false;
 
     if (parentData.x != x) {
@@ -694,19 +692,16 @@ class CartesianDataLabelContainer<T, D> extends StatefulWidget {
   final List<ChartDataPointType> positions;
 
   @override
-  State<CartesianDataLabelContainer<T, D>> createState() =>
-      _CartesianDataLabelContainerState<T, D>();
+  State<CartesianDataLabelContainer<T, D>> createState() => _CartesianDataLabelContainerState<T, D>();
 }
 
-class _CartesianDataLabelContainerState<T, D>
-    extends State<CartesianDataLabelContainer<T, D>>
+class _CartesianDataLabelContainerState<T, D> extends State<CartesianDataLabelContainer<T, D>>
     with ChartElementParentDataMixin<T, D> {
   List<CartesianChartDataLabelPositioned>? _builderChildren;
   LinkedList<CartesianChartDataLabelPositioned>? _textChildren;
 
   @override
-  CartesianSeriesRenderer<T, D>? get renderer =>
-      super.renderer as CartesianSeriesRenderer<T, D>?;
+  CartesianSeriesRenderer<T, D>? get renderer => super.renderer as CartesianSeriesRenderer<T, D>?;
 
   Widget _dataLabelFromBuilder(
     T data,
@@ -751,13 +746,10 @@ class _CartesianDataLabelContainerState<T, D>
   Color _dataPointColor(int dataPointIndex) {
     final DataLabelSettings settings = widget.settings;
     if (settings.color != null) {
-      return settings.color!.withValues(alpha: settings.opacity);
+      return settings.color!.withOpacity(settings.opacity);
     } else if (settings.useSeriesColor) {
-      final Color? pointColor = renderer!.pointColors.isNotEmpty
-          ? renderer!.pointColors[dataPointIndex]
-          : null;
-      return (pointColor ?? renderer!.color ?? renderer!.paletteColor)
-          .withValues(alpha: settings.opacity);
+      final Color? pointColor = renderer!.pointColors.isNotEmpty ? renderer!.pointColors[dataPointIndex] : null;
+      return (pointColor ?? renderer!.color ?? renderer!.paletteColor).withOpacity(settings.opacity);
     } else {
       return Colors.transparent;
     }
@@ -784,8 +776,8 @@ class _CartesianDataLabelContainerState<T, D>
     _textChildren!.add(child);
   }
 
-  void _buildLinearDataLabels(_ChartDataLabelWidgetBuilder<T, D> callback,
-      Function(CartesianChartDataLabelPositioned) add) {
+  void _buildLinearDataLabels(
+      _ChartDataLabelWidgetBuilder<T, D> callback, Function(CartesianChartDataLabelPositioned) add) {
     final int yLength = yLists?.length ?? 0;
     List<Object?>? actualXValues;
     if (xRawValues != null && xRawValues!.isNotEmpty) {
@@ -802,21 +794,19 @@ class _CartesianDataLabelContainerState<T, D>
         (renderer!.emptyPointSettings.mode == EmptyPointMode.drop ||
             renderer!.emptyPointSettings.mode == EmptyPointMode.gap);
 
-    final bool hasSortedIndexes = renderer!.sortingOrder != SortingOrder.none &&
-        sortedIndexes != null &&
-        sortedIndexes!.isNotEmpty;
+    final bool hasSortedIndexes =
+        renderer!.sortingOrder != SortingOrder.none && sortedIndexes != null && sortedIndexes!.isNotEmpty;
 
     final int start = renderer!.visibleIndexes[0];
     final int end = renderer!.visibleIndexes[1];
     final int xLength = actualXValues.length;
     for (int i = start; i <= end && i < xLength; i++) {
-      _obtainLabel(i, actualXValues, yLength, callback, add, isEmptyMode,
-          hasSortedIndexes);
+      _obtainLabel(i, actualXValues, yLength, callback, add, isEmptyMode, hasSortedIndexes);
     }
   }
 
-  void _buildNonLinearDataLabels(_ChartDataLabelWidgetBuilder<T, D> callback,
-      Function(CartesianChartDataLabelPositioned) add) {
+  void _buildNonLinearDataLabels(
+      _ChartDataLabelWidgetBuilder<T, D> callback, Function(CartesianChartDataLabelPositioned) add) {
     final int yLength = yLists?.length ?? 0;
     List<Object?>? actualXValues;
     if (xRawValues != null && xRawValues!.isNotEmpty) {
@@ -833,15 +823,13 @@ class _CartesianDataLabelContainerState<T, D>
         (renderer!.emptyPointSettings.mode == EmptyPointMode.drop ||
             renderer!.emptyPointSettings.mode == EmptyPointMode.gap);
 
-    final bool hasSortedIndexes = renderer!.sortingOrder != SortingOrder.none &&
-        sortedIndexes != null &&
-        sortedIndexes!.isNotEmpty;
+    final bool hasSortedIndexes =
+        renderer!.sortingOrder != SortingOrder.none && sortedIndexes != null && sortedIndexes!.isNotEmpty;
 
     final int xLength = actualXValues.length;
     for (final int index in renderer!.visibleIndexes) {
       if (index < xLength) {
-        _obtainLabel(index, actualXValues, yLength, callback, add, isEmptyMode,
-            hasSortedIndexes);
+        _obtainLabel(index, actualXValues, yLength, callback, add, isEmptyMode, hasSortedIndexes);
       }
     }
   }
@@ -869,8 +857,7 @@ class _CartesianDataLabelContainerState<T, D>
       if (isHisto && pointIndex >= dataSourceLength) {
         pointIndex = dataSourceLength - 1;
       }
-      final CartesianChartDataLabelPositioned child =
-          CartesianChartDataLabelPositioned(
+      final CartesianChartDataLabelPositioned child = CartesianChartDataLabelPositioned(
         x: x,
         y: yValues[index],
         dataPointIndex: index,
@@ -902,17 +889,12 @@ class _CartesianDataLabelContainerState<T, D>
       builder: (BuildContext context, BoxConstraints constraints) {
         _builderChildren?.clear();
         _textChildren?.clear();
-        if (renderer != null &&
-            renderer!.controller.isVisible &&
-            yLists != null &&
-            yLists!.isNotEmpty) {
+        if (renderer != null && renderer!.controller.isVisible && yLists != null && yLists!.isNotEmpty) {
           _ChartDataLabelWidgetBuilder<T, D> callback;
           if (widget.builder != null) {
             callback = _dataLabelFromBuilder;
           } else {
-            callback = widget.mapper != null
-                ? _dataLabelFromMapper
-                : _defaultDataLabel;
+            callback = widget.mapper != null ? _dataLabelFromMapper : _defaultDataLabel;
           }
           void Function(CartesianChartDataLabelPositioned child) add;
           if (widget.builder != null) {
@@ -968,8 +950,7 @@ class CartesianDataLabelStack<T, D> extends ChartElementStack {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, RenderCartesianDataLabelStack<T, D> renderObject) {
+  void updateRenderObject(BuildContext context, RenderCartesianDataLabelStack<T, D> renderObject) {
     super.updateRenderObject(context, renderObject);
     renderObject
       ..series = series
@@ -1004,8 +985,7 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
     if (childCount > 0) {
       RenderBox? child = lastChild;
       while (child != null) {
-        final ChartElementParentData childParentData =
-            child.parentData! as ChartElementParentData;
+        final ChartElementParentData childParentData = child.parentData! as ChartElementParentData;
         if (childParentData.bounds.contains(localPosition)) {
           return childParentData.dataPointIndex;
         }
@@ -1030,9 +1010,7 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
         return;
       }
 
-      final String text = childCount > 0
-          ? ''
-          : (labels!.elementAt(selectedIndex).child as DataLabelText).text;
+      final String text = childCount > 0 ? '' : (labels!.elementAt(selectedIndex).child as DataLabelText).text;
       series!.parent!.onDataLabelTapped!(DataLabelTapDetails(
         series!.index,
         series!.viewportIndex(selectedIndex),
@@ -1065,8 +1043,7 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
       ChartElementParentData? previousChildData;
       RenderBox? child = firstChild;
       while (child != null) {
-        final ChartElementParentData currentChildData =
-            child.parentData! as ChartElementParentData;
+        final ChartElementParentData currentChildData = child.parentData! as ChartElementParentData;
         currentChildData.isVisible = true;
         final RenderBox? nextSibling = currentChildData.nextSibling;
         ChartElementParentData? nextChildData;
@@ -1088,14 +1065,11 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
           nextChildData,
           child.size,
         );
-        final Offset offset =
-            _invokeDataLabelRender(currentChildData.dataPointIndex);
-        currentChildData.offset = Offset(currentChildData.offset.dx + offset.dx,
-            currentChildData.offset.dy - offset.dy);
-        currentChildData.bounds =
-            _calculateBounds(child.size, currentChildData.offset);
-        currentChildData.rotatedBounds =
-            calculateRotatedBounds(currentChildData.bounds, settings.angle);
+        final Offset offset = _invokeDataLabelRender(currentChildData.dataPointIndex);
+        currentChildData.offset =
+            Offset(currentChildData.offset.dx + offset.dx, currentChildData.offset.dy - offset.dy);
+        currentChildData.bounds = _calculateBounds(child.size, currentChildData.offset);
+        currentChildData.rotatedBounds = calculateRotatedBounds(currentChildData.bounds, settings.angle);
         child = nextSibling;
         previousChildData = currentChildData;
       }
@@ -1104,12 +1078,11 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
       ChartElementParentData? nextLabelData;
       for (final CartesianChartDataLabelPositioned currentLabel in labels!) {
         currentLabel.isVisible = true;
-        final ChartElementParentData currentLabelData =
-            nextLabelData ?? ChartElementParentData()
-              ..x = currentLabel.x
-              ..y = currentLabel.y
-              ..dataPointIndex = currentLabel.dataPointIndex
-              ..position = currentLabel.position;
+        final ChartElementParentData currentLabelData = nextLabelData ?? ChartElementParentData()
+          ..x = currentLabel.x
+          ..y = currentLabel.y
+          ..dataPointIndex = currentLabel.dataPointIndex
+          ..position = currentLabel.position;
         final CartesianChartDataLabelPositioned? nextLabel = currentLabel.next;
         if (nextLabel != null) {
           nextLabelData = ChartElementParentData()
@@ -1119,10 +1092,8 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
             ..position = nextLabel.position;
         }
         final DataLabelText details = currentLabel.child as DataLabelText;
-        final Offset offset =
-            _invokeDataLabelRender(currentLabel.dataPointIndex, details);
-        currentLabel.offset = Offset(currentLabel.offset.dx + offset.dx,
-            currentLabel.offset.dy - offset.dy);
+        final Offset offset = _invokeDataLabelRender(currentLabel.dataPointIndex, details);
+        currentLabel.offset = Offset(currentLabel.offset.dx + offset.dx, currentLabel.offset.dy - offset.dy);
         currentLabel.size = measureText(details.text, details.textStyle);
         currentLabel.labelAlignment = series!.effectiveDataLabelAlignment(
           settings.labelAlignment,
@@ -1138,10 +1109,8 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
           nextLabelData,
           currentLabel.size,
         );
-        currentLabel.bounds =
-            _calculateBounds(currentLabel.size, currentLabel.offset);
-        currentLabel.rotatedBounds =
-            calculateRotatedBounds(currentLabel.bounds, settings.angle);
+        currentLabel.bounds = _calculateBounds(currentLabel.size, currentLabel.offset);
+        currentLabel.rotatedBounds = calculateRotatedBounds(currentLabel.bounds, settings.angle);
         previousLabelData = currentLabelData;
       }
     }
@@ -1200,15 +1169,12 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
         yAlignment = settings.alignment;
       }
     }
-    final double x =
-        _addPlacementAlignment(xAlignment, position.dx, size.width);
-    final double y =
-        _addPlacementAlignment(yAlignment, position.dy, size.height);
+    final double x = _addPlacementAlignment(xAlignment, position.dx, size.width);
+    final double y = _addPlacementAlignment(yAlignment, position.dy, size.height);
     return _alignWithInRange(current.x!, current.y!, x, y, paintBounds, size);
   }
 
-  double _addPlacementAlignment(
-      ChartAlignment? alignment, double position, double size) {
+  double _addPlacementAlignment(ChartAlignment? alignment, double position, double size) {
     if (alignment == null) {
       return position;
     }
@@ -1223,8 +1189,7 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
     }
   }
 
-  Offset _alignWithInRange(num xPoint, num yPoint, double labelX, double labelY,
-      Rect source, Size size) {
+  Offset _alignWithInRange(num xPoint, num yPoint, double labelX, double labelY, Rect source, Size size) {
     final DoubleRange xRange = series!.xAxis!.effectiveVisibleRange!;
     final DoubleRange yRange = series!.yAxis!.effectiveVisibleRange!;
     num xValue = xPoint;
@@ -1266,8 +1231,7 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
   }
 
   void _handleLabelIntersectAction() {
-    if (series!.dataLabelSettings.labelIntersectAction !=
-        LabelIntersectAction.none) {
+    if (series!.dataLabelSettings.labelIntersectAction != LabelIntersectAction.none) {
       if (childCount > 0) {
         _handleLabelIntersectActionForWidgets();
       } else if (labels != null) {
@@ -1279,8 +1243,7 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
   void _handleLabelIntersectActionForWidgets() {
     RenderBox? child = firstChild;
     while (child != null) {
-      final ChartElementParentData currentChildData =
-          child.parentData! as ChartElementParentData;
+      final ChartElementParentData currentChildData = child.parentData! as ChartElementParentData;
       if (!currentChildData.isVisible) {
         child = currentChildData.nextSibling;
         continue;
@@ -1293,8 +1256,7 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
         nextChildData = nextSibling.parentData! as ChartElementParentData;
         if (!currentChildData.rotatedBounds.topLeft.isNaN &&
             !currentChildData.rotatedBounds.bottomRight.isNaN &&
-            currentChildData.rotatedBounds
-                .overlaps(nextChildData.rotatedBounds)) {
+            currentChildData.rotatedBounds.overlaps(nextChildData.rotatedBounds)) {
           nextChildData.isVisible = false;
         }
         nextSibling = nextChildData.nextSibling;
@@ -1328,8 +1290,7 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
       if (child is CartesianSeriesRenderer &&
           child.controller.isVisible &&
           child.dataLabelSettings.isVisible &&
-          child.dataLabelSettings.labelIntersectAction !=
-              LabelIntersectAction.none &&
+          child.dataLabelSettings.labelIntersectAction != LabelIntersectAction.none &&
           child.dataLabelContainer != null) {
         child.dataLabelContainer!.handleMultiSeriesDataLabelCollisions();
       }
@@ -1352,29 +1313,24 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
           child.index != series!.index &&
           child.index > series!.index &&
           child.dataLabelSettings.isVisible &&
-          child.dataLabelSettings.labelIntersectAction !=
-              LabelIntersectAction.none) {
-        final RenderBox? nextSeriesDataLabelRenderBox =
-            child.dataLabelContainer?.child;
+          child.dataLabelSettings.labelIntersectAction != LabelIntersectAction.none) {
+        final RenderBox? nextSeriesDataLabelRenderBox = child.dataLabelContainer?.child;
 
         RenderBox? currentChild = firstChild;
         while (currentChild != null) {
-          final ChartElementParentData currentChildData =
-              currentChild.parentData! as ChartElementParentData;
+          final ChartElementParentData currentChildData = currentChild.parentData! as ChartElementParentData;
           if (!currentChildData.isVisible) {
             currentChild = currentChildData.nextSibling;
             continue;
           }
 
-          nextSeriesDataLabelRenderBox
-              ?.visitChildren((RenderObject nextSeriesDataLabel) {
+          nextSeriesDataLabelRenderBox?.visitChildren((RenderObject nextSeriesDataLabel) {
             final RenderCartesianDataLabelStack<T, D> nextSeriesDataLabelStack =
                 nextSeriesDataLabel as RenderCartesianDataLabelStack<T, D>;
             if (nextSeriesDataLabelStack.childCount > 0) {
               RenderBox? nextChild = nextSeriesDataLabelStack.firstChild;
               while (nextChild != null) {
-                final ChartElementParentData nextChildData =
-                    nextChild.parentData! as ChartElementParentData;
+                final ChartElementParentData nextChildData = nextChild.parentData! as ChartElementParentData;
                 if (!nextChildData.isVisible) {
                   nextChild = nextChildData.nextSibling;
                   continue;
@@ -1382,8 +1338,7 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
 
                 if (!currentChildData.rotatedBounds.topLeft.isNaN &&
                     !currentChildData.rotatedBounds.bottomRight.isNaN &&
-                    currentChildData.rotatedBounds
-                        .overlaps(nextChildData.rotatedBounds)) {
+                    currentChildData.rotatedBounds.overlaps(nextChildData.rotatedBounds)) {
                   nextChildData.isVisible = false;
                 }
                 nextChild = nextChildData.nextSibling;
@@ -1403,32 +1358,26 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
           child.index != series!.index &&
           child.index > series!.index &&
           child.dataLabelSettings.isVisible &&
-          child.dataLabelSettings.labelIntersectAction !=
-              LabelIntersectAction.none) {
-        final RenderBox? nextSeriesDataLabelRenderBox =
-            child.dataLabelContainer?.child;
+          child.dataLabelSettings.labelIntersectAction != LabelIntersectAction.none) {
+        final RenderBox? nextSeriesDataLabelRenderBox = child.dataLabelContainer?.child;
         for (final CartesianChartDataLabelPositioned currentLabel in labels!) {
           if (!currentLabel.isVisible) {
             continue;
           }
 
-          nextSeriesDataLabelRenderBox
-              ?.visitChildren((RenderObject nextSeriesDataLabel) {
+          nextSeriesDataLabelRenderBox?.visitChildren((RenderObject nextSeriesDataLabel) {
             final RenderCartesianDataLabelStack<T, D> nextSeriesDataLabelStack =
                 nextSeriesDataLabel as RenderCartesianDataLabelStack<T, D>;
-            final LinkedList<CartesianChartDataLabelPositioned>? nextLabels =
-                nextSeriesDataLabelStack.labels;
+            final LinkedList<CartesianChartDataLabelPositioned>? nextLabels = nextSeriesDataLabelStack.labels;
             if (nextLabels != null && nextLabels.isNotEmpty) {
-              for (final CartesianChartDataLabelPositioned nextLabel
-                  in nextLabels) {
+              for (final CartesianChartDataLabelPositioned nextLabel in nextLabels) {
                 if (!nextLabel.isVisible) {
                   continue;
                 }
 
                 if (!currentLabel.rotatedBounds.topLeft.isNaN &&
                     !currentLabel.rotatedBounds.bottomRight.isNaN &&
-                    currentLabel.rotatedBounds
-                        .overlaps(nextLabel.rotatedBounds)) {
+                    currentLabel.rotatedBounds.overlaps(nextLabel.rotatedBounds)) {
                   nextLabel.isVisible = false;
                 }
               }
@@ -1450,12 +1399,10 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
       ..clipRect(paintBounds);
     if (childCount > 0) {
       final EdgeInsets margin = settings.margin;
-      final Offset marginOffset =
-          offset + Offset(margin.horizontal / 2, margin.vertical);
+      final Offset marginOffset = offset + Offset(margin.horizontal / 2, margin.vertical);
       RenderBox? child = firstChild;
       while (child != null) {
-        final ChartElementParentData childParentData =
-            child.parentData! as ChartElementParentData;
+        final ChartElementParentData childParentData = child.parentData! as ChartElementParentData;
         if (!childParentData.offset.isNaN && childParentData.isVisible) {
           context.paintChild(child, childParentData.offset + marginOffset);
         }
@@ -1474,10 +1421,8 @@ class RenderCartesianDataLabelStack<T, D> extends RenderChartElementStack {
 
         Color surfaceColor = series!.dataLabelSurfaceColor(label);
         final DataLabelText details = label.child as DataLabelText;
-        surfaceColor =
-            details.color == Colors.transparent ? surfaceColor : details.color;
-        final TextStyle effectiveTextStyle =
-            saturatedTextStyle(surfaceColor, details.textStyle);
+        surfaceColor = details.color == Colors.transparent ? surfaceColor : details.color;
+        final TextStyle effectiveTextStyle = saturatedTextStyle(surfaceColor, details.textStyle);
         fillPaint
           ..color = details.color
           ..shader = series!.markerShader(label.offset & label.size);

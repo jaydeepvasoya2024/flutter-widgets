@@ -155,8 +155,7 @@ class SfRangeSlider extends StatefulWidget {
         _tooltipPosition = null,
         assert(min != max),
         assert(interval == null || interval > 0),
-        assert(!enableIntervalSelection ||
-            (enableIntervalSelection && (interval != null && interval > 0))),
+        assert(!enableIntervalSelection || (enableIntervalSelection && (interval != null && interval > 0))),
         super(key: key);
 
   /// Creates a vertical [SfRangeSlider].
@@ -1312,41 +1311,28 @@ class SfRangeSlider extends StatefulWidget {
     );
     properties.add(DiagnosticsProperty<dynamic>('min', min));
     properties.add(DiagnosticsProperty<dynamic>('max', max));
-    properties.add(DiagnosticsProperty<bool>('isInversed', isInversed,
-        defaultValue: false));
-    properties.add(ObjectFlagProperty<ValueChanged<SfRangeValues>>(
-        'onChanged', onChanged,
-        ifNull: 'disabled'));
-    properties.add(ObjectFlagProperty<ValueChanged<SfRangeValues>>.has(
-        'onChangeStart', onChangeStart));
-    properties.add(ObjectFlagProperty<ValueChanged<SfRangeValues>>.has(
-        'onChangeEnd', onChangeEnd));
+    properties.add(DiagnosticsProperty<bool>('isInversed', isInversed, defaultValue: false));
+    properties.add(ObjectFlagProperty<ValueChanged<SfRangeValues>>('onChanged', onChanged, ifNull: 'disabled'));
+    properties.add(ObjectFlagProperty<ValueChanged<SfRangeValues>>.has('onChangeStart', onChangeStart));
+    properties.add(ObjectFlagProperty<ValueChanged<SfRangeValues>>.has('onChangeEnd', onChangeEnd));
     properties.add(DoubleProperty('interval', interval));
     properties.add(DoubleProperty('stepSize', stepSize));
     if (stepDuration != null) {
       properties.add(stepDuration!.toDiagnosticsNode(name: 'stepDuration'));
     }
     properties.add(IntProperty('minorTicksPerInterval', minorTicksPerInterval));
-    properties.add(FlagProperty('showTicks',
-        value: showTicks,
-        ifTrue: 'Ticks are showing',
-        ifFalse: 'Ticks are not showing'));
-    properties.add(FlagProperty('showLabels',
-        value: showLabels,
-        ifTrue: 'Labels are showing',
-        ifFalse: 'Labels are not showing'));
+    properties.add(
+        FlagProperty('showTicks', value: showTicks, ifTrue: 'Ticks are showing', ifFalse: 'Ticks are not showing'));
+    properties.add(
+        FlagProperty('showLabels', value: showLabels, ifTrue: 'Labels are showing', ifFalse: 'Labels are not showing'));
     properties.add(FlagProperty('showDividers',
-        value: showDividers,
-        ifTrue: 'Dividers are  showing',
-        ifFalse: 'Dividers are not showing'));
+        value: showDividers, ifTrue: 'Dividers are  showing', ifFalse: 'Dividers are not showing'));
     if (shouldAlwaysShowTooltip) {
-      properties.add(FlagProperty('shouldAlwaysShowTooltip',
-          value: shouldAlwaysShowTooltip, ifTrue: 'Tooltip is always visible'));
+      properties.add(
+          FlagProperty('shouldAlwaysShowTooltip', value: shouldAlwaysShowTooltip, ifTrue: 'Tooltip is always visible'));
     } else {
       properties.add(FlagProperty('enableTooltip',
-          value: enableTooltip,
-          ifTrue: 'Tooltip is enabled',
-          ifFalse: 'Tooltip is disabled'));
+          value: enableTooltip, ifTrue: 'Tooltip is enabled', ifFalse: 'Tooltip is disabled'));
     }
     properties.add(FlagProperty('enableIntervalSelection',
         value: enableIntervalSelection,
@@ -1354,29 +1340,22 @@ class SfRangeSlider extends StatefulWidget {
         ifFalse: 'Interval selection is disabled'));
     properties.add(ColorProperty('activeColor', activeColor));
     properties.add(ColorProperty('inactiveColor', inactiveColor));
-    properties
-        .add(EnumProperty<LabelPlacement>('labelPlacement', labelPlacement));
-    properties.add(EnumProperty<EdgeLabelPlacement>(
-        'edgeLabelPlacement', edgeLabelPlacement));
-    properties
-        .add(DiagnosticsProperty<NumberFormat>('numberFormat', numberFormat));
+    properties.add(EnumProperty<LabelPlacement>('labelPlacement', labelPlacement));
+    properties.add(EnumProperty<EdgeLabelPlacement>('edgeLabelPlacement', edgeLabelPlacement));
+    properties.add(DiagnosticsProperty<NumberFormat>('numberFormat', numberFormat));
     if (values.start.runtimeType == DateTime && dateFormat != null) {
-      properties.add(StringProperty('dateFormat',
-          'Formatted value is ${dateFormat!.format(values.start)}'));
+      properties.add(StringProperty('dateFormat', 'Formatted value is ${dateFormat!.format(values.start)}'));
     }
-    properties.add(
-        EnumProperty<DateIntervalType>('dateIntervalType', dateIntervalType));
+    properties.add(EnumProperty<DateIntervalType>('dateIntervalType', dateIntervalType));
     properties.add(ObjectFlagProperty<TooltipTextFormatterCallback>.has(
         'tooltipTextFormatterCallback', tooltipTextFormatterCallback));
-    properties.add(ObjectFlagProperty<LabelFormatterCallback>.has(
-        'labelFormatterCallback', labelFormatterCallback));
+    properties.add(ObjectFlagProperty<LabelFormatterCallback>.has('labelFormatterCallback', labelFormatterCallback));
     properties.add(ObjectFlagProperty<RangeSliderSemanticFormatterCallback>.has(
         'semanticFormatterCallback', semanticFormatterCallback));
   }
 }
 
-class _SfRangeSliderState extends State<SfRangeSlider>
-    with TickerProviderStateMixin {
+class _SfRangeSliderState extends State<SfRangeSlider> with TickerProviderStateMixin {
   late AnimationController overlayStartController;
   late AnimationController overlayEndController;
   late AnimationController stateController;
@@ -1413,24 +1392,19 @@ class _SfRangeSliderState extends State<SfRangeSlider>
     return formattedText;
   }
 
-  SfRangeSliderThemeData _getRangeSliderThemeData(
-      ThemeData themeData, bool isActive) {
-    SfRangeSliderThemeData rangeSliderThemeData =
-        SfRangeSliderTheme.of(context)!;
+  SfRangeSliderThemeData _getRangeSliderThemeData(ThemeData themeData, bool isActive) {
+    SfRangeSliderThemeData rangeSliderThemeData = SfRangeSliderTheme.of(context)!;
     final bool isMaterial3 = themeData.useMaterial3;
-    final SfRangeSliderThemeData effectiveThemeData =
-        RangeSliderThemeData(context);
+    final SfRangeSliderThemeData effectiveThemeData = RangeSliderThemeData(context);
     final Color labelColor = isMaterial3
         ? themeData.colorScheme.onSurfaceVariant
         : isActive
-            ? themeData.textTheme.bodyLarge!.color!.withValues(alpha: 0.87)
-            : themeData.colorScheme.onSurface.withValues(alpha: 0.32);
-    final double minTrackHeight = math.min(
-        rangeSliderThemeData.activeTrackHeight,
-        rangeSliderThemeData.inactiveTrackHeight);
-    final double maxTrackHeight = math.max(
-        rangeSliderThemeData.activeTrackHeight,
-        rangeSliderThemeData.inactiveTrackHeight);
+            ? themeData.textTheme.bodyLarge!.color!.withOpacity(0.87)
+            : themeData.colorScheme.onSurface.withOpacity(0.32);
+    final double minTrackHeight =
+        math.min(rangeSliderThemeData.activeTrackHeight, rangeSliderThemeData.inactiveTrackHeight);
+    final double maxTrackHeight =
+        math.max(rangeSliderThemeData.activeTrackHeight, rangeSliderThemeData.inactiveTrackHeight);
     rangeSliderThemeData = rangeSliderThemeData.copyWith(
       activeTrackHeight: rangeSliderThemeData.activeTrackHeight,
       inactiveTrackHeight: rangeSliderThemeData.inactiveTrackHeight,
@@ -1444,124 +1418,84 @@ class _SfRangeSliderState extends State<SfRangeSlider>
       tooltipTextStyle: themeData.textTheme.bodyLarge!
           .copyWith(
               fontSize: isMaterial3 ? 12 : 14,
-              color: isMaterial3
-                  ? themeData.colorScheme.onPrimary
-                  : themeData.colorScheme.surface)
+              color: isMaterial3 ? themeData.colorScheme.onPrimary : themeData.colorScheme.surface)
           .merge(rangeSliderThemeData.tooltipTextStyle),
-      inactiveTrackColor: widget.inactiveColor ??
-          rangeSliderThemeData.inactiveTrackColor ??
-          effectiveThemeData.inactiveTrackColor,
-      activeTrackColor: widget.activeColor ??
-          rangeSliderThemeData.activeTrackColor ??
-          effectiveThemeData.activeTrackColor,
-      thumbColor: widget.activeColor ??
-          rangeSliderThemeData.thumbColor ??
-          effectiveThemeData.thumbColor,
-      activeTickColor: rangeSliderThemeData.activeTickColor ??
-          effectiveThemeData.activeTickColor,
-      inactiveTickColor: rangeSliderThemeData.inactiveTickColor ??
-          effectiveThemeData.inactiveTickColor,
-      disabledActiveTickColor: rangeSliderThemeData.disabledActiveTickColor ??
-          effectiveThemeData.disabledActiveTickColor,
+      inactiveTrackColor:
+          widget.inactiveColor ?? rangeSliderThemeData.inactiveTrackColor ?? effectiveThemeData.inactiveTrackColor,
+      activeTrackColor:
+          widget.activeColor ?? rangeSliderThemeData.activeTrackColor ?? effectiveThemeData.activeTrackColor,
+      thumbColor: widget.activeColor ?? rangeSliderThemeData.thumbColor ?? effectiveThemeData.thumbColor,
+      activeTickColor: rangeSliderThemeData.activeTickColor ?? effectiveThemeData.activeTickColor,
+      inactiveTickColor: rangeSliderThemeData.inactiveTickColor ?? effectiveThemeData.inactiveTickColor,
+      disabledActiveTickColor:
+          rangeSliderThemeData.disabledActiveTickColor ?? effectiveThemeData.disabledActiveTickColor,
       disabledInactiveTickColor:
-          rangeSliderThemeData.disabledInactiveTickColor ??
-              effectiveThemeData.disabledInactiveTickColor,
-      activeMinorTickColor: rangeSliderThemeData.activeMinorTickColor ??
-          effectiveThemeData.activeMinorTickColor,
-      inactiveMinorTickColor: rangeSliderThemeData.inactiveMinorTickColor ??
-          effectiveThemeData.disabledInactiveMinorTickColor,
+          rangeSliderThemeData.disabledInactiveTickColor ?? effectiveThemeData.disabledInactiveTickColor,
+      activeMinorTickColor: rangeSliderThemeData.activeMinorTickColor ?? effectiveThemeData.activeMinorTickColor,
+      inactiveMinorTickColor:
+          rangeSliderThemeData.inactiveMinorTickColor ?? effectiveThemeData.disabledInactiveMinorTickColor,
       disabledActiveMinorTickColor:
-          rangeSliderThemeData.disabledActiveMinorTickColor ??
-              effectiveThemeData.disabledActiveMinorTickColor,
+          rangeSliderThemeData.disabledActiveMinorTickColor ?? effectiveThemeData.disabledActiveMinorTickColor,
       disabledInactiveMinorTickColor:
-          rangeSliderThemeData.disabledInactiveMinorTickColor ??
-              effectiveThemeData.disabledInactiveMinorTickColor,
+          rangeSliderThemeData.disabledInactiveMinorTickColor ?? effectiveThemeData.disabledInactiveMinorTickColor,
       // ignore: lines_longer_than_80_chars
-      overlayColor: widget.activeColor?.withValues(alpha: 0.12) ??
-          rangeSliderThemeData.overlayColor ??
-          effectiveThemeData.overlayColor,
-      inactiveDividerColor: widget.activeColor ??
-          rangeSliderThemeData.inactiveDividerColor ??
-          effectiveThemeData.inactiveDividerColor,
-      activeDividerColor: widget.inactiveColor ??
-          rangeSliderThemeData.activeDividerColor ??
-          effectiveThemeData.activeDividerColor,
+      overlayColor:
+          widget.activeColor?.withOpacity(0.12) ?? rangeSliderThemeData.overlayColor ?? effectiveThemeData.overlayColor,
+      inactiveDividerColor:
+          widget.activeColor ?? rangeSliderThemeData.inactiveDividerColor ?? effectiveThemeData.inactiveDividerColor,
+      activeDividerColor:
+          widget.inactiveColor ?? rangeSliderThemeData.activeDividerColor ?? effectiveThemeData.activeDividerColor,
       disabledInactiveDividerColor:
-          rangeSliderThemeData.disabledInactiveDividerColor ??
-              effectiveThemeData.disabledInactiveDividerColor,
+          rangeSliderThemeData.disabledInactiveDividerColor ?? effectiveThemeData.disabledInactiveDividerColor,
       disabledActiveDividerColor:
-          rangeSliderThemeData.disabledActiveDividerColor ??
-              effectiveThemeData.disabledActiveDividerColor,
-      disabledActiveTrackColor: rangeSliderThemeData.disabledActiveTrackColor ??
-          effectiveThemeData.disabledActiveTrackColor,
+          rangeSliderThemeData.disabledActiveDividerColor ?? effectiveThemeData.disabledActiveDividerColor,
+      disabledActiveTrackColor:
+          rangeSliderThemeData.disabledActiveTrackColor ?? effectiveThemeData.disabledActiveTrackColor,
       disabledInactiveTrackColor:
-          rangeSliderThemeData.disabledInactiveTrackColor ??
-              effectiveThemeData.disabledInactiveTrackColor,
-      disabledThumbColor: rangeSliderThemeData.disabledThumbColor ??
-          effectiveThemeData.disabledThumbColor,
-      tooltipBackgroundColor: rangeSliderThemeData.tooltipBackgroundColor ??
-          effectiveThemeData.tooltipBackgroundColor,
+          rangeSliderThemeData.disabledInactiveTrackColor ?? effectiveThemeData.disabledInactiveTrackColor,
+      disabledThumbColor: rangeSliderThemeData.disabledThumbColor ?? effectiveThemeData.disabledThumbColor,
+      tooltipBackgroundColor: rangeSliderThemeData.tooltipBackgroundColor ?? effectiveThemeData.tooltipBackgroundColor,
       thumbStrokeColor: rangeSliderThemeData.thumbStrokeColor,
-      overlappingThumbStrokeColor:
-          rangeSliderThemeData.overlappingThumbStrokeColor ??
-              themeData.colorScheme.surface,
+      overlappingThumbStrokeColor: rangeSliderThemeData.overlappingThumbStrokeColor ?? themeData.colorScheme.surface,
       activeDividerStrokeColor: rangeSliderThemeData.activeDividerStrokeColor,
-      inactiveDividerStrokeColor:
-          rangeSliderThemeData.inactiveDividerStrokeColor,
+      inactiveDividerStrokeColor: rangeSliderThemeData.inactiveDividerStrokeColor,
       overlappingTooltipStrokeColor:
-          rangeSliderThemeData.overlappingTooltipStrokeColor ??
-              themeData.colorScheme.surface,
-      trackCornerRadius:
-          rangeSliderThemeData.trackCornerRadius ?? maxTrackHeight / 2,
+          rangeSliderThemeData.overlappingTooltipStrokeColor ?? themeData.colorScheme.surface,
+      trackCornerRadius: rangeSliderThemeData.trackCornerRadius ?? maxTrackHeight / 2,
       thumbRadius: rangeSliderThemeData.thumbRadius,
       overlayRadius: rangeSliderThemeData.overlayRadius,
-      activeDividerRadius:
-          rangeSliderThemeData.activeDividerRadius ?? minTrackHeight / 4,
-      inactiveDividerRadius:
-          rangeSliderThemeData.inactiveDividerRadius ?? minTrackHeight / 4,
+      activeDividerRadius: rangeSliderThemeData.activeDividerRadius ?? minTrackHeight / 4,
+      inactiveDividerRadius: rangeSliderThemeData.inactiveDividerRadius ?? minTrackHeight / 4,
       thumbStrokeWidth: rangeSliderThemeData.thumbStrokeWidth,
       activeDividerStrokeWidth: rangeSliderThemeData.activeDividerStrokeWidth,
-      inactiveDividerStrokeWidth:
-          rangeSliderThemeData.inactiveDividerStrokeWidth,
+      inactiveDividerStrokeWidth: rangeSliderThemeData.inactiveDividerStrokeWidth,
     );
 
     if (widget._sliderType == SliderType.horizontal) {
       return rangeSliderThemeData.copyWith(
           tickSize: rangeSliderThemeData.tickSize ?? const Size(1.0, 8.0),
-          minorTickSize:
-              rangeSliderThemeData.minorTickSize ?? const Size(1.0, 5.0),
+          minorTickSize: rangeSliderThemeData.minorTickSize ?? const Size(1.0, 5.0),
           labelOffset: rangeSliderThemeData.labelOffset ??
-              (widget.showTicks
-                  ? const Offset(0.0, 5.0)
-                  : const Offset(0.0, 13.0)));
+              (widget.showTicks ? const Offset(0.0, 5.0) : const Offset(0.0, 13.0)));
     } else {
       return rangeSliderThemeData.copyWith(
           tickSize: rangeSliderThemeData.tickSize ?? const Size(8.0, 1.0),
-          minorTickSize:
-              rangeSliderThemeData.minorTickSize ?? const Size(5.0, 1.0),
+          minorTickSize: rangeSliderThemeData.minorTickSize ?? const Size(5.0, 1.0),
           labelOffset: rangeSliderThemeData.labelOffset ??
-              (widget.showTicks
-                  ? const Offset(5.0, 0.0)
-                  : const Offset(13.0, 0.0)));
+              (widget.showTicks ? const Offset(5.0, 0.0) : const Offset(13.0, 0.0)));
     }
   }
 
   @override
   void initState() {
-    overlayStartController =
-        AnimationController(vsync: this, duration: duration);
+    overlayStartController = AnimationController(vsync: this, duration: duration);
     overlayEndController = AnimationController(vsync: this, duration: duration);
     stateController = AnimationController(vsync: this, duration: duration);
-    startPositionController =
-        AnimationController(duration: Duration.zero, vsync: this);
-    endPositionController =
-        AnimationController(duration: Duration.zero, vsync: this);
-    tooltipAnimationStartController =
-        AnimationController(vsync: this, duration: duration);
-    tooltipAnimationEndController =
-        AnimationController(vsync: this, duration: duration);
-    stateController.value =
-        widget.onChanged != null && (widget.min != widget.max) ? 1.0 : 0.0;
+    startPositionController = AnimationController(duration: Duration.zero, vsync: this);
+    endPositionController = AnimationController(duration: Duration.zero, vsync: this);
+    tooltipAnimationStartController = AnimationController(vsync: this, duration: duration);
+    tooltipAnimationEndController = AnimationController(vsync: this, duration: duration);
+    stateController.value = widget.onChanged != null && (widget.min != widget.max) ? 1.0 : 0.0;
     super.initState();
   }
 
@@ -1593,8 +1527,7 @@ class _SfRangeSliderState extends State<SfRangeSlider>
 
   @override
   Widget build(BuildContext context) {
-    final bool isActive =
-        widget.onChanged != null && (widget.min != widget.max);
+    final bool isActive = widget.onChanged != null && (widget.min != widget.max);
     final ThemeData themeData = Theme.of(context);
 
     return _RangeSliderRenderObjectWidget(
@@ -1616,21 +1549,17 @@ class _SfRangeSliderState extends State<SfRangeSlider>
       shouldAlwaysShowTooltip: widget.shouldAlwaysShowTooltip,
       dragMode: widget.dragMode,
       enableIntervalSelection: widget.enableIntervalSelection,
-      isInversed: widget._sliderType == SliderType.horizontal &&
-              Directionality.of(context) == TextDirection.rtl ||
+      isInversed: widget._sliderType == SliderType.horizontal && Directionality.of(context) == TextDirection.rtl ||
           widget.isInversed,
-      inactiveColor: widget.inactiveColor ??
-          themeData.primaryColor.withValues(alpha: 0.24),
+      inactiveColor: widget.inactiveColor ?? themeData.primaryColor.withOpacity(0.24),
       activeColor: widget.activeColor ?? themeData.primaryColor,
       labelPlacement: widget.labelPlacement,
       edgeLabelPlacement: widget.edgeLabelPlacement,
       numberFormat: widget.numberFormat ?? NumberFormat('#.##'),
       dateIntervalType: widget.dateIntervalType,
       dateFormat: widget.dateFormat,
-      labelFormatterCallback:
-          widget.labelFormatterCallback ?? _getFormattedLabelText,
-      tooltipTextFormatterCallback:
-          widget.tooltipTextFormatterCallback ?? _getFormattedTooltipText,
+      labelFormatterCallback: widget.labelFormatterCallback ?? _getFormattedLabelText,
+      tooltipTextFormatterCallback: widget.tooltipTextFormatterCallback ?? _getFormattedTooltipText,
       semanticFormatterCallback: widget.semanticFormatterCallback,
       trackShape: widget.trackShape,
       dividerShape: widget.dividerShape,
@@ -1789,8 +1718,7 @@ class _RangeSliderRenderObjectWidget extends RenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, _RenderRangeSlider renderObject) {
+  void updateRenderObject(BuildContext context, _RenderRangeSlider renderObject) {
     renderObject
       ..min = min
       ..max = max
@@ -1833,8 +1761,7 @@ class _RangeSliderRenderObjectWidget extends RenderObjectWidget {
 }
 
 class _RenderRangeSliderElement extends RenderObjectElement {
-  _RenderRangeSliderElement(_RangeSliderRenderObjectWidget rangeSlider)
-      : super(rangeSlider);
+  _RenderRangeSliderElement(_RangeSliderRenderObjectWidget rangeSlider) : super(rangeSlider);
 
   final Map<ChildElements, Element> _slotToChild = <ChildElements, Element>{};
 
@@ -1917,8 +1844,7 @@ class _RenderRangeSliderElement extends RenderObjectElement {
   }
 
   @override
-  void moveRenderObjectChild(
-      RenderObject child, dynamic oldSlot, dynamic newSlot) {
+  void moveRenderObjectChild(RenderObject child, dynamic oldSlot, dynamic newSlot) {
     assert(false, 'not reachable');
   }
 }
@@ -2029,8 +1955,7 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
     }
   }
 
-  RangeSliderSemanticFormatterCallback? get semanticFormatterCallback =>
-      _semanticFormatterCallback;
+  RangeSliderSemanticFormatterCallback? get semanticFormatterCallback => _semanticFormatterCallback;
   RangeSliderSemanticFormatterCallback? _semanticFormatterCallback;
   set semanticFormatterCallback(RangeSliderSemanticFormatterCallback? value) {
     if (_semanticFormatterCallback == value) {
@@ -2044,8 +1969,7 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
   bool get isInteractive => onChanged != null;
 
   @override
-  AnimationController get overlayStartController =>
-      _state.overlayStartController;
+  AnimationController get overlayStartController => _state.overlayStartController;
 
   @override
   AnimationController get overlayEndController => _state.overlayEndController;
@@ -2054,27 +1978,23 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
   AnimationController get stateController => _state.stateController;
 
   @override
-  AnimationController get startPositionController =>
-      _state.startPositionController;
+  AnimationController get startPositionController => _state.startPositionController;
 
   @override
   AnimationController get endPositionController => _state.endPositionController;
 
   @override
-  AnimationController get tooltipAnimationStartController =>
-      _state.tooltipAnimationStartController;
+  AnimationController get tooltipAnimationStartController => _state.tooltipAnimationStartController;
 
   @override
-  AnimationController get tooltipAnimationEndController =>
-      _state.tooltipAnimationEndController;
+  AnimationController get tooltipAnimationEndController => _state.tooltipAnimationEndController;
 
   @override
   bool get mounted => _state.mounted;
 
   @override
   void updateValues(SfRangeValues newValues) {
-    if (!isIntervalTapped &&
-        (newValues.start != values.start || newValues.end != values.end)) {
+    if (!isIntervalTapped && (newValues.start != values.start || newValues.end != values.end)) {
       onChanged!(newValues);
     }
     super.updateValues(newValues);
@@ -2089,10 +2009,8 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
 
   void _increaseStartAction() {
     if (isInteractive) {
-      final SfRangeValues newValues =
-          SfRangeValues(increasedStartValue, values.end);
-      if (getNumerizedValue(newValues.start) <=
-          (getNumerizedValue(newValues.end))) {
+      final SfRangeValues newValues = SfRangeValues(increasedStartValue, values.end);
+      if (getNumerizedValue(newValues.start) <= (getNumerizedValue(newValues.end))) {
         onChanged!(newValues);
       }
     }
@@ -2112,10 +2030,8 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
 
   void _decreaseEndAction() {
     if (isInteractive) {
-      final SfRangeValues newValues =
-          SfRangeValues(values.start, decreasedEndValue);
-      if (getNumerizedValue(newValues.start) <=
-          (getNumerizedValue(newValues.end))) {
+      final SfRangeValues newValues = SfRangeValues(values.start, decreasedEndValue);
+      if (getNumerizedValue(newValues.start) <= (getNumerizedValue(newValues.end))) {
         onChanged!(newValues);
       }
     }
@@ -2133,8 +2049,8 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
   @override
   void performLayout() {
     super.performLayout();
-    final BoxConstraints contentConstraints = BoxConstraints.tightFor(
-        width: actualThumbSize.width, height: actualThumbSize.height);
+    final BoxConstraints contentConstraints =
+        BoxConstraints.tightFor(width: actualThumbSize.width, height: actualThumbSize.height);
     startThumbIcon?.layout(contentConstraints, parentUsesSize: true);
     endThumbIcon?.layout(contentConstraints, parentUsesSize: true);
   }
@@ -2163,18 +2079,8 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
   @override
   void paint(PaintingContext context, Offset offset) {
     final Offset actualTrackOffset = sliderType == SliderType.horizontal
-        ? Offset(
-            offset.dx,
-            offset.dy +
-                (size.height - actualHeight) / 2 +
-                trackOffset.dy -
-                maxTrackHeight / 2)
-        : Offset(
-            offset.dx +
-                (size.width - actualHeight) / 2 +
-                trackOffset.dx -
-                maxTrackHeight / 2,
-            offset.dy);
+        ? Offset(offset.dx, offset.dy + (size.height - actualHeight) / 2 + trackOffset.dy - maxTrackHeight / 2)
+        : Offset(offset.dx + (size.width - actualHeight) / 2 + trackOffset.dx - maxTrackHeight / 2, offset.dy);
 
     drawRangeSliderElements(context, offset, actualTrackOffset);
   }
@@ -2216,8 +2122,7 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
     Iterable<SemanticsNode> children,
   ) {
     assert(children.isEmpty);
-    final SemanticsConfiguration startSemanticsConfiguration =
-        _createSemanticsConfiguration(
+    final SemanticsConfiguration startSemanticsConfiguration = _createSemanticsConfiguration(
       values.start,
       increasedStartValue,
       decreasedStartValue,
@@ -2225,8 +2130,7 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
       _increaseStartAction,
       _decreaseStartAction,
     );
-    final SemanticsConfiguration endSemanticsConfiguration =
-        _createSemanticsConfiguration(
+    final SemanticsConfiguration endSemanticsConfiguration = _createSemanticsConfiguration(
       values.end,
       increasedEndValue,
       decreasedEndValue,
@@ -2243,8 +2147,7 @@ class _RenderRangeSlider extends RenderBaseRangeSlider {
         : Rect.fromPoints(node.rect.centerLeft, node.rect.topRight);
     startSemanticsNode ??= SemanticsNode();
     endSemanticsNode ??= SemanticsNode();
-    if (sliderType == SliderType.vertical ||
-        textDirection == TextDirection.ltr) {
+    if (sliderType == SliderType.vertical || textDirection == TextDirection.ltr) {
       startSemanticsNode!.rect = startRect;
       endSemanticsNode!.rect = endRect;
     } else {

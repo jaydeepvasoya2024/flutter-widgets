@@ -1029,10 +1029,10 @@ class RenderSignaturePad extends RenderBox {
   /// Exports the signature to html canvas.
   void renderToContext2D(dynamic context2D) {
     final String strokePenColor =
-        '${(strokeColor.r * 255).toInt()},${(strokeColor.g * 255).toInt()},${(strokeColor.b * 255).toInt()},${strokeColor.a.toStringAsFixed(2)}';
+        '${(strokeColor.red * 255).toInt()},${(strokeColor.green * 255).toInt()},${(strokeColor.blue * 255).toInt()},${strokeColor.alpha.toStringAsFixed(2)}';
 
     final String backgroundFillColor =
-        '${(backgroundColor.r * 255).toInt()},${(backgroundColor.g * 255).toInt()},${(backgroundColor.b * 255).toInt()},${backgroundColor.a.toStringAsFixed(2)}';
+        '${(backgroundColor.red * 255).toInt()},${(backgroundColor.green * 255).toInt()},${(backgroundColor.blue * 255).toInt()},${backgroundColor.alpha.toStringAsFixed(2)}';
 
     //Drawing the background of the SignaturePad
     context2D.fillStyle = 'rgba($backgroundFillColor)';

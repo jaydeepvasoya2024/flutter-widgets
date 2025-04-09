@@ -404,10 +404,10 @@ class ColorConditionValue extends ConditionValue {
 
   ///Gets the rgbValue of the color
   int get rgbValue {
-    return ((formatColorRgb.a * 255).toInt() << 24) |
-        ((formatColorRgb.r * 255).toInt() << 16) |
-        ((formatColorRgb.g * 255).toInt() << 8) |
-        (formatColorRgb.b * 255).toInt();
+    return ((formatColorRgb.alpha * 255).toInt() << 24) |
+        ((formatColorRgb.red * 255).toInt() << 16) |
+        ((formatColorRgb.green * 255).toInt() << 8) |
+        (formatColorRgb.blue * 255).toInt();
   }
 }
 
@@ -468,10 +468,10 @@ class ColorConditionValueImpl implements ColorConditionValue {
   @override
   // Gets the rgbValue of the color
   int get rgbValue =>
-      ((_formatColorRgb.a * 255).toInt() << 24) |
-      ((_formatColorRgb.r * 255).toInt() << 16) |
-      ((_formatColorRgb.g * 255).toInt() << 8) |
-      (_formatColorRgb.b * 255).toInt();
+      ((_formatColorRgb.alpha * 255).toInt() << 24) |
+      ((_formatColorRgb.red * 255).toInt() << 16) |
+      ((_formatColorRgb.green * 255).toInt() << 8) |
+      (_formatColorRgb.blue * 255).toInt();
 }
 
 /// This object wraps ConditionValue object to ensure correct parent object update.

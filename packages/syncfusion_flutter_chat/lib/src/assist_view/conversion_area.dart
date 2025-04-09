@@ -59,12 +59,10 @@ class AssistConversationArea extends ConversationArea<AssistMessage> {
   final WidgetStateProperty<ShapeBorder?>? responseToolbarItemShape;
 
   @override
-  State<ConversationArea<AssistMessage>> createState() =>
-      _AssistConversationAreaState();
+  State<ConversationArea<AssistMessage>> createState() => _AssistConversationAreaState();
 }
 
-class _AssistConversationAreaState
-    extends ConversationAreaState<AssistMessage> {
+class _AssistConversationAreaState extends ConversationAreaState<AssistMessage> {
   @override
   AssistConversationArea get widget => super.widget as AssistConversationArea;
 
@@ -203,8 +201,7 @@ class _AssistConversationAreaState
       suggestionItemTextStyle: widget.suggestionItemTextStyle,
       padding: settings.margin ?? EdgeInsets.zero,
       contentPadding: settings.padding ?? EdgeInsets.zero,
-      avatarPadding:
-          effectiveAvatarPadding(isFromCurrentUser, settings.avatarPadding),
+      avatarPadding: effectiveAvatarPadding(isFromCurrentUser, settings.avatarPadding),
       headerPadding: settings.headerPadding,
       footerPadding: settings.footerPadding,
       avatarSize: settings.avatarSize,
@@ -214,16 +211,14 @@ class _AssistConversationAreaState
       suggestionItemShape: widget.suggestionItemShape,
       responseToolbarBackgroundColor: widget.responseToolbarBackgroundColor,
       responseToolbarBackgroundShape: widget.responseToolbarBackgroundShape,
-      responseToolbarItemBackgroundColor:
-          widget.responseToolbarItemBackgroundColor,
+      responseToolbarItemBackgroundColor: widget.responseToolbarItemBackgroundColor,
       responseToolbarItemShape: widget.responseToolbarItemShape,
       onSuggestionItemSelected: widget.onSuggestionItemSelected,
       onToolbarItemSelected: widget.onBubbleToolbarItemSelected,
       responseToolbarSettings: widget.responseToolbarSettings,
       themeData: widget.themeData,
       textDirection: textDirection,
-      alignmentDirection:
-          alignmentBasedTextDirection(isFromCurrentUser, textDirection),
+      alignmentDirection: alignmentBasedTextDirection(isFromCurrentUser, textDirection),
     );
 
     if (index == 0 &&
@@ -276,11 +271,9 @@ class _AssistMessageBubble extends MessageBubble<AssistMessage> {
     super.secondaryHeaderTextStyle,
     super.suggestionItemTextStyle,
     super.padding = const EdgeInsets.all(2.0),
-    super.contentPadding =
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+    super.contentPadding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
     required super.avatarPadding,
-    super.headerPadding =
-        const EdgeInsetsDirectional.only(top: 14.0, bottom: 4.0),
+    super.headerPadding = const EdgeInsetsDirectional.only(top: 14.0, bottom: 4.0),
     super.footerPadding = const EdgeInsetsDirectional.only(top: 4.0),
     super.avatarSize = const Size.square(32.0),
     super.suggestionBackgroundColor,
@@ -369,9 +362,7 @@ class _AssistMessageBubbleState extends MessageBubbleState<AssistMessage> {
   }
 
   Widget? _buildUserName() {
-    if (!widget.showUserName ||
-        widget.message.author == null ||
-        widget.message.author!.name.isEmpty) {
+    if (!widget.showUserName || widget.message.author == null || widget.message.author!.name.isEmpty) {
       return null;
     }
 
@@ -387,8 +378,7 @@ class _AssistMessageBubbleState extends MessageBubbleState<AssistMessage> {
       return null;
     }
 
-    final DateFormat effectiveDateFormat =
-        widget.timestampFormat ?? MessageBubbleState.defaultTimestampFormat;
+    final DateFormat effectiveDateFormat = widget.timestampFormat ?? MessageBubbleState.defaultTimestampFormat;
     return Text(
       effectiveDateFormat.format(widget.message.time!),
       style: widget.secondaryHeaderTextStyle,
@@ -399,9 +389,7 @@ class _AssistMessageBubbleState extends MessageBubbleState<AssistMessage> {
   @override
   Widget buildMessage(BuildContext context) {
     return Column(
-      crossAxisAlignment: widget.alignment == BubbleAlignment.end
-          ? CrossAxisAlignment.end
-          : CrossAxisAlignment.start,
+      crossAxisAlignment: widget.alignment == BubbleAlignment.end ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       textDirection: TextDirection.ltr,
       children: _buildElements(context),
@@ -478,8 +466,7 @@ class _AssistMessageBubbleState extends MessageBubbleState<AssistMessage> {
 
   Widget _buildLoadingIndicator(BuildContext context, bool showAvatar) {
     if (widget.responseLoadingBuilder != null) {
-      return widget.responseLoadingBuilder!
-          .call(context, widget.index, widget.message);
+      return widget.responseLoadingBuilder!.call(context, widget.index, widget.message);
     }
 
     final Color edgeColor;
@@ -490,16 +477,14 @@ class _AssistMessageBubbleState extends MessageBubbleState<AssistMessage> {
       midColor = Colors.white;
     } else {
       edgeColor = colorScheme.surfaceContainer;
-      midColor = colorScheme.surfaceContainer.withValues(alpha: 0.12);
+      midColor = colorScheme.surfaceContainer.withOpacity(0.12);
     }
     return _Shimmer(
       bubbleWidth: availableContentWidth() * widget.widthFactor,
       edgeColor: edgeColor,
       midColor: midColor,
       avatarSize: showAvatar ? widget.avatarSize : Size.zero,
-      avatarPadding: showAvatar
-          ? widget.avatarPadding.resolve(widget.alignmentDirection)
-          : null,
+      avatarPadding: showAvatar ? widget.avatarPadding.resolve(widget.alignmentDirection) : null,
       alignment: widget.alignment,
     );
   }
@@ -514,8 +499,7 @@ class _AssistMessageBubbleState extends MessageBubbleState<AssistMessage> {
     return displayAvatar() &&
         (widget.avatarBuilder != null ||
             (widget.message.author != null &&
-                (widget.message.author!.avatar != null ||
-                    widget.message.author!.name.isNotEmpty)));
+                (widget.message.author!.avatar != null || widget.message.author!.name.isNotEmpty)));
   }
 
   @override
@@ -565,15 +549,12 @@ class _AssistMessageBubbleState extends MessageBubbleState<AssistMessage> {
 
   @override
   Widget? buildSuggestion(BuildContext context) {
-    if (widget.showLoadingIndicator ||
-        widget.message.suggestions == null ||
-        widget.message.suggestions!.isEmpty) {
+    if (widget.showLoadingIndicator || widget.message.suggestions == null || widget.message.suggestions!.isEmpty) {
       return null;
     }
 
     final List<MessageSuggestion> suggestions = widget.message.suggestions!;
-    final SuggestionSettings settings =
-        widget.message.suggestionSettings ?? const AssistSuggestionSettings();
+    final SuggestionSettings settings = widget.message.suggestionSettings ?? const AssistSuggestionSettings();
     Widget result = _AssistSuggestionArea(
       message: widget.message,
       messageIndex: widget.index,
@@ -586,10 +567,8 @@ class _AssistMessageBubbleState extends MessageBubbleState<AssistMessage> {
       itemOverflow: settings.itemOverflow,
       spacing: settings.spacing,
       runSpacing: settings.runSpacing,
-      backgroundColor:
-          settings.backgroundColor ?? widget.suggestionBackgroundColor,
-      itemBackgroundColor:
-          settings.itemBackgroundColor ?? widget.suggestionItemBackgroundColor,
+      backgroundColor: settings.backgroundColor ?? widget.suggestionBackgroundColor,
+      itemBackgroundColor: settings.itemBackgroundColor ?? widget.suggestionItemBackgroundColor,
       padding: settings.margin.resolve(widget.alignmentDirection),
       itemPadding: settings.itemPadding.resolve(widget.alignmentDirection),
       onSuggestionItemSelected: widget.onSuggestionItemSelected,
@@ -688,8 +667,7 @@ class _AssistSuggestionItemState extends SuggestionItemState<AssistMessage> {
     int suggestionIndex, {
     required bool selected,
   }) {
-    final AssistMessageSuggestion suggestion =
-        widget.message.suggestions![suggestionIndex];
+    final AssistMessageSuggestion suggestion = widget.message.suggestions![suggestionIndex];
     widget.onSuggestionItemSelected?.call(
       selected,
       widget.messageIndex,
@@ -720,8 +698,7 @@ class _Shimmer extends StatefulWidget {
   _ShimmerState createState() => _ShimmerState();
 }
 
-class _ShimmerState extends State<_Shimmer>
-    with SingleTickerProviderStateMixin {
+class _ShimmerState extends State<_Shimmer> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -904,8 +881,7 @@ class _ShimmerRenderBox extends RenderBox {
     Size size,
     Paint paint,
   ) {
-    final RRect rRect =
-        RRect.fromRectAndRadius(offset & size, _stripeBorderRadius);
+    final RRect rRect = RRect.fromRectAndRadius(offset & size, _stripeBorderRadius);
     context.canvas.drawRRect(rRect, paint);
   }
 
@@ -953,8 +929,7 @@ class _ShimmerRenderBox extends RenderBox {
       case BubbleAlignment.auto:
         stripeStartX = offset.dx;
         if (avatarWidth > 0.0) {
-          circleOffset =
-              offset.translate(_stripeWidth + avatarPad.left, avatarPad.top);
+          circleOffset = offset.translate(_stripeWidth + avatarPad.left, avatarPad.top);
         }
         break;
     }
@@ -1042,8 +1017,7 @@ class _ToolbarArea extends StatelessWidget {
           selected: toolbarItem.isSelected,
           shape: toolbarSettings.itemShape ?? itemShape,
           padding: toolbarSettings.itemPadding,
-          backgroundColor:
-              toolbarSettings.itemBackgroundColor ?? itemBackgroundColor,
+          backgroundColor: toolbarSettings.itemBackgroundColor ?? itemBackgroundColor,
           onItemSelected: onToolbarItemSelected,
         );
 
@@ -1062,10 +1036,8 @@ class _ToolbarArea extends StatelessWidget {
       result = Padding(padding: toolbarSettings.margin, child: result);
     }
 
-    final Color? effectiveBackgroundColor =
-        toolbarSettings.backgroundColor ?? backgroundColor;
-    final ShapeBorder? effectiveBackgroundShape =
-        toolbarSettings.shape ?? backgroundShape;
+    final Color? effectiveBackgroundColor = toolbarSettings.backgroundColor ?? backgroundColor;
+    final ShapeBorder? effectiveBackgroundShape = toolbarSettings.shape ?? backgroundShape;
     if (effectiveBackgroundShape != null &&
         effectiveBackgroundColor != null &&
         effectiveBackgroundColor != Colors.transparent) {
@@ -1156,8 +1128,7 @@ class _ToolbarItemState extends State<_ToolbarItem> {
 
   void _addState(WidgetState state) {
     _stateChangeNotifier.value.clear();
-    _stateChangeNotifier.value = Set.from(_stateChangeNotifier.value)
-      ..add(state);
+    _stateChangeNotifier.value = Set.from(_stateChangeNotifier.value)..add(state);
   }
 
   void _removeStates() {
@@ -1167,16 +1138,14 @@ class _ToolbarItemState extends State<_ToolbarItem> {
 
   void _removeState(WidgetState state) {
     if (_stateChangeNotifier.value.contains(state)) {
-      _stateChangeNotifier.value = Set.from(_stateChangeNotifier.value)
-        ..remove(state);
+      _stateChangeNotifier.value = Set.from(_stateChangeNotifier.value)..remove(state);
     }
   }
 
   @override
   void initState() {
     if (widget.selected) {
-      _stateChangeNotifier =
-          ValueNotifier<Set<WidgetState>>({WidgetState.selected});
+      _stateChangeNotifier = ValueNotifier<Set<WidgetState>>({WidgetState.selected});
     } else {
       _stateChangeNotifier = ValueNotifier<Set<WidgetState>>({});
     }

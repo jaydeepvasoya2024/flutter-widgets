@@ -75,8 +75,7 @@ class _RenderMapDataLabel extends ShapeLayerChildRenderBoxBase {
         _mediaQueryData = mediaQueryData {
     _effectiveTextScaleFactor = _mediaQueryData.textScaler;
 
-    _textPainter = TextPainter(textDirection: TextDirection.ltr)
-      ..textScaler = _effectiveTextScaleFactor;
+    _textPainter = TextPainter(textDirection: TextDirection.ltr)..textScaler = _effectiveTextScaleFactor;
 
     _opacityTween = Tween<double>(begin: 0.0, end: 1.0);
     _dataLabelAnimation = CurvedAnimation(
@@ -142,8 +141,7 @@ class _RenderMapDataLabel extends ShapeLayerChildRenderBoxBase {
   }
 
   void _checkDataLabelColor() {
-    _isCustomTextColor = _settings.textStyle?.color != null ||
-        _themeData.dataLabelTextStyle?.color != null;
+    _isCustomTextColor = _settings.textStyle?.color != null || _themeData.dataLabelTextStyle?.color != null;
   }
 
   @override
@@ -210,8 +208,7 @@ class _RenderMapDataLabel extends ShapeLayerChildRenderBoxBase {
     controller?.applyTransform(context, offset);
 
     String? dataLabelText;
-    final TextStyle textStyle = _effectiveTextStyle.copyWith(
-        color: _getAnimatedColor(_effectiveTextStyle.color));
+    final TextStyle textStyle = _effectiveTextStyle.copyWith(color: _getAnimatedColor(_effectiveTextStyle.color));
     final bool hasMapper = source.dataLabelMapper != null;
     mapDataSource.forEach((String key, MapModel model) {
       dataLabelText = controller!.isInInteractive
@@ -223,10 +220,8 @@ class _RenderMapDataLabel extends ShapeLayerChildRenderBoxBase {
         return;
       }
 
-      final TextStyle desiredTextStyle =
-          _updateLuminanceColor(textStyle, _isCustomTextColor, model);
-      _textPainter.text =
-          TextSpan(style: desiredTextStyle, text: dataLabelText);
+      final TextStyle desiredTextStyle = _updateLuminanceColor(textStyle, _isCustomTextColor, model);
+      _textPainter.text = TextSpan(style: desiredTextStyle, text: dataLabelText);
       _textPainter.layout();
       if (!controller!.isInInteractive) {
         if (_settings.overflowMode == MapLabelOverflow.hide) {
@@ -235,14 +230,9 @@ class _RenderMapDataLabel extends ShapeLayerChildRenderBoxBase {
             return;
           }
         } else if (_settings.overflowMode == MapLabelOverflow.ellipsis) {
-          final String trimmedText = getTrimText(
-              dataLabelText!,
-              desiredTextStyle,
-              model.shapeWidth!,
-              _textPainter,
-              _textPainter.width);
-          _textPainter.text =
-              TextSpan(style: desiredTextStyle, text: trimmedText);
+          final String trimmedText =
+              getTrimText(dataLabelText!, desiredTextStyle, model.shapeWidth!, _textPainter, _textPainter.width);
+          _textPainter.text = TextSpan(style: desiredTextStyle, text: trimmedText);
           _textPainter.layout();
         }
 
@@ -254,20 +244,16 @@ class _RenderMapDataLabel extends ShapeLayerChildRenderBoxBase {
         ..save()
         ..translate(model.shapePathCenter!.dx, model.shapePathCenter!.dy)
         ..scale(1 / controller!.localScale);
-      _textPainter.paint(context.canvas,
-          Offset(-_textPainter.width / 2, -_textPainter.height / 2));
+      _textPainter.paint(context.canvas, Offset(-_textPainter.width / 2, -_textPainter.height / 2));
       context.canvas.restore();
     });
     context.canvas.restore();
   }
 
-  TextStyle _updateLuminanceColor(
-      TextStyle style, bool isCustomTextStyle, MapModel model) {
+  TextStyle _updateLuminanceColor(TextStyle style, bool isCustomTextStyle, MapModel model) {
     if (!isCustomTextStyle) {
-      final Brightness brightness =
-          ThemeData.estimateBrightnessForColor(_getActualShapeColor(model));
-      final Color color =
-          brightness == Brightness.dark ? Colors.white : Colors.black;
+      final Brightness brightness = ThemeData.estimateBrightnessForColor(_getActualShapeColor(model));
+      final Color color = brightness == Brightness.dark ? Colors.white : Colors.black;
       style = style.copyWith(color: _getAnimatedColor(color));
     }
 
@@ -282,6 +268,6 @@ class _RenderMapDataLabel extends ShapeLayerChildRenderBoxBase {
     if (color == null) {
       return null;
     }
-    return color.withValues(alpha: _opacityTween.evaluate(_dataLabelAnimation));
+    return color.withOpacity(_opacityTween.evaluate(_dataLabelAnimation));
   }
 }

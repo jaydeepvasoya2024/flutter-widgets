@@ -23,8 +23,7 @@ class PdfSignatureFormField extends PdfFormField {
     if (readOnly) {
       return;
     }
-    (PdfFormFieldHelper.getHelper(this) as PdfSignatureFormFieldHelper)
-        .invokeValueChanged(value);
+    (PdfFormFieldHelper.getHelper(this) as PdfSignatureFormFieldHelper).invokeValueChanged(value);
   }
 }
 
@@ -85,9 +84,8 @@ class PdfSignatureFormFieldHelper extends PdfFormFieldHelper {
       if (!isValid) {
         return;
       }
-      final Uint8List? oldValue = signatureFormField._signature != null
-          ? Uint8List.fromList(signatureFormField._signature!)
-          : null;
+      final Uint8List? oldValue =
+          signatureFormField._signature != null ? Uint8List.fromList(signatureFormField._signature!) : null;
 
       signatureFormField._signature = newValue;
       if (onValueChanged != null) {
@@ -134,8 +132,7 @@ class PdfSignatureFormFieldHelper extends PdfFormFieldHelper {
 
   void _onSignatureFieldTapDown() {
     if (onFocusChange != null) {
-      final PdfFormFieldFocusChangeDetails details =
-          PdfFormFieldFocusChangeDetails(signatureFormField, true);
+      final PdfFormFieldFocusChangeDetails details = PdfFormFieldFocusChangeDetails(signatureFormField, true);
       onFocusChange!(details);
     }
   }
@@ -254,9 +251,7 @@ class _PdfSignatureState extends State<PdfSignature> {
             width: widget.borderWidth,
           ),
         ),
-        child: widget.signature != null
-            ? Image.memory(widget.signature!)
-            : Container(),
+        child: widget.signature != null ? Image.memory(widget.signature!) : Container(),
       ),
     );
   }
@@ -270,8 +265,7 @@ void _showSignatureContextMenu(
   double height,
 ) {
   final bool isMaterial3 = Theme.of(context).useMaterial3;
-  final RenderBox overlay =
-      Overlay.of(context).context.findRenderObject()! as RenderBox;
+  final RenderBox overlay = Overlay.of(context).context.findRenderObject()! as RenderBox;
   final RenderBox button = context.findRenderObject()! as RenderBox;
   const double kPopUpMenuHeight = 48;
   const double kPopupMenuWidth = 130;
@@ -284,12 +278,9 @@ void _showSignatureContextMenu(
     constraints: const BoxConstraints(maxWidth: kPopupMenuWidth),
     position: RelativeRect.fromLTRB(
       localPosition.dx * signatureFieldHelper.pdfViewerController.zoomLevel,
-      (localPosition.dy * signatureFieldHelper.pdfViewerController.zoomLevel) -
-          (kPopUpMenuHeight + height),
-      overlay.size.width -
-          localPosition.dx * signatureFieldHelper.pdfViewerController.zoomLevel,
-      overlay.size.height -
-          localPosition.dy * signatureFieldHelper.pdfViewerController.zoomLevel,
+      (localPosition.dy * signatureFieldHelper.pdfViewerController.zoomLevel) - (kPopUpMenuHeight + height),
+      overlay.size.width - localPosition.dx * signatureFieldHelper.pdfViewerController.zoomLevel,
+      overlay.size.height - localPosition.dy * signatureFieldHelper.pdfViewerController.zoomLevel,
     ),
     items: <PopupMenuEntry<dynamic>>[
       if (!isMaterial3)
@@ -382,14 +373,12 @@ void _showSignaturePadDialog(
       return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final double signaturePadWidth = kIsDesktop
-              ? max(constraints.maxWidth, constraints.maxHeight) *
-                  (isMaterial3 ? 0.27 : 0.25)
+              ? max(constraints.maxWidth, constraints.maxHeight) * (isMaterial3 ? 0.27 : 0.25)
               : MediaQuery.of(context).size.width < kSignaturePadWidth
                   ? MediaQuery.of(context).size.width
                   : kSignaturePadWidth;
-          final double signaturePadHeight = kIsDesktop
-              ? signaturePadWidth * (isMaterial3 ? 0.53 : 0.6)
-              : kSignaturePadHeight;
+          final double signaturePadHeight =
+              kIsDesktop ? signaturePadWidth * (isMaterial3 ? 0.53 : 0.6) : kSignaturePadHeight;
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
@@ -420,10 +409,9 @@ void _showSignaturePadDialog(
                             ).textTheme.titleMedium!.copyWith(
                                 fontSize: 16,
                                 fontFamily: 'Roboto-Medium',
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? Colors.black.withValues(alpha: 0.87)
-                                    : Colors.white.withValues(alpha: 0.87),
+                                color: Theme.of(context).brightness == Brightness.light
+                                    ? Colors.black.withOpacity(0.87)
+                                    : Colors.white.withOpacity(0.87),
                               ),
                     ),
                     InkWell(
@@ -438,8 +426,7 @@ void _showSignaturePadDialog(
                           );
                         }
                       },
-                      borderRadius:
-                          isMaterial3 ? BorderRadius.circular(20.0) : null,
+                      borderRadius: isMaterial3 ? BorderRadius.circular(20.0) : null,
                       child: isMaterial3
                           ? SizedBox.square(
                               dimension: 40,
@@ -480,8 +467,7 @@ void _showSignaturePadDialog(
                                   )
                                 : Border.all(color: Colors.grey[350]!),
                             color: Colors.white,
-                            borderRadius:
-                                isMaterial3 ? BorderRadius.circular(4.0) : null,
+                            borderRadius: isMaterial3 ? BorderRadius.circular(4.0) : null,
                           ),
                           child: SfSignaturePad(
                             strokeColor: _strokeColor,
@@ -505,26 +491,21 @@ void _showSignaturePadDialog(
                                 context,
                               ).textTheme.bodyMedium!.copyWith(
                                     fontSize: 14,
-                                    fontWeight:
-                                        isMaterial3 ? FontWeight.w400 : null,
+                                    fontWeight: isMaterial3 ? FontWeight.w400 : null,
                                     fontFamily: 'Roboto-Regular',
                                     color: isMaterial3
                                         ? Theme.of(
                                             context,
                                           ).colorScheme.onSurface
-                                        : Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? Colors.black
-                                                .withValues(alpha: 0.87)
-                                            : Colors.white
-                                                .withValues(alpha: 0.87),
+                                        : Theme.of(context).brightness == Brightness.light
+                                            ? Colors.black.withOpacity(0.87)
+                                            : Colors.white.withOpacity(0.87),
                                   ),
                             ),
                             SizedBox(
                               width: 128,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: _addStrokeColorPalettes(
                                   setState,
                                   context,
@@ -542,9 +523,7 @@ void _showSignaturePadDialog(
                         horizontal: kIsDesktop ? 20 : 24.0,
                       )
                     : const EdgeInsets.symmetric(horizontal: 12.0),
-                actionsPadding: isMaterial3
-                    ? const EdgeInsets.all(24)
-                    : const EdgeInsets.all(8.0),
+                actionsPadding: isMaterial3 ? const EdgeInsets.all(24) : const EdgeInsets.all(8.0),
                 buttonPadding: EdgeInsets.zero,
                 actions: <Widget>[
                   TextButton(
@@ -598,10 +577,8 @@ void _showSignaturePadDialog(
                           },
                     style: isMaterial3
                         ? ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            disabledBackgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            disabledBackgroundColor: Theme.of(context).colorScheme.primary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
@@ -617,9 +594,7 @@ void _showSignaturePadDialog(
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 14,
                             fontWeight: isMaterial3 ? FontWeight.w400 : null,
-                            color: isMaterial3
-                                ? themeData.colorScheme.onPrimary
-                                : themeData.colorScheme.primary,
+                            color: isMaterial3 ? themeData.colorScheme.onPrimary : themeData.colorScheme.primary,
                             fontFamily: 'Roboto-Medium',
                           ),
                     ),
@@ -645,8 +620,7 @@ Future<void> _handleSignatureSaveButtonPressed(
     format: ui.ImageByteFormat.png,
   );
 
-  signatureFieldHelper.signatureFormField.signature =
-      bytes!.buffer.asUint8List();
+  signatureFieldHelper.signatureFormField.signature = bytes!.buffer.asUint8List();
 }
 
 /// Clear the signature in the signaturepad
@@ -685,15 +659,12 @@ List<Widget> _addStrokeColorPalettes(
               _strokeColor = _strokeColors[i];
               _selectedPenIndex = i;
             }),
-            overlayColor: isMaterial3
-                ? const WidgetStatePropertyAll<Color>(Colors.transparent)
-                : null,
+            overlayColor: isMaterial3 ? const WidgetStatePropertyAll<Color>(Colors.transparent) : null,
             child: Center(
               child: Stack(
                 children: <Widget>[
                   Padding(
-                    padding:
-                        isMaterial3 ? const EdgeInsets.all(4) : EdgeInsets.zero,
+                    padding: isMaterial3 ? const EdgeInsets.all(4) : EdgeInsets.zero,
                     child: Icon(
                       Icons.brightness_1,
                       size: isMaterial3 ? 24.0 : 25.0,
@@ -750,8 +721,7 @@ class CustomPopupMenuItem<T> extends PopupMenuItem<T> {
 }
 
 /// The state class for [CustomPopupMenuItem].
-class CustomPopupMenuItemState<T, W extends CustomPopupMenuItem<T>>
-    extends PopupMenuItemState<T, W> {
+class CustomPopupMenuItemState<T, W extends CustomPopupMenuItem<T>> extends PopupMenuItemState<T, W> {
   @override
   Widget build(BuildContext context) {
     return MergeSemantics(

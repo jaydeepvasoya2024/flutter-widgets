@@ -89,32 +89,28 @@ class _TextSelectionMenuState extends State<TextSelectionMenu> {
                   themeData: widget.themeData,
                 ),
                 TextSelectionMenuItem(
-                  title:
-                      widget.localizations!.pdfTextSelectionMenuHighlightLabel,
+                  title: widget.localizations!.pdfTextSelectionMenuHighlightLabel,
                   mode: 'Highlight',
                   onSelected: widget.onSelected,
                   textDirection: widget.textDirection,
                   themeData: widget.themeData,
                 ),
                 TextSelectionMenuItem(
-                  title:
-                      widget.localizations!.pdfTextSelectionMenuUnderlineLabel,
+                  title: widget.localizations!.pdfTextSelectionMenuUnderlineLabel,
                   mode: 'Underline',
                   onSelected: widget.onSelected,
                   textDirection: widget.textDirection,
                   themeData: widget.themeData,
                 ),
                 TextSelectionMenuItem(
-                  title: widget
-                      .localizations!.pdfTextSelectionMenuStrikethroughLabel,
+                  title: widget.localizations!.pdfTextSelectionMenuStrikethroughLabel,
                   mode: 'Strikethrough',
                   onSelected: widget.onSelected,
                   textDirection: widget.textDirection,
                   themeData: widget.themeData,
                 ),
                 TextSelectionMenuItem(
-                  title:
-                      widget.localizations!.pdfTextSelectionMenuSquigglyLabel,
+                  title: widget.localizations!.pdfTextSelectionMenuSquigglyLabel,
                   mode: 'Squiggly',
                   onSelected: widget.onSelected,
                   textDirection: widget.textDirection,
@@ -172,8 +168,8 @@ class _TextSelectionMenuItemState extends State<TextSelectionMenuItem> {
         highlightColor: widget.themeData!.useMaterial3
             ? widget.themeData!.colorScheme.primaryContainer
             : (widget.themeData!.colorScheme.brightness == Brightness.light)
-                ? Colors.grey.withValues(alpha: 0.2)
-                : Colors.grey.withValues(alpha: 0.5),
+                ? Colors.grey.withOpacity(0.2)
+                : Colors.grey.withOpacity(0.5),
         child: Directionality(
           textDirection: widget.textDirection ?? TextDirection.ltr,
           child: Container(
@@ -191,8 +187,8 @@ class _TextSelectionMenuItemState extends State<TextSelectionMenuItem> {
                     color: widget.themeData!.useMaterial3
                         ? widget.themeData!.colorScheme.onSurface
                         : widget.themeData!.brightness == Brightness.light
-                            ? Colors.black.withValues(alpha: 0.87)
-                            : Colors.white.withValues(alpha: 0.87),
+                            ? Colors.black.withOpacity(0.87)
+                            : Colors.white.withOpacity(0.87),
                   ),
                 ),
               ],
@@ -209,8 +205,8 @@ class _TextSelectionMenuItemState extends State<TextSelectionMenuItem> {
         Icons.copy,
         size: 16,
         color: (widget.themeData!.colorScheme.brightness == Brightness.light)
-            ? Colors.black.withValues(alpha: 0.87)
-            : Colors.white.withValues(alpha: 0.87),
+            ? Colors.black.withOpacity(0.87)
+            : Colors.white.withOpacity(0.87),
       );
     }
     mode = mode.toLowerCase().replaceAll(RegExp(r' '), '');

@@ -90,24 +90,21 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
       parent: bubbleAnimationController,
       curve: const Interval(0.2, 1.0, curve: Curves.easeInOut),
     );
-    _toggleBubbleAnimation = CurvedAnimation(
-        parent: toggleAnimationController, curve: Curves.easeInOut);
+    _toggleBubbleAnimation = CurvedAnimation(parent: toggleAnimationController, curve: Curves.easeInOut);
 
     _forwardToggledBubbleColorTween = ColorTween();
     _forwardToggledBubbleStrokeColorTween = ColorTween();
     _reverseToggledBubbleColorTween = ColorTween();
     _reverseToggledBubbleStrokeColorTween = ColorTween();
 
-    _toggleBubbleAnimation = CurvedAnimation(
-        parent: toggleAnimationController, curve: Curves.easeInOut);
+    _toggleBubbleAnimation = CurvedAnimation(parent: toggleAnimationController, curve: Curves.easeInOut);
 
     _forwardBubbleHoverColorTween = ColorTween();
     _forwardBubbleHoverStrokeColorTween = ColorTween();
     _reverseBubbleHoverColorTween = ColorTween();
     _reverseBubbleHoverStrokeColorTween = ColorTween();
 
-    _hoverBubbleAnimation = CurvedAnimation(
-        parent: hoverBubbleAnimationController, curve: Curves.easeInOut);
+    _hoverBubbleAnimation = CurvedAnimation(parent: hoverBubbleAnimationController, curve: Curves.easeInOut);
 
     if (_legend != null && _legend!.enableToggleInteraction) {
       _initializeToggledBubbleTweenColors();
@@ -177,8 +174,7 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
 
     if (_themeData.bubbleHoverColor != Colors.transparent ||
         _themeData.bubbleHoverStrokeColor != Colors.transparent ||
-        (_themeData.bubbleHoverStrokeWidth != null &&
-            _themeData.bubbleHoverStrokeWidth! > 0.0)) {
+        (_themeData.bubbleHoverStrokeWidth != null && _themeData.bubbleHoverStrokeWidth! > 0.0)) {
       _initializeHoverBubbleTweenColors();
     }
 
@@ -190,8 +186,7 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
   set legend(MapLegend? value) {
     // Update [MapsShapeLayer.legend] value only when
     // [MapsShapeLayer.legend] property is set to bubble.
-    if (_legend != null && _legend!.source != MapElement.bubble ||
-        _legend == value) {
+    if (_legend != null && _legend!.source != MapElement.bubble || _legend == value) {
       return;
     }
     _legend = value;
@@ -208,8 +203,7 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
       _bubbleSettings.strokeColor != Colors.transparent;
 
   bool get hasHoverStroke =>
-      _themeData.bubbleHoverStrokeWidth! > 0 &&
-      _themeData.bubbleHoverStrokeColor != Colors.transparent;
+      _themeData.bubbleHoverStrokeWidth! > 0 && _themeData.bubbleHoverStrokeColor != Colors.transparent;
 
   bool get hasToggledStroke =>
       _legend != null &&
@@ -269,20 +263,16 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
   }
 
   void _updateHoverItemTween() {
-    final double opacity = _bubbleAnimation.value * _bubbleSettings.color!.a;
-    final Color defaultColor = bubbleSettings.color!.withValues(alpha: opacity);
+    final double opacity = _bubbleAnimation.value * _bubbleSettings.color!.alpha;
+    final Color defaultColor = bubbleSettings.color!.withOpacity(opacity);
     if (_currentHoverItem != null) {
-      _forwardBubbleHoverColorTween.begin =
-          _currentHoverItem!.bubbleColor ?? defaultColor;
-      _forwardBubbleHoverColorTween.end =
-          _getHoverFillColor(opacity, defaultColor, _currentHoverItem!);
+      _forwardBubbleHoverColorTween.begin = _currentHoverItem!.bubbleColor ?? defaultColor;
+      _forwardBubbleHoverColorTween.end = _getHoverFillColor(opacity, defaultColor, _currentHoverItem!);
     }
 
     if (_previousHoverItem != null) {
-      _reverseBubbleHoverColorTween.begin =
-          _getHoverFillColor(opacity, defaultColor, _previousHoverItem!);
-      _reverseBubbleHoverColorTween.end =
-          _previousHoverItem!.bubbleColor ?? defaultColor;
+      _reverseBubbleHoverColorTween.begin = _getHoverFillColor(opacity, defaultColor, _previousHoverItem!);
+      _reverseBubbleHoverColorTween.end = _previousHoverItem!.bubbleColor ?? defaultColor;
     }
 
     hoverBubbleAnimationController.forward(from: 0.0);
@@ -290,8 +280,7 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
 
   Color _getHoverFillColor(double opacity, Color defaultColor, MapModel model) {
     final Color bubbleColor = model.bubbleColor ?? defaultColor;
-    return _themeData.bubbleHoverColor != null &&
-            _themeData.bubbleHoverColor != Colors.transparent
+    return _themeData.bubbleHoverColor != null && _themeData.bubbleHoverColor != Colors.transparent
         ? _themeData.bubbleHoverColor!
         : getSaturatedColor(bubbleColor);
   }
@@ -353,20 +342,16 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
   }
 
   void _initializeToggledBubbleTweenColors() {
-    final Color? toggledBubbleColor =
-        _themeData.toggledItemColor != Colors.transparent
-            ? _themeData.toggledItemColor!
-                .withValues(alpha: _legend!.toggledItemOpacity)
-            : null;
+    final Color? toggledBubbleColor = _themeData.toggledItemColor != Colors.transparent
+        ? _themeData.toggledItemColor!.withOpacity(_legend!.toggledItemOpacity)
+        : null;
 
     _forwardToggledBubbleColorTween.end = toggledBubbleColor;
     _forwardToggledBubbleStrokeColorTween.begin = _themeData.bubbleStrokeColor;
-    _forwardToggledBubbleStrokeColorTween.end =
-        _themeData.toggledItemStrokeColor;
+    _forwardToggledBubbleStrokeColorTween.end = _themeData.toggledItemStrokeColor;
 
     _reverseToggledBubbleColorTween.begin = toggledBubbleColor;
-    _reverseToggledBubbleStrokeColorTween.begin =
-        _themeData.toggledItemStrokeColor;
+    _reverseToggledBubbleStrokeColorTween.begin = _themeData.toggledItemStrokeColor;
     _reverseToggledBubbleStrokeColorTween.end = _themeData.bubbleStrokeColor;
   }
 
@@ -380,8 +365,7 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
 
   Color _getHoverStrokeColor() {
     final Color bubbleStrokeColor = _bubbleSettings.strokeColor!;
-    return (_themeData.bubbleHoverStrokeColor != null &&
-            _themeData.bubbleHoverStrokeColor != Colors.transparent)
+    return (_themeData.bubbleHoverStrokeColor != null && _themeData.bubbleHoverStrokeColor != Colors.transparent)
         ? _themeData.bubbleHoverStrokeColor!
         : getSaturatedColor(bubbleStrokeColor);
   }
@@ -389,12 +373,10 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
   void _updateToggledBubbleTweenColor() {
     late MapModel model;
     if (source.bubbleColorMappers == null) {
-      model =
-          mapDataSource.values.elementAt(controller!.currentToggledItemIndex);
+      model = mapDataSource.values.elementAt(controller!.currentToggledItemIndex);
     } else {
       for (final MapModel mapModel in mapDataSource.values) {
-        if (mapModel.dataIndex != null &&
-            mapModel.legendMapperIndex == controller!.currentToggledItemIndex) {
+        if (mapModel.dataIndex != null && mapModel.legendMapperIndex == controller!.currentToggledItemIndex) {
           model = mapModel;
           break;
         }
@@ -408,15 +390,14 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final Rect bounds =
-        Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height);
+    final Rect bounds = Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height);
     context.canvas
       ..save()
       ..clipRect(bounds);
     controller!.applyTransform(context, offset);
 
-    final double opacity = _bubbleAnimation.value * _bubbleSettings.color!.a;
-    final Color defaultColor = bubbleSettings.color!.withValues(alpha: opacity);
+    final double opacity = _bubbleAnimation.value * _bubbleSettings.color!.alpha;
+    final Color defaultColor = bubbleSettings.color!.withOpacity(opacity);
     final bool hasToggledIndices = controller!.toggledIndices.isNotEmpty;
     final Paint fillPaint = Paint()..isAntiAlias = true;
     final Paint strokePaint = Paint()
@@ -425,54 +406,43 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
 
     mapDataSource.forEach((String key, MapModel model) {
       if (model.bubbleSizeValue == null ||
-          (_currentHoverItem != null &&
-              _currentHoverItem!.primaryKey == model.primaryKey)) {
+          (_currentHoverItem != null && _currentHoverItem!.primaryKey == model.primaryKey)) {
         return;
       }
 
-      final double bubbleRadius =
-          _getDesiredValue(_bubbleAnimation.value * model.bubbleRadius!);
+      final double bubbleRadius = _getDesiredValue(_bubbleAnimation.value * model.bubbleRadius!);
       _updateFillColor(model, fillPaint, hasToggledIndices, defaultColor);
       if (fillPaint.color != Colors.transparent) {
-        context.canvas
-            .drawCircle(model.shapePathCenter!, bubbleRadius, fillPaint);
+        context.canvas.drawCircle(model.shapePathCenter!, bubbleRadius, fillPaint);
       }
 
-      _drawBubbleStroke(
-          context, model, strokePaint, bubbleRadius, hasToggledIndices);
+      _drawBubbleStroke(context, model, strokePaint, bubbleRadius, hasToggledIndices);
     });
 
     _drawHoveredBubble(context, opacity, defaultColor);
   }
 
   double _getDesiredValue(double value) {
-    return value /
-        (controller!.gesture == Gesture.scale ? controller!.localScale : 1);
+    return value / (controller!.gesture == Gesture.scale ? controller!.localScale : 1);
   }
 
-  void _drawBubbleStroke(PaintingContext context, MapModel model,
-      Paint strokePaint, double bubbleRadius, bool hasToggledIndices) {
+  void _drawBubbleStroke(
+      PaintingContext context, MapModel model, Paint strokePaint, double bubbleRadius, bool hasToggledIndices) {
     if (hasToggledStroke || hasDefaultStroke) {
       _updateStrokePaint(model, strokePaint, hasToggledIndices, bubbleRadius);
-      strokePaint.strokeWidth /=
-          controller!.gesture == Gesture.scale ? controller!.localScale : 1;
-      context.canvas.drawCircle(
-          model.shapePathCenter!,
-          _getDesiredRadius(bubbleRadius, strokePaint.strokeWidth),
-          strokePaint);
+      strokePaint.strokeWidth /= controller!.gesture == Gesture.scale ? controller!.localScale : 1;
+      context.canvas
+          .drawCircle(model.shapePathCenter!, _getDesiredRadius(bubbleRadius, strokePaint.strokeWidth), strokePaint);
     }
   }
 
   double _getDesiredRadius(double circleRadius, double strokeWidth) {
-    return strokeWidth > circleRadius
-        ? circleRadius / 2
-        : circleRadius - strokeWidth / 2;
+    return strokeWidth > circleRadius ? circleRadius / 2 : circleRadius - strokeWidth / 2;
   }
 
   // Set color to the toggled and un-toggled bubbles based on
   // the [legendController.toggledIndices] collection.
-  void _updateFillColor(MapModel model, Paint fillPaint, bool hasToggledIndices,
-      Color defaultColor) {
+  void _updateFillColor(MapModel model, Paint fillPaint, bool hasToggledIndices, Color defaultColor) {
     fillPaint.style = PaintingStyle.fill;
     if (_legend != null && _legend!.source == MapElement.bubble) {
       if (controller!.currentToggledItemIndex == model.legendMapperIndex) {
@@ -487,14 +457,12 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
         return;
       } else if (hasToggledIndices && controller!.wasToggled(model)) {
         // Set toggled color to the previously toggled bubbles.
-        fillPaint.color =
-            _forwardToggledBubbleColorTween.end ?? Colors.transparent;
+        fillPaint.color = _forwardToggledBubbleColorTween.end ?? Colors.transparent;
         return;
       }
     }
 
-    if (_previousHoverItem != null &&
-        _previousHoverItem!.primaryKey == model.primaryKey) {
+    if (_previousHoverItem != null && _previousHoverItem!.primaryKey == model.primaryKey) {
       fillPaint.color = _themeData.bubbleHoverColor != Colors.transparent
           ? _reverseBubbleHoverColorTween.evaluate(_hoverBubbleAnimation)!
           : (_previousHoverItem!.bubbleColor ?? defaultColor);
@@ -505,8 +473,7 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
 
   // Set stroke paint to the toggled and un-toggled bubbles based on
   // the [legendController.toggledIndices] collection.
-  void _updateStrokePaint(MapModel model, Paint strokePaint,
-      bool hasToggledIndices, double bubbleRadius) {
+  void _updateStrokePaint(MapModel model, Paint strokePaint, bool hasToggledIndices, double bubbleRadius) {
     strokePaint.style = PaintingStyle.stroke;
     if (_legend != null && _legend!.source == MapElement.bubble) {
       if (controller!.currentToggledItemIndex == model.legendMapperIndex) {
@@ -517,13 +484,10 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
         // [_reverseToggledBubbleStrokeColorTween] return.
         strokePaint
           ..color = controller!.wasToggled(model)
-              ? _forwardToggledBubbleStrokeColorTween
-                  .evaluate(_toggleBubbleAnimation)!
-              : _reverseToggledBubbleStrokeColorTween
-                  .evaluate(_toggleBubbleAnimation)!
-          ..strokeWidth = controller!.wasToggled(model)
-              ? _legend!.toggledItemStrokeWidth
-              : _bubbleSettings.strokeWidth!;
+              ? _forwardToggledBubbleStrokeColorTween.evaluate(_toggleBubbleAnimation)!
+              : _reverseToggledBubbleStrokeColorTween.evaluate(_toggleBubbleAnimation)!
+          ..strokeWidth =
+              controller!.wasToggled(model) ? _legend!.toggledItemStrokeWidth : _bubbleSettings.strokeWidth!;
         return;
       } else if (hasToggledIndices && controller!.wasToggled(model)) {
         // Set toggled stroke color to the previously toggled bubbles.
@@ -534,14 +498,11 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
       }
     }
 
-    if (_previousHoverItem != null &&
-        _previousHoverItem!.primaryKey == model.primaryKey) {
-      if (_themeData.bubbleHoverStrokeWidth! > 0.0 &&
-          _themeData.bubbleHoverStrokeColor != Colors.transparent) {
+    if (_previousHoverItem != null && _previousHoverItem!.primaryKey == model.primaryKey) {
+      if (_themeData.bubbleHoverStrokeWidth! > 0.0 && _themeData.bubbleHoverStrokeColor != Colors.transparent) {
         strokePaint
           ..style = PaintingStyle.stroke
-          ..color = _reverseBubbleHoverStrokeColorTween
-              .evaluate(_hoverBubbleAnimation)!
+          ..color = _reverseBubbleHoverStrokeColorTween.evaluate(_hoverBubbleAnimation)!
           ..strokeWidth = _themeData.bubbleStrokeWidth;
         return;
       } else if (hasDefaultStroke) {
@@ -554,16 +515,12 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
     }
     strokePaint
       ..color = _bubbleSettings.strokeColor!
-      ..strokeWidth = _bubbleSettings.strokeWidth! > bubbleRadius
-          ? bubbleRadius
-          : _bubbleSettings.strokeWidth!;
+      ..strokeWidth = _bubbleSettings.strokeWidth! > bubbleRadius ? bubbleRadius : _bubbleSettings.strokeWidth!;
   }
 
-  void _drawHoveredBubble(
-      PaintingContext context, double opacity, Color defaultColor) {
+  void _drawHoveredBubble(PaintingContext context, double opacity, Color defaultColor) {
     if (_currentHoverItem != null) {
-      final double bubbleRadius =
-          _getDesiredValue(_currentHoverItem!.bubbleRadius!);
+      final double bubbleRadius = _getDesiredValue(_currentHoverItem!.bubbleRadius!);
       final Color defaultColor = bubbleSettings.color!;
       final Paint paint = Paint()
         ..style = PaintingStyle.fill
@@ -571,8 +528,7 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
             ? _forwardBubbleHoverColorTween.evaluate(_hoverBubbleAnimation)!
             : (_currentHoverItem!.bubbleColor ?? defaultColor);
       if (paint.color != Colors.transparent) {
-        context.canvas.drawCircle(
-            _currentHoverItem!.shapePathCenter!, bubbleRadius, paint);
+        context.canvas.drawCircle(_currentHoverItem!.shapePathCenter!, bubbleRadius, paint);
       }
 
       _drawHoveredBubbleStroke(context, bubbleRadius);
@@ -583,11 +539,9 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
     final Paint strokePaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke;
-    if (_themeData.bubbleHoverStrokeWidth! > 0.0 &&
-        _themeData.bubbleHoverStrokeColor != Colors.transparent) {
+    if (_themeData.bubbleHoverStrokeWidth! > 0.0 && _themeData.bubbleHoverStrokeColor != Colors.transparent) {
       strokePaint
-        ..color =
-            _forwardBubbleHoverStrokeColorTween.evaluate(_hoverBubbleAnimation)!
+        ..color = _forwardBubbleHoverStrokeColorTween.evaluate(_hoverBubbleAnimation)!
         ..strokeWidth = _getDesiredValue(themeData.bubbleHoverStrokeWidth!);
     } else if (hasDefaultStroke) {
       strokePaint
@@ -595,13 +549,10 @@ class RenderMapBubble extends ShapeLayerChildRenderBoxBase {
         ..strokeWidth = _getDesiredValue(_themeData.bubbleStrokeWidth);
     }
 
-    if (strokePaint.strokeWidth > 0.0 &&
-        strokePaint.color != Colors.transparent) {
+    if (strokePaint.strokeWidth > 0.0 && strokePaint.color != Colors.transparent) {
       context.canvas.drawCircle(
           _currentHoverItem!.shapePathCenter!,
-          strokePaint.strokeWidth > bubbleRadius
-              ? bubbleRadius / 2
-              : bubbleRadius - strokePaint.strokeWidth / 2,
+          strokePaint.strokeWidth > bubbleRadius ? bubbleRadius / 2 : bubbleRadius - strokePaint.strokeWidth / 2,
           strokePaint);
     }
   }

@@ -6,8 +6,7 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 import '../control/pdftextline.dart';
 import 'mobile_helper.dart'
-    if (dart.library.js_interop) 'package:syncfusion_flutter_pdfviewer/src/common/web_helper.dart'
-    as helper;
+    if (dart.library.js_interop) 'package:syncfusion_flutter_pdfviewer/src/common/web_helper.dart' as helper;
 
 /// Indicates whether the current environment is running in Desktop
 bool kIsDesktop = kIsWeb || Platform.isMacOS || Platform.isWindows;
@@ -157,33 +156,32 @@ extension PdfColorExtension on PdfColor {
 /// The [Color] extension.
 extension MaterialColorExtension on Color {
   /// Converts the [Color] to [PdfColor].
-  PdfColor get pdfColor =>
-      PdfColor((r * 255).round(), (g * 255).round(), (b * 255).round());
+  PdfColor get pdfColor => PdfColor((red * 255).round(), (green * 255).round(), (blue * 255).round());
 
   /// Converts the [Color] to a lighter color based on the given factor.
   Color getLightenColor(double factor) {
     factor = factor.clamp(-1.0, 1.0);
 
-    double red = r;
-    double green = g;
-    double blue = b;
+    double r = red.toDouble();
+    double g = green.toDouble();
+    double b = blue.toDouble();
 
     if (factor < 0) {
       factor += 1;
-      red *= factor;
-      green *= factor;
-      blue *= factor;
+      r *= factor;
+      g *= factor;
+      b *= factor;
     } else {
-      red = (1 - red) * factor + red;
-      green = (1 - green) * factor + green;
-      blue = (1 - blue) * factor + blue;
+      r = (1 - r) * factor + r;
+      g = (1 - g) * factor + g;
+      b = (1 - b) * factor + b;
     }
 
     return Color.fromRGBO(
-      (red * 255).round(),
-      (green * 255).round(),
-      (blue * 255).round(),
-      a,
+      (r * 255).round(),
+      (g * 255).round(),
+      (b * 255).round(),
+      opacity,
     );
   }
 }

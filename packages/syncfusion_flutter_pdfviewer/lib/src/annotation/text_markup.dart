@@ -130,8 +130,7 @@ class SquigglyAnnotation extends Annotation {
 }
 
 /// A widget representing a text markup annotation.
-class TextMarkupAnnotationView extends InteractiveGraphicsView
-    with AnnotationView {
+class TextMarkupAnnotationView extends InteractiveGraphicsView with AnnotationView {
   /// Creates a [TextMarkupAnnotationView].
   TextMarkupAnnotationView({
     Key? key,
@@ -235,7 +234,7 @@ class RenderTextMarkupAnnotationView extends RenderInteractiveGraphicsView {
   @override
   void paint(PaintingContext context, Offset offset) {
     final Canvas canvas = context.canvas;
-    final Paint paint = Paint()..color = color.withValues(alpha: opacity);
+    final Paint paint = Paint()..color = color.withOpacity(opacity);
 
     if (_textMarkupType == TextMarkupType.highlight) {
       _drawHighlight(canvas, paint, offset);
@@ -259,10 +258,9 @@ class RenderTextMarkupAnnotationView extends RenderInteractiveGraphicsView {
   }
 
   void _drawHighlight(Canvas canvas, Paint paint, Offset offset) {
-    paint.color = color.withValues(alpha: opacity * 0.3);
+    paint.color = color.withOpacity(opacity * 0.3);
     paint.style = PaintingStyle.fill;
-    final HighlightAnnotation highlightAnnotation =
-        annotation as HighlightAnnotation;
+    final HighlightAnnotation highlightAnnotation = annotation as HighlightAnnotation;
 
     for (final Rect rect in highlightAnnotation._textMarkupRects) {
       canvas.drawRect(_getPaintRect(rect, offset), paint);
@@ -272,8 +270,7 @@ class RenderTextMarkupAnnotationView extends RenderInteractiveGraphicsView {
   void _drawStrikethrough(Canvas canvas, Paint paint, Offset offset) {
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = strokeWidth / heightPercentage;
-    for (final Rect rect
-        in (annotation as StrikethroughAnnotation)._textMarkupRects) {
+    for (final Rect rect in (annotation as StrikethroughAnnotation)._textMarkupRects) {
       final Rect strikethroughRect = _getPaintRect(rect, offset);
       canvas.drawLine(
         strikethroughRect.centerLeft,
@@ -286,8 +283,7 @@ class RenderTextMarkupAnnotationView extends RenderInteractiveGraphicsView {
   void _drawUnderline(Canvas canvas, Paint paint, Offset offset) {
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = strokeWidth / heightPercentage;
-    for (final Rect rect
-        in (annotation as UnderlineAnnotation)._textMarkupRects) {
+    for (final Rect rect in (annotation as UnderlineAnnotation)._textMarkupRects) {
       final Rect underlineRect = _getPaintRect(rect, offset);
       canvas.drawLine(
         underlineRect.bottomLeft,
@@ -300,8 +296,7 @@ class RenderTextMarkupAnnotationView extends RenderInteractiveGraphicsView {
   void _drawSquiggly(Canvas canvas, Paint paint, Offset offset) {
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = strokeWidth / heightPercentage;
-    for (final Rect rect
-        in (annotation as SquigglyAnnotation)._textMarkupRects) {
+    for (final Rect rect in (annotation as SquigglyAnnotation)._textMarkupRects) {
       final Rect squigglyRect = _getPaintRect(rect, offset);
 
       canvas.drawPath(
@@ -335,9 +330,7 @@ class RenderTextMarkupAnnotationView extends RenderInteractiveGraphicsView {
     final double spacing = height * 0.18;
     final Path squigglyPath = Path();
     squigglyPath.moveTo(x, y);
-    for (double distance = 0;
-        distance + spacing < length;
-        distance += spacing) {
+    for (double distance = 0; distance + spacing < length; distance += spacing) {
       if (showUnderlineAtStart) {
         squigglyPath.lineTo(x + distance + spacing, y);
       } else {

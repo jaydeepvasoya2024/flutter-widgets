@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import '../../xlsio.dart';
+import 'images.dart';
 import 'xlsio_workbook.dart';
 
 // ignore: public_member_api_docs

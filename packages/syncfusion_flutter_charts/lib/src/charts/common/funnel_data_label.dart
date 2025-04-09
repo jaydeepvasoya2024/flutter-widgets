@@ -15,8 +15,7 @@ import 'data_label.dart';
 import 'element_widget.dart';
 
 // ignore: must_be_immutable
-base class FunnelChartDataLabelPositioned
-    extends ParentDataWidget<ChartElementParentData>
+base class FunnelChartDataLabelPositioned extends ParentDataWidget<ChartElementParentData>
     with LinkedListEntry<FunnelChartDataLabelPositioned> {
   FunnelChartDataLabelPositioned({
     super.key,
@@ -39,8 +38,7 @@ base class FunnelChartDataLabelPositioned
   @override
   void applyParentData(RenderObject renderObject) {
     assert(renderObject.parentData is ChartElementParentData);
-    final ChartElementParentData parentData =
-        renderObject.parentData! as ChartElementParentData;
+    final ChartElementParentData parentData = renderObject.parentData! as ChartElementParentData;
     bool needsLayout = false;
 
     if (parentData.x != x) {
@@ -92,40 +90,23 @@ class FunnelDataLabelContainer<T, D> extends StatefulWidget {
   final DataLabelSettings settings;
 
   @override
-  State<FunnelDataLabelContainer<T, D>> createState() =>
-      _FunnelDataLabelContainerState<T, D>();
+  State<FunnelDataLabelContainer<T, D>> createState() => _FunnelDataLabelContainerState<T, D>();
 }
 
-typedef _ChartDataLabelWidgetBuilder<T, D> = Widget Function(
-    T data,
-    ChartPoint<D> point,
-    FunnelSeries<T, D> series,
-    int pointIndex,
-    int seriesIndex,
-    ChartDataPointType position);
+typedef _ChartDataLabelWidgetBuilder<T, D> = Widget Function(T data, ChartPoint<D> point, FunnelSeries<T, D> series,
+    int pointIndex, int seriesIndex, ChartDataPointType position);
 
-class _FunnelDataLabelContainerState<T, D>
-    extends State<FunnelDataLabelContainer<T, D>>
+class _FunnelDataLabelContainerState<T, D> extends State<FunnelDataLabelContainer<T, D>>
     with ChartElementParentDataMixin<T, D> {
   List<FunnelChartDataLabelPositioned>? _builderChildren;
   LinkedList<FunnelChartDataLabelPositioned>? _textChildren;
 
-  Widget _dataLabelFromBuilder(
-      T data,
-      ChartPoint<D> point,
-      FunnelSeries<T, D> series,
-      int pointIndex,
-      int seriesIndex,
+  Widget _dataLabelFromBuilder(T data, ChartPoint<D> point, FunnelSeries<T, D> series, int pointIndex, int seriesIndex,
       ChartDataPointType position) {
     return widget.builder!(data, point, series, pointIndex, seriesIndex);
   }
 
-  Widget _dataLabelFromMapper(
-      T data,
-      ChartPoint<D> point,
-      FunnelSeries<T, D> series,
-      int pointIndex,
-      int seriesIndex,
+  Widget _dataLabelFromMapper(T data, ChartPoint<D> point, FunnelSeries<T, D> series, int pointIndex, int seriesIndex,
       ChartDataPointType position) {
     final String text = widget.mapper!(data, pointIndex) ?? '';
     return _buildDataLabelText(text, pointIndex);
@@ -147,12 +128,10 @@ class _FunnelDataLabelContainerState<T, D>
   Color _dataPointColor(int dataPointIndex) {
     final DataLabelSettings settings = widget.settings;
     if (settings.color != null) {
-      return settings.color!.withValues(alpha: settings.opacity);
+      return settings.color!.withOpacity(settings.opacity);
     } else if (settings.useSeriesColor) {
       final int segmentsLastIndex = renderer!.segments.length - 1;
-      return renderer!
-          .segments[segmentsLastIndex - dataPointIndex].fillPaint.color
-          .withValues(alpha: settings.opacity);
+      return renderer!.segments[segmentsLastIndex - dataPointIndex].fillPaint.color.withOpacity(settings.opacity);
     }
     return Colors.transparent;
   }
@@ -178,8 +157,7 @@ class _FunnelDataLabelContainerState<T, D>
     _textChildren!.add(child);
   }
 
-  void _buildDataLabels(_ChartDataLabelWidgetBuilder<T, D> callback,
-      Function(FunnelChartDataLabelPositioned) add) {
+  void _buildDataLabels(_ChartDataLabelWidgetBuilder<T, D> callback, Function(FunnelChartDataLabelPositioned) add) {
     const List<ChartDataPointType> positions = ChartDataPointType.values;
     final int yLength = yLists?.length ?? 0;
     final int posAdj = _positionIndex(yLength);
@@ -219,8 +197,7 @@ class _FunnelDataLabelContainerState<T, D>
       final List<num> yValues = yLists![k];
       point.y = yValues[index];
       final ChartDataPointType position = positions[k + posAdj];
-      final FunnelChartDataLabelPositioned child =
-          FunnelChartDataLabelPositioned(
+      final FunnelChartDataLabelPositioned child = FunnelChartDataLabelPositioned(
         x: x,
         y: yValues[index],
         dataPointIndex: index,
@@ -246,16 +223,11 @@ class _FunnelDataLabelContainerState<T, D>
         _ChartDataLabelWidgetBuilder<T, D> callback;
         _builderChildren?.clear();
         _textChildren?.clear();
-        if (renderer != null &&
-            renderer!.initialIsVisible &&
-            yLists != null &&
-            yLists!.isNotEmpty) {
+        if (renderer != null && renderer!.initialIsVisible && yLists != null && yLists!.isNotEmpty) {
           if (widget.builder != null) {
             callback = _dataLabelFromBuilder;
           } else {
-            callback = widget.mapper != null
-                ? _dataLabelFromMapper
-                : _defaultDataLabel;
+            callback = widget.mapper != null ? _dataLabelFromMapper : _defaultDataLabel;
           }
           void Function(FunnelChartDataLabelPositioned child) add;
           if (widget.builder != null) {
@@ -307,8 +279,7 @@ class FunnelDataLabelStack<T, D> extends ChartElementStack {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, RenderFunnelDataLabelStack<T, D> renderObject) {
+  void updateRenderObject(BuildContext context, RenderFunnelDataLabelStack<T, D> renderObject) {
     super.updateRenderObject(context, renderObject);
     renderObject
       ..series = series
@@ -332,8 +303,7 @@ class RenderFunnelDataLabelStack<T, D> extends RenderChartElementStack {
 
   @override
   bool hitTestSelf(Offset position) {
-    return series?.parent?.onDataLabelTapped != null &&
-        _findSelectedDataLabelIndex(position) != -1;
+    return series?.parent?.onDataLabelTapped != null && _findSelectedDataLabelIndex(position) != -1;
   }
 
   int _findSelectedDataLabelIndex(Offset localPosition) {
@@ -344,8 +314,7 @@ class RenderFunnelDataLabelStack<T, D> extends RenderChartElementStack {
     if (childCount > 0) {
       RenderBox? child = lastChild;
       while (child != null) {
-        final ChartElementParentData childParentData =
-            child.parentData! as ChartElementParentData;
+        final ChartElementParentData childParentData = child.parentData! as ChartElementParentData;
         if ((childParentData.offset & child.size).contains(localPosition)) {
           return childParentData.dataPointIndex;
         }
@@ -376,9 +345,7 @@ class RenderFunnelDataLabelStack<T, D> extends RenderChartElementStack {
         return;
       }
 
-      final String text = childCount > 0
-          ? ''
-          : (labels!.elementAt(selectedIndex).child as DataLabelText).text;
+      final String text = childCount > 0 ? '' : (labels!.elementAt(selectedIndex).child as DataLabelText).text;
       series!.parent!.onDataLabelTapped!(DataLabelTapDetails(
         series!.index,
         series!.viewportIndex(selectedIndex),
@@ -410,16 +377,13 @@ class RenderFunnelDataLabelStack<T, D> extends RenderChartElementStack {
     if (childCount > 0) {
       RenderBox? child = firstChild;
       while (child != null) {
-        final ChartElementParentData currentChildData =
-            child.parentData! as ChartElementParentData;
+        final ChartElementParentData currentChildData = child.parentData! as ChartElementParentData;
         final RenderBox? nextSibling = currentChildData.nextSibling;
         child.layout(constraints, parentUsesSize: true);
+        currentChildData.offset = series!.dataLabelPosition(currentChildData, child.size);
+        final Offset offset = _invokeDataLabelRender(currentChildData.dataPointIndex);
         currentChildData.offset =
-            series!.dataLabelPosition(currentChildData, child.size);
-        final Offset offset =
-            _invokeDataLabelRender(currentChildData.dataPointIndex);
-        currentChildData.offset = Offset(currentChildData.offset.dx + offset.dx,
-            currentChildData.offset.dy - offset.dy);
+            Offset(currentChildData.offset.dx + offset.dx, currentChildData.offset.dy - offset.dy);
         // TODO(Praveen): Builder works only for inner and outer position,
         // Need to handle for intersection.
         child = nextSibling;
@@ -432,25 +396,19 @@ class RenderFunnelDataLabelStack<T, D> extends RenderChartElementStack {
           ..dataPointIndex = currentLabel.dataPointIndex
           ..position = currentLabel.position;
         final DataLabelText details = currentLabel.child as DataLabelText;
-        final Offset offset =
-            _invokeDataLabelRender(currentLabel.dataPointIndex, details);
-        currentLabel.offset = Offset(currentLabel.offset.dx + offset.dx,
-            currentLabel.offset.dy - offset.dy);
+        final Offset offset = _invokeDataLabelRender(currentLabel.dataPointIndex, details);
+        currentLabel.offset = Offset(currentLabel.offset.dx + offset.dx, currentLabel.offset.dy - offset.dy);
         currentLabel.size = measureText(details.text, details.textStyle);
-        currentLabel.offset +=
-            series!.dataLabelPosition(currentLabelData, currentLabel.size);
-        currentLabel.connectorPath = _calculateConnectorPath(
-            currentLabel.dataPointIndex,
-            currentLabel.offset,
-            currentLabel.size);
+        currentLabel.offset += series!.dataLabelPosition(currentLabelData, currentLabel.size);
+        currentLabel.connectorPath =
+            _calculateConnectorPath(currentLabel.dataPointIndex, currentLabel.offset, currentLabel.size);
       }
     }
   }
 
   Path _calculateConnectorPath(int index, Offset offset, Size size) {
     final int segmentsLastIndex = series!.segments.length - 1;
-    final List<Offset> points =
-        series!.segments[segmentsLastIndex - index].points;
+    final List<Offset> points = series!.segments[segmentsLastIndex - index].points;
     final double startPoint = (points[1].dx + points[2].dx) / 2;
     final double endPoint = offset.dx;
     final double y = offset.dy + size.height / 2;

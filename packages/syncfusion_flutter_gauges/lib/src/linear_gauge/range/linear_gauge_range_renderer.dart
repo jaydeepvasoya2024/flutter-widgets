@@ -299,13 +299,11 @@ class RenderLinearRange extends RenderOpacity {
 
   @override
   void performLayout() {
-    final double thickness =
-        max(max(startThickness, midThickness), endThickness);
+    final double thickness = max(max(startThickness, midThickness), endThickness);
     double rangeWidth = 0;
 
     if (axis != null) {
-      rangeWidth =
-          (axis!.valueToPixel(endValue) - axis!.valueToPixel(startValue)).abs();
+      rangeWidth = (axis!.valueToPixel(endValue) - axis!.valueToPixel(startValue)).abs();
     }
 
     Size controlSize;
@@ -319,8 +317,7 @@ class RenderLinearRange extends RenderOpacity {
       child!.layout(BoxConstraints.tight(controlSize));
     }
 
-    size = Size(min(controlSize.width, constraints.maxWidth),
-        min(controlSize.height, constraints.maxHeight));
+    size = Size(min(controlSize.width, constraints.maxWidth), min(controlSize.height, constraints.maxHeight));
   }
 
   ///Calculation Position based on value.
@@ -340,8 +337,7 @@ class RenderLinearRange extends RenderOpacity {
   }
 
   void _getRangeOffsets() {
-    final LinearElementPosition rangeElementPosition =
-        getEffectiveElementPosition(position, isMirrored);
+    final LinearElementPosition rangeElementPosition = getEffectiveElementPosition(position, isMirrored);
     double bottom = _rangeOffset.dy + _rangeRect.height;
 
     if (orientation == LinearGaugeOrientation.vertical) {
@@ -382,8 +378,7 @@ class RenderLinearRange extends RenderOpacity {
       path.lineTo(_rangeOffsets[1].dx, _rangeOffsets[1].dy);
       path.lineTo(_rangeOffsets[2].dx, _rangeOffsets[2].dy);
     } else {
-      path.quadraticBezierTo(_rangeOffsets[1].dx, _rangeOffsets[1].dy,
-          _rangeOffsets[2].dx, _rangeOffsets[2].dy);
+      path.quadraticBezierTo(_rangeOffsets[1].dx, _rangeOffsets[1].dy, _rangeOffsets[2].dx, _rangeOffsets[2].dy);
     }
 
     path.lineTo(_rangeOffsets[3].dx, _rangeOffsets[3].dy);
@@ -392,8 +387,8 @@ class RenderLinearRange extends RenderOpacity {
 
   void _getRangePath() {
     if (startThickness == endThickness && startThickness == midThickness) {
-      final Rect rangeRect = Rect.fromLTRB(_rangeOffsets[0].dx,
-          _rangeOffsets[0].dy, _rangeOffsets[3].dx, _rangeOffsets[3].dy);
+      final Rect rangeRect =
+          Rect.fromLTRB(_rangeOffsets[0].dx, _rangeOffsets[0].dy, _rangeOffsets[3].dx, _rangeOffsets[3].dy);
 
       if (rangeRect.hasNaN) {
         return;
@@ -404,8 +399,7 @@ class RenderLinearRange extends RenderOpacity {
           _path.addRect(rangeRect);
           break;
         case LinearEdgeStyle.bothCurve:
-          _path.addRRect(RRect.fromRectAndRadius(
-              rangeRect, Radius.circular(startThickness / 2)));
+          _path.addRRect(RRect.fromRectAndRadius(rangeRect, Radius.circular(startThickness / 2)));
           break;
         case LinearEdgeStyle.startCurve:
           _path.addRRect(getStartCurve(
@@ -436,7 +430,7 @@ class RenderLinearRange extends RenderOpacity {
       animationValue = _rangeAnimation!.value;
     }
 
-    _rangePaint.color = color.withValues(alpha: animationValue * color.a);
+    _rangePaint.color = color.withOpacity(animationValue * color.alpha);
     _path.reset();
     _getRangePath();
     canvas.drawPath(_path, _rangePaint);
@@ -444,8 +438,7 @@ class RenderLinearRange extends RenderOpacity {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    if ((_rangeAnimation != null && _rangeAnimation!.value > 0) ||
-        rangeAnimation == null) {
+    if ((_rangeAnimation != null && _rangeAnimation!.value > 0) || rangeAnimation == null) {
       final Canvas canvas = context.canvas;
       _rangePaint.style = PaintingStyle.fill;
       _rangeOffset = offset;

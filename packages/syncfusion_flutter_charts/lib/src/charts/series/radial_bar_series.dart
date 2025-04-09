@@ -189,8 +189,7 @@ class RadialBarSeries<T, D> extends CircularSeries<T, D> {
   final bool useSeriesColor;
 
   @override
-  List<ChartDataPointType> get positions =>
-      <ChartDataPointType>[ChartDataPointType.y];
+  List<ChartDataPointType> get positions => <ChartDataPointType>[ChartDataPointType.y];
 
   /// Create the Radial bar series renderer.
   @override
@@ -205,8 +204,7 @@ class RadialBarSeries<T, D> extends CircularSeries<T, D> {
 
   @override
   RadialBarSeriesRenderer<T, D> createRenderObject(BuildContext context) {
-    final RadialBarSeriesRenderer<T, D> renderer =
-        super.createRenderObject(context) as RadialBarSeriesRenderer<T, D>;
+    final RadialBarSeriesRenderer<T, D> renderer = super.createRenderObject(context) as RadialBarSeriesRenderer<T, D>;
     renderer
       ..trackColor = trackColor
       ..maximumValue = maximumValue
@@ -218,8 +216,7 @@ class RadialBarSeries<T, D> extends CircularSeries<T, D> {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, RadialBarSeriesRenderer<T, D> renderObject) {
+  void updateRenderObject(BuildContext context, RadialBarSeriesRenderer<T, D> renderObject) {
     super.updateRenderObject(context, renderObject);
     renderObject
       ..trackColor = trackColor
@@ -299,16 +296,10 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
     degree = degree * fullAngle;
     final double pointEndAngle = pointStartAngle + degree;
     final double innerRadius = currentInnerRadius = segment.isVisible
-        ? (currentInnerRadius +
-            ((index == firstVisibleIndex) ? 0 : ringSize) -
-            (trackBorderWidth / 2) / dataCount)
+        ? (currentInnerRadius + ((index == firstVisibleIndex) ? 0 : ringSize) - (trackBorderWidth / 2) / dataCount)
         : currentInnerRadius;
-    final double outerRadius = ringSize < segmentGap!
-        ? 0
-        : innerRadius +
-            ringSize -
-            segmentGap! -
-            (trackBorderWidth / 2) / dataCount;
+    final double outerRadius =
+        ringSize < segmentGap! ? 0 : innerRadius + ringSize - segmentGap! - (trackBorderWidth / 2) / dataCount;
 
     segment as RadialBarSegment<T, D>
       ..series = this
@@ -333,11 +324,9 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
 
       if (trackColor != Colors.transparent) {
         if (useSeriesColor) {
-          segment.trackFillPaint.color =
-              segment.fillPaint.color.withValues(alpha: trackOpacity);
+          segment.trackFillPaint.color = segment.fillPaint.color.withOpacity(trackOpacity);
         } else {
-          segment.trackFillPaint.color =
-              trackColor.withValues(alpha: trackOpacity);
+          segment.trackFillPaint.color = trackColor.withOpacity(trackOpacity);
         }
       } else {
         if (useSeriesColor) {
@@ -360,8 +349,7 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
     if (circularYValues.isEmpty) {
       return null;
     }
-    final num sumOfY = circularYValues
-        .reduce((num value, num element) => value + element.abs());
+    final num sumOfY = circularYValues.reduce((num value, num element) => value + element.abs());
     const double pointStartAngle = -90;
     final List<LegendItem> legendItems = <LegendItem>[];
     final int segmentsCount = segments.length;
@@ -383,9 +371,7 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
         degree: degree,
         iconBorderColor: trackColor,
         iconBorderWidth: legendIconBorderWidth(),
-        imageProvider: legendIconType == LegendIconType.image
-            ? parent?.legend?.image
-            : null,
+        imageProvider: legendIconType == LegendIconType.image ? parent?.legend?.image : null,
         isToggled: i < segmentsCount && !segmentAt(i).isVisible,
         onTap: handleLegendItemTapped,
         onRender: _handleLegendItemCreated,
@@ -400,8 +386,7 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
     super.handleLegendItemTapped(item, isToggled);
     // Resets `_isLegendToggled` to `true` to handle legend inner and outer radius animations.
     if (item is ChartLegendItem && item.pointIndex != -1) {
-      final RadialBarSegment segment =
-          segmentAt(item.pointIndex) as RadialBarSegment;
+      final RadialBarSegment segment = segmentAt(item.pointIndex) as RadialBarSegment;
       segment._isLegendToggled = true;
     }
   }
@@ -410,15 +395,13 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
     if (parent != null && parent!.onLegendItemRender != null) {
       final ChartLegendItem item = details.item as ChartLegendItem;
       final LegendIconType iconType = toLegendIconType(details.iconType);
-      final LegendRenderArgs args =
-          LegendRenderArgs(item.seriesIndex, item.pointIndex)
-            ..text = details.text
-            ..legendIconType = iconType
-            ..color = details.color;
+      final LegendRenderArgs args = LegendRenderArgs(item.seriesIndex, item.pointIndex)
+        ..text = details.text
+        ..legendIconType = iconType
+        ..color = details.color;
       parent!.onLegendItemRender!(args);
       if (args.legendIconType != iconType) {
-        details.iconType = toLegendShapeMarkerType(
-            args.legendIconType ?? LegendIconType.seriesType, this);
+        details.iconType = toLegendShapeMarkerType(args.legendIconType ?? LegendIconType.seriesType, this);
       }
 
       details
@@ -429,14 +412,12 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
 
   Shader? _legendIconShaders(int pointIndex) {
     if (parent != null && parent!.legend != null) {
-      final Rect legendIconBounds = Rect.fromLTWH(
-          0.0, 0.0, parent!.legend!.iconWidth, parent!.legend!.iconHeight);
+      final Rect legendIconBounds = Rect.fromLTWH(0.0, 0.0, parent!.legend!.iconWidth, parent!.legend!.iconHeight);
       if (pointShaderMapper != null) {
-        return pointShaderMapper!(dataSource![pointIndex], pointIndex,
-            palette[pointIndex % palette.length], legendIconBounds);
+        return pointShaderMapper!(
+            dataSource![pointIndex], pointIndex, palette[pointIndex % palette.length], legendIconBounds);
       } else if (onCreateShader != null) {
-        final ChartShaderDetails details =
-            ChartShaderDetails(legendIconBounds, legendIconBounds, 'legend');
+        final ChartShaderDetails details = ChartShaderDetails(legendIconBounds, legendIconBounds, 'legend');
         return onCreateShader?.call(details);
       }
     }
@@ -448,8 +429,7 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
     const int labelPadding = 2;
     final num angle = dataLabelSettings.angle;
 
-    final RadialBarSegment<T, D> segment =
-        segments[current.dataPointIndex] as RadialBarSegment<T, D>;
+    final RadialBarSegment<T, D> segment = segments[current.dataPointIndex] as RadialBarSegment<T, D>;
     current.point!
       ..degree = segment._degree
       ..isVisible = segment.isVisible
@@ -462,22 +442,17 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
       ..fill = palette[current.dataPointIndex % palette.length];
     final CircularChartPoint point = current.point!;
 
-    Offset labelLocation = calculateOffset(point.startAngle!,
-        (point.innerRadius! + point.outerRadius!) / 2, point.center!);
-    labelLocation = Offset(
-        (labelLocation.dx - size.width - 5) + (angle == 0 ? 0 : size.width / 2),
-        (labelLocation.dy - size.height / 2) +
-            (angle == 0 ? 0 : size.height / 2));
+    Offset labelLocation =
+        calculateOffset(point.startAngle!, (point.innerRadius! + point.outerRadius!) / 2, point.center!);
+    labelLocation = Offset((labelLocation.dx - size.width - 5) + (angle == 0 ? 0 : size.width / 2),
+        (labelLocation.dy - size.height / 2) + (angle == 0 ? 0 : size.height / 2));
     if (point.isVisible && (point.y == 0 && !dataLabelSettings.showZeroValue)) {
       point.isVisible = false;
       return labelLocation;
     }
     if (size.width > 0 && size.height > 0) {
-      point.labelRect = Rect.fromLTWH(
-          labelLocation.dx - labelPadding,
-          labelLocation.dy - labelPadding,
-          size.width + (2 * labelPadding),
-          size.height + (2 * labelPadding));
+      point.labelRect = Rect.fromLTWH(labelLocation.dx - labelPadding, labelLocation.dy - labelPadding,
+          size.width + (2 * labelPadding), size.height + (2 * labelPadding));
     } else {
       point.labelRect = Rect.zero;
     }
@@ -485,16 +460,8 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
   }
 
   @override
-  void drawDataLabelWithBackground(
-      CircularChartDataLabelPositioned dataLabelPositioned,
-      int index,
-      Canvas canvas,
-      String dataLabel,
-      Offset offset,
-      int angle,
-      TextStyle style,
-      Paint fillPaint,
-      Paint strokePaint) {
+  void drawDataLabelWithBackground(CircularChartDataLabelPositioned dataLabelPositioned, int index, Canvas canvas,
+      String dataLabel, Offset offset, int angle, TextStyle style, Paint fillPaint, Paint strokePaint) {
     final TextStyle effectiveTextStyle = parent!.themeData!.textTheme.bodySmall!
         .copyWith(color: Colors.black)
         .merge(parent!.chartThemeData!.dataLabelTextStyle)
@@ -510,35 +477,22 @@ class RadialBarSeriesRenderer<T, D> extends CircularSeriesRenderer<T, D> {
     canvas.translate(labelRect.center.dx, labelRect.center.dy);
     canvas.rotate((angle * pi) / 180);
     canvas.translate(-labelRect.center.dx, -labelRect.center.dy);
-    if (dataLabelSettings.borderWidth > 0 &&
-        strokePaint.color != Colors.transparent) {
-      _drawLabelRect(
-          strokePaint,
-          Rect.fromLTRB(
-              labelRect.left, labelRect.top, labelRect.right, labelRect.bottom),
-          dataLabelSettings.borderRadius,
-          canvas);
+    if (dataLabelSettings.borderWidth > 0 && strokePaint.color != Colors.transparent) {
+      _drawLabelRect(strokePaint, Rect.fromLTRB(labelRect.left, labelRect.top, labelRect.right, labelRect.bottom),
+          dataLabelSettings.borderRadius, canvas);
     }
 
     if (fillPaint.color != Colors.transparent) {
-      _drawLabelRect(
-          fillPaint,
-          Rect.fromLTRB(
-              labelRect.left, labelRect.top, labelRect.right, labelRect.bottom),
-          dataLabelSettings.borderRadius,
-          canvas);
+      _drawLabelRect(fillPaint, Rect.fromLTRB(labelRect.left, labelRect.top, labelRect.right, labelRect.bottom),
+          dataLabelSettings.borderRadius, canvas);
     }
     canvas.restore();
 
-    drawDataLabel(
-        canvas, dataLabel, offset, effectiveTextStyle, dataLabelSettings.angle);
+    drawDataLabel(canvas, dataLabel, offset, effectiveTextStyle, dataLabelSettings.angle);
   }
 
-  void _drawLabelRect(
-          Paint paint, Rect labelRect, double borderRadius, Canvas canvas) =>
-      canvas.drawRRect(
-          RRect.fromRectAndRadius(labelRect, Radius.circular(borderRadius)),
-          paint);
+  void _drawLabelRect(Paint paint, Rect labelRect, double borderRadius, Canvas canvas) =>
+      canvas.drawRRect(RRect.fromRectAndRadius(labelRect, Radius.circular(borderRadius)), paint);
 }
 
 class RadialBarSegment<T, D> extends ChartSegment {
@@ -617,18 +571,14 @@ class RadialBarSegment<T, D> extends ChartSegment {
       if (!_priorInnerRadius.isNaN && !_priorOuterRadius.isNaN) {
         // Handles inner and outer radius animation when the legend is toggled.
         if (isVisible) {
-          innerRadius =
-              lerpDouble(_priorInnerRadius, _innerRadius, animationFactor)!;
-          outerRadius =
-              lerpDouble(_priorOuterRadius, _outerRadius, animationFactor)!;
+          innerRadius = lerpDouble(_priorInnerRadius, _innerRadius, animationFactor)!;
+          outerRadius = lerpDouble(_priorOuterRadius, _outerRadius, animationFactor)!;
         } else {
           final double halfRadii = (_priorOuterRadius + _priorInnerRadius) / 2;
           endAngle = _priorEndAngle;
           degree = endAngle - startAngle;
-          innerRadius = _priorInnerRadius +
-              (halfRadii - _priorInnerRadius) * animationFactor;
-          outerRadius = _priorOuterRadius -
-              (_priorOuterRadius - halfRadii) * animationFactor;
+          innerRadius = _priorInnerRadius + (halfRadii - _priorInnerRadius) * animationFactor;
+          outerRadius = _priorOuterRadius - (_priorOuterRadius - halfRadii) * animationFactor;
           _innerRadius = innerRadius;
           _outerRadius = outerRadius;
         }
@@ -639,40 +589,28 @@ class RadialBarSegment<T, D> extends ChartSegment {
       }
     }
 
-    trackPath = calculateArcPath(
-        innerRadius, outerRadius, _center, 0, fullAngle, fullAngle,
-        isAnimate: true);
+    trackPath = calculateArcPath(innerRadius, outerRadius, _center, 0, fullAngle, fullAngle, isAnimate: true);
 
     if (_outerRadius > 0 && degree > 0) {
-      final num angleDeviation =
-          findAngleDeviation(innerRadius, outerRadius, 360);
+      final num angleDeviation = findAngleDeviation(innerRadius, outerRadius, 360);
       final CornerStyle cornerStyle = series.cornerStyle;
-      if (cornerStyle == CornerStyle.bothCurve ||
-          cornerStyle == CornerStyle.startCurve) {
+      if (cornerStyle == CornerStyle.bothCurve || cornerStyle == CornerStyle.startCurve) {
         startAngle += angleDeviation;
       }
 
-      if (cornerStyle == CornerStyle.bothCurve ||
-          cornerStyle == CornerStyle.endCurve) {
+      if (cornerStyle == CornerStyle.bothCurve || cornerStyle == CornerStyle.endCurve) {
         endAngle -= angleDeviation;
       }
 
       if (degree > 360) {
-        yValuePath = calculateRoundedCornerArcPath(
-            cornerStyle, innerRadius, outerRadius, _center, 0, fullAngle);
-        yValuePath.arcTo(
-            Rect.fromCircle(center: _center, radius: outerRadius),
-            degreesToRadians(_startAngle),
-            degreesToRadians(_endAngle - _startAngle),
-            true);
-        yValuePath.arcTo(
-            Rect.fromCircle(center: _center, radius: innerRadius),
-            degreesToRadians(_endAngle),
-            degreesToRadians(_startAngle) - degreesToRadians(_endAngle),
-            false);
+        yValuePath = calculateRoundedCornerArcPath(cornerStyle, innerRadius, outerRadius, _center, 0, fullAngle);
+        yValuePath.arcTo(Rect.fromCircle(center: _center, radius: outerRadius), degreesToRadians(_startAngle),
+            degreesToRadians(_endAngle - _startAngle), true);
+        yValuePath.arcTo(Rect.fromCircle(center: _center, radius: innerRadius), degreesToRadians(_endAngle),
+            degreesToRadians(_startAngle) - degreesToRadians(_endAngle), false);
       } else {
-        yValuePath = calculateRoundedCornerArcPath(cornerStyle, innerRadius,
-            outerRadius, _center, startAngle, endAngle);
+        yValuePath =
+            calculateRoundedCornerArcPath(cornerStyle, innerRadius, outerRadius, _center, startAngle, endAngle);
       }
 
       if (degree > 360 && endAngle >= startAngle + 180) {
@@ -681,12 +619,10 @@ class RadialBarSegment<T, D> extends ChartSegment {
     }
   }
 
-  void _calculateShadowPath(
-      double endAngle, double degree, double innerRadius, double outerRadius) {
+  void _calculateShadowPath(double endAngle, double degree, double innerRadius, double outerRadius) {
     if (degree > 360) {
       final double actualRadius = (innerRadius - outerRadius).abs() / 2;
-      final Offset midPoint =
-          calculateOffset(endAngle, (innerRadius + outerRadius) / 2, _center);
+      final Offset midPoint = calculateOffset(endAngle, (innerRadius + outerRadius) / 2, _center);
       if (actualRadius > 0) {
         double shadowWidth = actualRadius * 0.2;
         const double sigmaRadius = 3 * 0.57735 + 0.5;
@@ -698,36 +634,25 @@ class RadialBarSegment<T, D> extends ChartSegment {
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, sigmaRadius);
         _overFilledPaint = Paint()..isAntiAlias = true;
         double newEndAngle = endAngle;
-        if (series.cornerStyle == CornerStyle.endCurve ||
-            series.cornerStyle == CornerStyle.bothCurve) {
-          newEndAngle =
-              (newEndAngle > 360 ? newEndAngle : (newEndAngle - 360)) + 11.5;
+        if (series.cornerStyle == CornerStyle.endCurve || series.cornerStyle == CornerStyle.bothCurve) {
+          newEndAngle = (newEndAngle > 360 ? newEndAngle : (newEndAngle - 360)) + 11.5;
           shadowPath
             ..reset()
-            ..addArc(
-                Rect.fromCircle(
-                    center: midPoint,
-                    radius: actualRadius - (actualRadius * 0.05)),
-                degreesToRadians(newEndAngle + 22.5),
-                degreesToRadians(118.125));
+            ..addArc(Rect.fromCircle(center: midPoint, radius: actualRadius - (actualRadius * 0.05)),
+                degreesToRadians(newEndAngle + 22.5), degreesToRadians(118.125));
           overFilledPath = Path()
-            ..addArc(Rect.fromCircle(center: midPoint, radius: actualRadius),
-                degreesToRadians(newEndAngle - 20), degreesToRadians(225));
-        } else if (series.cornerStyle == CornerStyle.bothFlat ||
-            series.cornerStyle == CornerStyle.startCurve) {
+            ..addArc(Rect.fromCircle(center: midPoint, radius: actualRadius), degreesToRadians(newEndAngle - 20),
+                degreesToRadians(225));
+        } else if (series.cornerStyle == CornerStyle.bothFlat || series.cornerStyle == CornerStyle.startCurve) {
           _overFilledPaint!
             ..style = PaintingStyle.stroke
             ..strokeWidth = series.borderWidth;
 
-          final Offset shadowStartPoint = calculateOffset(
-              newEndAngle, outerRadius - (outerRadius * 0.025), _center);
-          final Offset shadowEndPoint = calculateOffset(
-              newEndAngle, innerRadius + (innerRadius * 0.025), _center);
+          final Offset shadowStartPoint = calculateOffset(newEndAngle, outerRadius - (outerRadius * 0.025), _center);
+          final Offset shadowEndPoint = calculateOffset(newEndAngle, innerRadius + (innerRadius * 0.025), _center);
 
-          final Offset overFilledStartPoint =
-              calculateOffset(newEndAngle - 2, outerRadius, _center);
-          final Offset overFilledEndPoint =
-              calculateOffset(newEndAngle - 2, innerRadius, _center);
+          final Offset overFilledStartPoint = calculateOffset(newEndAngle - 2, outerRadius, _center);
+          final Offset overFilledEndPoint = calculateOffset(newEndAngle - 2, innerRadius, _center);
 
           shadowPath
             ..reset()
@@ -765,13 +690,10 @@ class RadialBarSegment<T, D> extends ChartSegment {
 
   @override
   TooltipInfo? tooltipInfo({Offset? position, int? pointIndex}) {
-    final ChartPoint<D> point = ChartPoint<D>(
-        x: series.circularXValues[currentSegmentIndex],
-        y: series.circularYValues[currentSegmentIndex]);
-    final Offset preferredPos = series.localToGlobal(calculateOffset(
-        (_startAngle + _endAngle) / 2,
-        (_innerRadius + _outerRadius) / 2,
-        _center));
+    final ChartPoint<D> point =
+        ChartPoint<D>(x: series.circularXValues[currentSegmentIndex], y: series.circularYValues[currentSegmentIndex]);
+    final Offset preferredPos = series
+        .localToGlobal(calculateOffset((_startAngle + _endAngle) / 2, (_innerRadius + _outerRadius) / 2, _center));
     return ChartTooltipInfo<T, D>(
       primaryPosition: preferredPos,
       secondaryPosition: preferredPos,

@@ -29,9 +29,9 @@ Color getSaturatedColor(Color color, [Color mix = Colors.black]) {
   return color == Colors.transparent
       ? color
       : Color.fromRGBO(
-          ((1 - factor) * (color.r * 255) + factor * (mix.r * 255)).toInt(),
-          ((1 - factor) * (color.g * 255) + factor * (mix.g * 255)).toInt(),
-          ((1 - factor) * (color.b * 255) + factor * (mix.b * 255)).toInt(),
+          ((1 - factor) * (color.red * 255) + factor * (mix.red * 255)).toInt(),
+          ((1 - factor) * (color.green * 255) + factor * (mix.green * 255)).toInt(),
+          ((1 - factor) * (color.blue * 255) + factor * (mix.blue * 255)).toInt(),
           1);
 }
 

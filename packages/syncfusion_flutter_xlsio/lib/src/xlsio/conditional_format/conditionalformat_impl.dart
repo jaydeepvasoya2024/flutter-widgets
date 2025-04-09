@@ -809,9 +809,9 @@ class ConditionalFormatImpl implements ConditionalFormat {
   }
 
   int rgbValue(Color color) {
-    return ((color.a * 255).toInt() << 24) |
-        ((color.r * 255).toInt() << 16) |
-        ((color.g * 255).toInt() << 8) |
-        (color.b * 255).toInt();
+    return ((color.alpha * 255).toInt() << 24) |
+        ((color.red * 255).toInt() << 16) |
+        ((color.green * 255).toInt() << 8) |
+        (color.blue * 255).toInt();
   }
 }

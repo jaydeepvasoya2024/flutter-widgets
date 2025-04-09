@@ -19,8 +19,7 @@ enum _VectorFillType { inner, outer }
 double _getCurrentWidth(double width, MapController controller) {
   return controller.layerType == LayerType.tile
       ? width / controller.tileCurrentLevelDetails.scale
-      : width /
-          (controller.gesture == Gesture.scale ? controller.localScale : 1);
+      : width / (controller.gesture == Gesture.scale ? controller.localScale : 1);
 }
 
 Offset _getTranslation(MapController controller) {
@@ -40,14 +39,12 @@ Offset _getScaledOffset(Offset offset, MapController controller) {
 }
 
 // To calculate a point along a line with a radius away from another point.
-Offset _getPointAlongLineWithCap(
-    Offset start, Offset end, double capRadius, bool canUpdateStartPoint) {
+Offset _getPointAlongLineWithCap(Offset start, Offset end, double capRadius, bool canUpdateStartPoint) {
   // Calculate distance between two points.
   // i.e, d = sqrt[(x1 - x2)^2 + (y1 - y2)^2].
   // Here, x1 = end point's dx value, x2 = start point's dx value,
   // y1 = end point's dy value and y2 = start point's dy value.
-  final double lineLength = sqrt((end.dx - start.dx) * (end.dx - start.dx) +
-      (end.dy - start.dy) * (end.dy - start.dy));
+  final double lineLength = sqrt((end.dx - start.dx) * (end.dx - start.dx) + (end.dy - start.dy) * (end.dy - start.dy));
   if (canUpdateStartPoint) {
     // Calculated the center point, if the distance between the two points
     // is less than the cap diameter.
@@ -61,8 +58,7 @@ Offset _getPointAlongLineWithCap(
     // Here, x1 = start point's dx value, x2 = end point's dx value,
     // y1 = start point's dy value, y2 = end point's dy value
     // and d = startPointDifference.
-    return Offset(
-        (1 - startPointDifference) * start.dx + startPointDifference * end.dx,
+    return Offset((1 - startPointDifference) * start.dx + startPointDifference * end.dx,
         (1 - startPointDifference) * start.dy + startPointDifference * end.dy);
   } else {
     // Returned the start point, if the distance between the two points
@@ -77,19 +73,13 @@ Offset _getPointAlongLineWithCap(
     // Here, x1 = start point's dx value, x2 = end point's dx value,
     // y1 = start point's dy value, y2 = end point's dy value
     // and d = endPointDifference.
-    return Offset(
-        (1 - endPointDifference) * start.dx + endPointDifference * end.dx,
+    return Offset((1 - endPointDifference) * start.dx + endPointDifference * end.dx,
         (1 - endPointDifference) * start.dy + endPointDifference * end.dy);
   }
 }
 
 void _drawInvertedPath(
-    PaintingContext context,
-    Path path,
-    MapController controller,
-    Paint fillPaint,
-    Paint strokePaint,
-    Offset offset) {
+    PaintingContext context, Path path, MapController controller, Paint fillPaint, Paint strokePaint, Offset offset) {
   // Path.combine option is not supported in web platform, so we have obtained
   // inverted rendering using [Path.fillType] for web and [Path.combine] for
   // other platforms.
@@ -114,11 +104,9 @@ void _drawInvertedPath(
   }
 }
 
-Color _getHoverColor(
-    Color? elementColor, Color layerColor, SfMapsThemeData themeData) {
+Color _getHoverColor(Color? elementColor, Color layerColor, SfMapsThemeData themeData) {
   final Color color = elementColor ?? layerColor;
-  return themeData.shapeHoverColor != null &&
-          themeData.shapeHoverColor != Colors.transparent
+  return themeData.shapeHoverColor != null && themeData.shapeHoverColor != Colors.transparent
       ? themeData.shapeHoverColor!
       : getSaturatedColor(color);
 }
@@ -675,14 +663,11 @@ class MapLineLayer extends MapVectorLayer {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     if (lines.isNotEmpty) {
-      final _DebugVectorShapeTree pointerTreeNode =
-          _DebugVectorShapeTree(lines);
+      final _DebugVectorShapeTree pointerTreeNode = _DebugVectorShapeTree(lines);
       properties.add(pointerTreeNode.toDiagnosticsNode());
     }
-    properties
-        .add(ObjectFlagProperty<Animation<double>>.has('animation', animation));
-    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has(
-        'tooltip', tooltipBuilder));
+    properties.add(ObjectFlagProperty<Animation<double>>.has('animation', animation));
+    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has('tooltip', tooltipBuilder));
 
     properties.add(DiagnosticsProperty<List<double>>('dashArray', dashArray));
     if (color != null) {
@@ -718,8 +703,7 @@ class _MapLineLayer extends StatefulWidget {
   _MapLineLayerState createState() => _MapLineLayerState();
 }
 
-class _MapLineLayerState extends State<_MapLineLayer>
-    with SingleTickerProviderStateMixin {
+class _MapLineLayerState extends State<_MapLineLayer> with SingleTickerProviderStateMixin {
   MapController? _controller;
   late AnimationController _hoverAnimationController;
   late SfMapsThemeData _mapsThemeData;
@@ -728,15 +712,13 @@ class _MapLineLayerState extends State<_MapLineLayer>
   @override
   void initState() {
     super.initState();
-    _hoverAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
+    _hoverAnimationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
   }
 
   @override
   void didChangeDependencies() {
     if (_controller == null) {
-      ancestor = context
-          .dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
+      ancestor = context.dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
       _controller = ancestor.controller;
     }
     super.didChangeDependencies();
@@ -763,8 +745,8 @@ class _MapLineLayerState extends State<_MapLineLayer>
       animation: widget.animation,
       color: widget.color ??
           (themeData.brightness == Brightness.light
-              ? themeData.colorScheme.onSurface.withValues(alpha: 0.44)
-              : themeData.colorScheme.onSurface.withValues(alpha: 0.78)),
+              ? themeData.colorScheme.onSurface.withOpacity(0.44)
+              : themeData.colorScheme.onSurface.withOpacity(0.78)),
       width: widget.width,
       strokeCap: widget.strokeCap,
       dashArray: widget.dashArray,
@@ -873,8 +855,7 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
     selectedLinePoints = <Offset>[];
     _forwardHoverColor = ColorTween();
     _reverseHoverColor = ColorTween();
-    _hoverColorAnimation = CurvedAnimation(
-        parent: hoverAnimationController, curve: Curves.easeInOut);
+    _hoverColorAnimation = CurvedAnimation(parent: hoverAnimationController, curve: Curves.easeInOut);
     linesInList = _lines.toList();
     _tapGestureRecognizer = TapGestureRecognizer()..onTapUp = _handleTapUp;
   }
@@ -987,8 +968,7 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
 
   void _updateHoverItemTween() {
     if (isDesktop) {
-      final Color hoverStrokeColor =
-          _getHoverColor(selectedLine?.color, _color, _themeData);
+      final Color hoverStrokeColor = _getHoverColor(selectedLine?.color, _color, _themeData);
       final Color beginColor = selectedLine?.color ?? _color;
 
       if (_previousHoverItem != null) {
@@ -1015,13 +995,10 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
       _currentHoverItem = null;
       _updateHoverItemTween();
     }
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
       tooltipRenderer.hideTooltip();
     }
   }
@@ -1034,25 +1011,18 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
     markNeedsPaint();
   }
 
-  void _handleInteraction(Offset position,
-      [PointerKind kind = PointerKind.touch]) {
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
+  void _handleInteraction(Offset position, [PointerKind kind = PointerKind.touch]) {
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
       if (selectedLinePoints != null && selectedLinePoints!.isNotEmpty) {
         final Offset startPoint = selectedLinePoints![0];
         final Offset endPoint = selectedLinePoints![1];
         final Offset lineMidPosition = Offset(
-            min(startPoint.dx, endPoint.dx) +
-                ((startPoint.dx - endPoint.dx).abs() / 2),
-            min(startPoint.dy, endPoint.dy) +
-                ((startPoint.dy - endPoint.dy).abs() / 2));
-        position =
-            !paintBounds.contains(lineMidPosition) ? position : lineMidPosition;
+            min(startPoint.dx, endPoint.dx) + ((startPoint.dx - endPoint.dx).abs() / 2),
+            min(startPoint.dy, endPoint.dy) + ((startPoint.dy - endPoint.dy).abs() / 2));
+        position = !paintBounds.contains(lineMidPosition) ? position : lineMidPosition;
         tooltipRenderer.paintTooltip(
           selectedIndex,
           null,
@@ -1086,22 +1056,17 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
 
   @override
   bool hitTestSelf(Offset position) {
-    if ((_animation != null && !_animation!.isCompleted) ||
-        linesInList == null ||
-        linesInList!.isEmpty) {
+    if ((_animation != null && !_animation!.isCompleted) || linesInList == null || linesInList!.isEmpty) {
       return false;
     }
 
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = _getTranslation(_controller!);
     int index = linesInList!.length - 1;
     for (final MapLine line in linesInList!.reversed) {
       final double width = line.width ?? _width;
       if (line.onTap != null || _tooltipBuilder != null || isDesktop) {
-        final double actualTouchTolerance =
-            width < touchTolerance ? touchTolerance : width / 2;
+        final double actualTouchTolerance = width < touchTolerance ? touchTolerance : width / 2;
         Offset startPoint = pixelFromLatLng(
           line.from.latitude,
           line.from.longitude,
@@ -1119,8 +1084,7 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
         startPoint = _getScaledOffset(startPoint, _controller!);
         endPoint = _getScaledOffset(endPoint, _controller!);
 
-        if (_liesPointOnLine(
-            startPoint, endPoint, actualTouchTolerance, position)) {
+        if (_liesPointOnLine(startPoint, endPoint, actualTouchTolerance, position)) {
           selectedLine = line;
           selectedIndex = index;
           selectedLinePoints!
@@ -1149,8 +1113,7 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
 
       // ignore: avoid_as
       final RenderBox renderBox = context.findRenderObject()! as RenderBox;
-      _handleInteraction(
-          renderBox.globalToLocal(event.position), PointerKind.hover);
+      _handleInteraction(renderBox.globalToLocal(event.position), PointerKind.hover);
     }
   }
 
@@ -1206,9 +1169,7 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke;
     Path path = Path();
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = _getTranslation(_controller!);
     _controller!.applyTransform(context, offset, true);
 
@@ -1227,15 +1188,12 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
         translationOffset,
         _controller!.shapeLayerSizeFactor,
       );
-      final double strokeWidth =
-          _getCurrentWidth(line.width ?? _width, _controller!);
+      final double strokeWidth = _getCurrentWidth(line.width ?? _width, _controller!);
       final StrokeCap strokeCap = line.strokeCap ?? _strokeCap;
       final bool hasCap = strokeCap != StrokeCap.butt;
       if (hasCap) {
-        startPoint = _getPointAlongLineWithCap(
-            startPoint, endPoint, strokeWidth / 2, true);
-        endPoint = _getPointAlongLineWithCap(
-            startPoint, endPoint, strokeWidth / 2, false);
+        startPoint = _getPointAlongLineWithCap(startPoint, endPoint, strokeWidth / 2, true);
+        endPoint = _getPointAlongLineWithCap(startPoint, endPoint, strokeWidth / 2, false);
       }
 
       if (_previousHoverItem != null &&
@@ -1263,8 +1221,7 @@ class _RenderMapLine extends RenderBox implements MouseTrackerAnnotation {
 
       if (line.dashArray != null) {
         assert(line.dashArray!.length >= 2 && line.dashArray!.length.isEven);
-        _drawDashedLine(context.canvas, line.dashArray!, paint, path,
-            hasCap ? strokeWidth / 2 : 0);
+        _drawDashedLine(context.canvas, line.dashArray!, paint, path, hasCap ? strokeWidth / 2 : 0);
       } else {
         _drawDashedLine(context.canvas, _dashArray, paint, path);
       }
@@ -1746,10 +1703,8 @@ class MapArcLayer extends MapVectorLayer {
       final _DebugVectorShapeTree pointerTreeNode = _DebugVectorShapeTree(arcs);
       properties.add(pointerTreeNode.toDiagnosticsNode());
     }
-    properties
-        .add(ObjectFlagProperty<Animation<double>>.has('animation', animation));
-    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has(
-        'tooltip', tooltipBuilder));
+    properties.add(ObjectFlagProperty<Animation<double>>.has('animation', animation));
+    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has('tooltip', tooltipBuilder));
     properties.add(DiagnosticsProperty<List<double>>('dashArray', dashArray));
     if (color != null) {
       properties.add(ColorProperty('color', color));
@@ -1781,8 +1736,7 @@ class _MapArcLayer extends StatefulWidget {
   _MapArcLayerState createState() => _MapArcLayerState();
 }
 
-class _MapArcLayerState extends State<_MapArcLayer>
-    with SingleTickerProviderStateMixin {
+class _MapArcLayerState extends State<_MapArcLayer> with SingleTickerProviderStateMixin {
   MapController? _controller;
   late AnimationController _hoverAnimationController;
   late SfMapsThemeData _mapsThemeData;
@@ -1791,15 +1745,13 @@ class _MapArcLayerState extends State<_MapArcLayer>
   @override
   void initState() {
     super.initState();
-    _hoverAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
+    _hoverAnimationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
   }
 
   @override
   void didChangeDependencies() {
     if (_controller == null) {
-      ancestor = context
-          .dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
+      ancestor = context.dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
       _controller = ancestor.controller;
     }
     super.didChangeDependencies();
@@ -1826,8 +1778,8 @@ class _MapArcLayerState extends State<_MapArcLayer>
       animation: widget.animation,
       color: widget.color ??
           (themeData.brightness == Brightness.light
-              ? themeData.colorScheme.onSurface.withValues(alpha: 0.44)
-              : themeData.colorScheme.onSurface.withValues(alpha: 0.78)),
+              ? themeData.colorScheme.onSurface.withOpacity(0.44)
+              : themeData.colorScheme.onSurface.withOpacity(0.78)),
       width: widget.width,
       dashArray: widget.dashArray,
       tooltipBuilder: widget.tooltipBuilder,
@@ -1928,8 +1880,7 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
         _themeData = themeData {
     _forwardHoverColor = ColorTween();
     _reverseHoverColor = ColorTween();
-    _hoverColorAnimation = CurvedAnimation(
-        parent: hoverAnimationController, curve: Curves.easeInOut);
+    _hoverColorAnimation = CurvedAnimation(parent: hoverAnimationController, curve: Curves.easeInOut);
     arcsInList = _arcs.toList();
     _tapGestureRecognizer = TapGestureRecognizer()..onTapUp = _handleTapUp;
   }
@@ -2031,8 +1982,7 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
 
   void _updateHoverItemTween() {
     if (isDesktop) {
-      final Color hoverStrokeColor =
-          _getHoverColor(selectedArc.color, _color, _themeData);
+      final Color hoverStrokeColor = _getHoverColor(selectedArc.color, _color, _themeData);
       final Color beginColor = selectedArc.color ?? _color;
 
       if (_previousHoverItem != null) {
@@ -2060,13 +2010,10 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
       _updateHoverItemTween();
     }
 
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
       tooltipRenderer.hideTooltip();
     }
   }
@@ -2098,15 +2045,11 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
   // ignore: override_on_non_overriding_member
   bool get validForMouseTracker => true;
 
-  void _handleInteraction(Offset position,
-      [PointerKind kind = PointerKind.touch]) {
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
+  void _handleInteraction(Offset position, [PointerKind kind = PointerKind.touch]) {
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
       tooltipRenderer.paintTooltip(
         selectedIndex,
         null,
@@ -2120,22 +2063,17 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
 
   @override
   bool hitTestSelf(Offset position) {
-    if ((_animation != null && !_animation!.isCompleted) ||
-        arcsInList == null ||
-        arcsInList!.isEmpty) {
+    if ((_animation != null && !_animation!.isCompleted) || arcsInList == null || arcsInList!.isEmpty) {
       return false;
     }
 
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = _getTranslation(_controller!);
     int index = arcsInList!.length - 1;
     for (final MapArc arc in arcsInList!.reversed) {
       final double width = arc.width ?? _width;
       if (arc.onTap != null || _tooltipBuilder != null || isDesktop) {
-        final double actualTouchTolerance =
-            width < touchTolerance ? touchTolerance : width / 2;
+        final double actualTouchTolerance = width < touchTolerance ? touchTolerance : width / 2;
         Offset startPoint = pixelFromLatLng(
           arc.from.latitude,
           arc.from.longitude,
@@ -2152,11 +2090,10 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
         );
         startPoint = _getScaledOffset(startPoint, _controller!);
         endPoint = _getScaledOffset(endPoint, _controller!);
-        final Offset controlPoint = _calculateControlPoint(
-            startPoint, endPoint, arc.heightFactor, arc.controlPointFactor);
+        final Offset controlPoint =
+            _calculateControlPoint(startPoint, endPoint, arc.heightFactor, arc.controlPointFactor);
 
-        if (_liesPointOnArc(startPoint, endPoint, controlPoint,
-            actualTouchTolerance, position)) {
+        if (_liesPointOnArc(startPoint, endPoint, controlPoint, actualTouchTolerance, position)) {
           selectedArc = arc;
           selectedIndex = index;
           return true;
@@ -2181,8 +2118,7 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
 
       // ignore: avoid_as
       final RenderBox renderBox = context.findRenderObject()! as RenderBox;
-      _handleInteraction(
-          renderBox.globalToLocal(event.position), PointerKind.hover);
+      _handleInteraction(renderBox.globalToLocal(event.position), PointerKind.hover);
     }
   }
 
@@ -2238,9 +2174,7 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke;
     Path path = Path();
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = _getTranslation(_controller!);
     _controller!.applyTransform(context, offset, true);
 
@@ -2259,16 +2193,12 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
         translationOffset,
         _controller!.shapeLayerSizeFactor,
       );
-      final Offset controlPoint = _calculateControlPoint(
-          startPoint, endPoint, arc.heightFactor, arc.controlPointFactor);
+      final Offset controlPoint =
+          _calculateControlPoint(startPoint, endPoint, arc.heightFactor, arc.controlPointFactor);
 
-      if (_previousHoverItem != null &&
-          _previousHoverItem == arc &&
-          _themeData.shapeHoverColor != Colors.transparent) {
+      if (_previousHoverItem != null && _previousHoverItem == arc && _themeData.shapeHoverColor != Colors.transparent) {
         paint.color = _reverseHoverColor.evaluate(_hoverColorAnimation)!;
-      } else if (_currentHoverItem != null &&
-          selectedArc == arc &&
-          _themeData.shapeHoverColor != Colors.transparent) {
+      } else if (_currentHoverItem != null && selectedArc == arc && _themeData.shapeHoverColor != Colors.transparent) {
         paint.color = _forwardHoverColor.evaluate(_hoverColorAnimation)!;
       } else {
         paint.color = arc.color ?? _color;
@@ -2278,8 +2208,7 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
       path
         ..reset()
         ..moveTo(startPoint.dx, startPoint.dy)
-        ..quadraticBezierTo(
-            controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
+        ..quadraticBezierTo(controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
       if (_animation != null) {
         path = _getAnimatedPath(path, _animation!);
       }
@@ -2294,8 +2223,7 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
     context.canvas.restore();
   }
 
-  Offset _calculateControlPoint(Offset startPoint, Offset endPoint,
-      double heightFactor, double controlPointFactor) {
+  Offset _calculateControlPoint(Offset startPoint, Offset endPoint, double heightFactor, double controlPointFactor) {
     final double width = endPoint.dx - startPoint.dx;
     final double height = endPoint.dy - startPoint.dy;
     // Calculating curve height from base line based on the value of
@@ -2306,18 +2234,13 @@ class _RenderMapArc extends RenderBox implements MouseTrackerAnnotation {
     // Calculating curve bend point based on the [MapArc.controlPointFactor]
     // value. Converting factor value into pixel value using this formula
     // (((1 − factor)𝑥0 + factor * 𝑥1),((1 − factor)𝑦0 + factor * 𝑦1))
-    Offset controlPoint = Offset(
-        (1 - controlPointFactor) * startPoint.dx +
-            controlPointFactor * endPoint.dx,
-        (1 - controlPointFactor) * startPoint.dy +
-            controlPointFactor * endPoint.dy);
+    Offset controlPoint = Offset((1 - controlPointFactor) * startPoint.dx + controlPointFactor * endPoint.dx,
+        (1 - controlPointFactor) * startPoint.dy + controlPointFactor * endPoint.dy);
 
     if (startPoint.dx < endPoint.dx) {
-      controlPoint = Offset(controlPoint.dx + horizontalDistance,
-          controlPoint.dy - verticalDistance);
+      controlPoint = Offset(controlPoint.dx + horizontalDistance, controlPoint.dy - verticalDistance);
     } else {
-      controlPoint = Offset(controlPoint.dx - horizontalDistance,
-          controlPoint.dy + verticalDistance);
+      controlPoint = Offset(controlPoint.dx - horizontalDistance, controlPoint.dy + verticalDistance);
     }
     return controlPoint;
   }
@@ -2820,14 +2743,11 @@ class MapPolylineLayer extends MapVectorLayer {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     if (polylines.isNotEmpty) {
-      final _DebugVectorShapeTree pointerTreeNode =
-          _DebugVectorShapeTree(polylines);
+      final _DebugVectorShapeTree pointerTreeNode = _DebugVectorShapeTree(polylines);
       properties.add(pointerTreeNode.toDiagnosticsNode());
     }
-    properties
-        .add(ObjectFlagProperty<Animation<double>>.has('animation', animation));
-    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has(
-        'tooltip', tooltipBuilder));
+    properties.add(ObjectFlagProperty<Animation<double>>.has('animation', animation));
+    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has('tooltip', tooltipBuilder));
     properties.add(DiagnosticsProperty<List<double>>('dashArray', dashArray));
     if (color != null) {
       properties.add(ColorProperty('color', color));
@@ -2862,8 +2782,7 @@ class _MapPolylineLayer extends StatefulWidget {
   _MapPolylineLayerState createState() => _MapPolylineLayerState();
 }
 
-class _MapPolylineLayerState extends State<_MapPolylineLayer>
-    with SingleTickerProviderStateMixin {
+class _MapPolylineLayerState extends State<_MapPolylineLayer> with SingleTickerProviderStateMixin {
   MapController? _controller;
   late AnimationController _hoverAnimationController;
   late SfMapsThemeData _mapsThemeData;
@@ -2872,15 +2791,13 @@ class _MapPolylineLayerState extends State<_MapPolylineLayer>
   @override
   void initState() {
     super.initState();
-    _hoverAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
+    _hoverAnimationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
   }
 
   @override
   void didChangeDependencies() {
     if (_controller == null) {
-      ancestor = context
-          .dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
+      ancestor = context.dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
       _controller = ancestor.controller;
     }
     super.didChangeDependencies();
@@ -2907,8 +2824,8 @@ class _MapPolylineLayerState extends State<_MapPolylineLayer>
       animation: widget.animation,
       color: widget.color ??
           (themeData.brightness == Brightness.light
-              ? themeData.colorScheme.onSurface.withValues(alpha: 0.44)
-              : themeData.colorScheme.onSurface.withValues(alpha: 0.78)),
+              ? themeData.colorScheme.onSurface.withOpacity(0.44)
+              : themeData.colorScheme.onSurface.withOpacity(0.78)),
       width: widget.width,
       strokeCap: widget.strokeCap,
       dashArray: widget.dashArray,
@@ -2974,8 +2891,7 @@ class _MapPolylineLayerRenderObject extends LeafRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, _RenderMapPolyline renderObject) {
+  void updateRenderObject(BuildContext context, _RenderMapPolyline renderObject) {
     renderObject
       ..polylines = polylines
       ..animation = animation
@@ -3017,8 +2933,7 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
         _themeData = themeData {
     _forwardHoverColor = ColorTween();
     _reverseHoverColor = ColorTween();
-    _hoverColorAnimation = CurvedAnimation(
-        parent: hoverAnimationController, curve: Curves.easeInOut);
+    _hoverColorAnimation = CurvedAnimation(parent: hoverAnimationController, curve: Curves.easeInOut);
     polylinesInList = _polylines.toList();
     _tapGestureRecognizer = TapGestureRecognizer()..onTapUp = _handleTapUp;
   }
@@ -3129,8 +3044,7 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
 
   void _updateHoverItemTween() {
     if (isDesktop) {
-      final Color hoverStrokeColor =
-          _getHoverColor(selectedPolyline.color, _color, _themeData);
+      final Color hoverStrokeColor = _getHoverColor(selectedPolyline.color, _color, _themeData);
       final Color beginColor = selectedPolyline.color ?? _color;
 
       if (_previousHoverItem != null) {
@@ -3158,13 +3072,10 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
       _updateHoverItemTween();
     }
 
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
       tooltipRenderer.hideTooltip();
     }
   }
@@ -3177,15 +3088,11 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
     markNeedsPaint();
   }
 
-  void _handleInteraction(Offset position,
-      [PointerKind kind = PointerKind.touch]) {
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
+  void _handleInteraction(Offset position, [PointerKind kind = PointerKind.touch]) {
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
       tooltipRenderer.paintTooltip(
         selectedIndex,
         null,
@@ -3218,15 +3125,11 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
 
   @override
   bool hitTestSelf(Offset position) {
-    if ((_animation != null && !_animation!.isCompleted) ||
-        polylinesInList == null ||
-        polylinesInList!.isEmpty) {
+    if ((_animation != null && !_animation!.isCompleted) || polylinesInList == null || polylinesInList!.isEmpty) {
       return false;
     }
 
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = _getTranslation(_controller!);
     bool tappedOnLine = false;
     int index = polylinesInList!.length - 1;
@@ -3236,8 +3139,7 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
       }
       final double width = polyline.width ?? _width;
       if (polyline.onTap != null || _tooltipBuilder != null || isDesktop) {
-        final double actualTouchTolerance =
-            width < touchTolerance ? touchTolerance : width / 2;
+        final double actualTouchTolerance = width < touchTolerance ? touchTolerance : width / 2;
 
         for (int j = 0; j < polyline.points.length - 1; j++) {
           final MapLatLng currentPoint = polyline.points[j];
@@ -3259,8 +3161,7 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
           startPoint = _getScaledOffset(startPoint, _controller!);
           endPoint = _getScaledOffset(endPoint, _controller!);
 
-          if (_liesPointOnLine(
-              startPoint, endPoint, actualTouchTolerance, position)) {
+          if (_liesPointOnLine(startPoint, endPoint, actualTouchTolerance, position)) {
             tappedOnLine = true;
             selectedPolyline = polyline;
             selectedIndex = index;
@@ -3319,8 +3220,7 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
 
       // ignore: avoid_as
       final RenderBox renderBox = context.findRenderObject()! as RenderBox;
-      _handleInteraction(
-          renderBox.globalToLocal(event.position), PointerKind.hover);
+      _handleInteraction(renderBox.globalToLocal(event.position), PointerKind.hover);
     }
   }
 
@@ -3342,78 +3242,50 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke;
     Path path = Path();
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = _getTranslation(_controller!);
     _controller!.applyTransform(context, offset, true);
     for (final MapPolyline polyline in polylines) {
       final int polylinePointsLength = polyline.points.length;
       final MapLatLng startCoordinate = polyline.points[0];
       final MapLatLng endCoordinate = polyline.points[polylinePointsLength - 1];
-      final double strokeWidth =
-          _getCurrentWidth(polyline.width ?? _width, _controller!);
+      final double strokeWidth = _getCurrentWidth(polyline.width ?? _width, _controller!);
       final StrokeCap strokeCap = polyline.strokeCap ?? _strokeCap;
       final bool hasCap = strokeCap != StrokeCap.butt;
-      Offset startPoint = pixelFromLatLng(
-          startCoordinate.latitude,
-          startCoordinate.longitude,
-          boxSize,
-          translationOffset,
-          _controller!.shapeLayerSizeFactor);
-      Offset endPoint = pixelFromLatLng(
-          endCoordinate.latitude,
-          endCoordinate.longitude,
-          boxSize,
-          translationOffset,
+      Offset startPoint = pixelFromLatLng(startCoordinate.latitude, startCoordinate.longitude, boxSize,
+          translationOffset, _controller!.shapeLayerSizeFactor);
+      Offset endPoint = pixelFromLatLng(endCoordinate.latitude, endCoordinate.longitude, boxSize, translationOffset,
           _controller!.shapeLayerSizeFactor);
 
       if (hasCap) {
-        final MapLatLng? secondCoordinate =
-            polylinePointsLength > 1 ? polyline.points[1] : null;
-        final MapLatLng? beforeEndCoordinate = polylinePointsLength > 1
-            ? polyline.points[polylinePointsLength - 2]
-            : null;
+        final MapLatLng? secondCoordinate = polylinePointsLength > 1 ? polyline.points[1] : null;
+        final MapLatLng? beforeEndCoordinate =
+            polylinePointsLength > 1 ? polyline.points[polylinePointsLength - 2] : null;
         if (secondCoordinate != null) {
-          final Offset secondPoint = pixelFromLatLng(
-              secondCoordinate.latitude,
-              secondCoordinate.longitude,
-              boxSize,
-              translationOffset,
-              _controller!.shapeLayerSizeFactor);
-          startPoint = _getPointAlongLineWithCap(
-              startPoint, secondPoint, strokeWidth / 2, true);
+          final Offset secondPoint = pixelFromLatLng(secondCoordinate.latitude, secondCoordinate.longitude, boxSize,
+              translationOffset, _controller!.shapeLayerSizeFactor);
+          startPoint = _getPointAlongLineWithCap(startPoint, secondPoint, strokeWidth / 2, true);
         }
 
         if (beforeEndCoordinate != null) {
-          final Offset beforeEndPoint = pixelFromLatLng(
-              beforeEndCoordinate.latitude,
-              beforeEndCoordinate.longitude,
-              boxSize,
-              translationOffset,
-              _controller!.shapeLayerSizeFactor);
-          endPoint = _getPointAlongLineWithCap(
-              beforeEndPoint, endPoint, strokeWidth / 2, false);
+          final Offset beforeEndPoint = pixelFromLatLng(beforeEndCoordinate.latitude, beforeEndCoordinate.longitude,
+              boxSize, translationOffset, _controller!.shapeLayerSizeFactor);
+          endPoint = _getPointAlongLineWithCap(beforeEndPoint, endPoint, strokeWidth / 2, false);
         }
       }
 
       paint
         ..strokeWidth = strokeWidth
         ..strokeCap = strokeCap
-        ..strokeJoin =
-            strokeCap == StrokeCap.round ? StrokeJoin.round : StrokeJoin.miter;
+        ..strokeJoin = strokeCap == StrokeCap.round ? StrokeJoin.round : StrokeJoin.miter;
       path
         ..reset()
         ..moveTo(startPoint.dx, startPoint.dy);
 
       for (int j = 1; j < polylinePointsLength; j++) {
         final MapLatLng nextCoordinate = polyline.points[j];
-        final Offset nextPoint = pixelFromLatLng(
-            nextCoordinate.latitude,
-            nextCoordinate.longitude,
-            boxSize,
-            translationOffset,
-            _controller!.shapeLayerSizeFactor);
+        final Offset nextPoint = pixelFromLatLng(nextCoordinate.latitude, nextCoordinate.longitude, boxSize,
+            translationOffset, _controller!.shapeLayerSizeFactor);
         if (j < polylinePointsLength - 1) {
           path.lineTo(nextPoint.dx, nextPoint.dy);
         } else {
@@ -3438,10 +3310,8 @@ class _RenderMapPolyline extends RenderBox implements MouseTrackerAnnotation {
       }
 
       if (polyline.dashArray != null) {
-        assert(polyline.dashArray!.length >= 2 &&
-            polyline.dashArray!.length.isEven);
-        _drawDashedLine(context.canvas, polyline.dashArray!, paint, path,
-            hasCap ? strokeWidth / 2 : 0);
+        assert(polyline.dashArray!.length >= 2 && polyline.dashArray!.length.isEven);
+        _drawDashedLine(context.canvas, polyline.dashArray!, paint, path, hasCap ? strokeWidth / 2 : 0);
       } else {
         _drawDashedLine(context.canvas, _dashArray, paint, path);
       }
@@ -3825,12 +3695,10 @@ class MapPolygonLayer extends MapVectorLayer {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     if (polygons.isNotEmpty) {
-      final _DebugVectorShapeTree pointerTreeNode =
-          _DebugVectorShapeTree(polygons);
+      final _DebugVectorShapeTree pointerTreeNode = _DebugVectorShapeTree(polygons);
       properties.add(pointerTreeNode.toDiagnosticsNode());
     }
-    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has(
-        'tooltip', tooltipBuilder));
+    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has('tooltip', tooltipBuilder));
     if (color != null) {
       properties.add(ColorProperty('color', color));
     }
@@ -3866,8 +3734,7 @@ class _MapPolygonLayer extends StatefulWidget {
   _MapPolygonLayerState createState() => _MapPolygonLayerState();
 }
 
-class _MapPolygonLayerState extends State<_MapPolygonLayer>
-    with SingleTickerProviderStateMixin {
+class _MapPolygonLayerState extends State<_MapPolygonLayer> with SingleTickerProviderStateMixin {
   MapController? _controller;
   late AnimationController _hoverAnimationController;
   late SfMapsThemeData _mapsThemeData;
@@ -3876,15 +3743,13 @@ class _MapPolygonLayerState extends State<_MapPolygonLayer>
   @override
   void initState() {
     super.initState();
-    _hoverAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
+    _hoverAnimationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
   }
 
   @override
   void didChangeDependencies() {
     if (_controller == null) {
-      ancestor = context
-          .dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
+      ancestor = context.dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
       _controller = ancestor.controller;
     }
     super.didChangeDependencies();
@@ -3906,8 +3771,7 @@ class _MapPolygonLayerState extends State<_MapPolygonLayer>
               polygon.color == null,
               throw FlutterError.fromParts(<DiagnosticsNode>[
                 ErrorSummary('Incorrect MapPolygon arguments.'),
-                ErrorDescription(
-                    'Inverted polygons cannot be customized individually.'),
+                ErrorDescription('Inverted polygons cannot be customized individually.'),
                 ErrorHint("To customize all the polygon's color,"
                     ' use MapPolygonLayer.color')
               ]));
@@ -3915,8 +3779,7 @@ class _MapPolygonLayerState extends State<_MapPolygonLayer>
               polygon.strokeColor == null,
               throw FlutterError.fromParts(<DiagnosticsNode>[
                 ErrorSummary('Incorrect MapPolygon arguments.'),
-                ErrorDescription(
-                    'Inverted polygons cannot be customized individually.'),
+                ErrorDescription('Inverted polygons cannot be customized individually.'),
                 ErrorHint("To customize all the polygon's stroke color,"
                     ' use MapPolygonLayer.strokeColor')
               ]));
@@ -3924,8 +3787,7 @@ class _MapPolygonLayerState extends State<_MapPolygonLayer>
               polygon.strokeWidth == null,
               throw FlutterError.fromParts(<DiagnosticsNode>[
                 ErrorSummary('Incorrect MapPolygon arguments.'),
-                ErrorDescription(
-                    'Inverted polygons cannot be customized individually.'),
+                ErrorDescription('Inverted polygons cannot be customized individually.'),
                 ErrorHint("To customize all the polygon's stroke width,"
                     ' use MapPolygonLayer.strokeWidth')
               ]));
@@ -4016,8 +3878,7 @@ class _MapPolygonLayerRenderObject extends LeafRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, _RenderMapPolygon renderObject) {
+  void updateRenderObject(BuildContext context, _RenderMapPolygon renderObject) {
     renderObject
       ..polygons = polygons
       ..color = color
@@ -4057,8 +3918,7 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
     _reverseHoverColor = ColorTween();
     _forwardHoverStrokeColor = ColorTween();
     _reverseHoverStrokeColor = ColorTween();
-    _hoverColorAnimation = CurvedAnimation(
-        parent: hoverAnimationController, curve: Curves.easeInOut);
+    _hoverColorAnimation = CurvedAnimation(parent: hoverAnimationController, curve: Curves.easeInOut);
     _polygonsInList = _polygons.toList();
     _tapGestureRecognizer = TapGestureRecognizer()..onTapUp = _handleTapUp;
   }
@@ -4159,22 +4019,17 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
   bool get canHover => hasHoverColor || hasHoverStrokeColor;
 
   bool get hasHoverColor =>
-      isDesktop &&
-      _themeData.shapeHoverColor != null &&
-      _themeData.shapeHoverColor != Colors.transparent;
+      isDesktop && _themeData.shapeHoverColor != null && _themeData.shapeHoverColor != Colors.transparent;
 
   bool get hasHoverStrokeColor =>
-      isDesktop &&
-      _themeData.shapeHoverStrokeColor != null &&
-      _themeData.shapeHoverStrokeColor != Colors.transparent;
+      isDesktop && _themeData.shapeHoverStrokeColor != null && _themeData.shapeHoverStrokeColor != Colors.transparent;
 
   void _initializeHoverItemTween() {
     if (isDesktop) {
       final Color hoverFillColor = _getHoverFillColor(_selectedPolygon);
       final Color hoverStrokeColor = _getHoverStrokeColor(_selectedPolygon);
       final Color defaultFillColor = _selectedPolygon.color ?? _color;
-      final Color defaultStrokeColor =
-          _selectedPolygon.strokeColor ?? _strokeColor;
+      final Color defaultStrokeColor = _selectedPolygon.strokeColor ?? _strokeColor;
 
       if (_previousHoverItem != null) {
         _reverseHoverColor.begin = hoverFillColor;
@@ -4216,13 +4071,10 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
       _initializeHoverItemTween();
     }
 
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
       tooltipRenderer.hideTooltip();
     }
   }
@@ -4235,17 +4087,13 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
     markNeedsPaint();
   }
 
-  void _handleInteraction(Offset position,
-      [PointerKind kind = PointerKind.touch]) {
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
-      tooltipRenderer.paintTooltip(_selectedIndex, null, MapLayerElement.vector,
-          kind, state.ancestor.sublayers?.indexOf(polygonLayer), position);
+  void _handleInteraction(Offset position, [PointerKind kind = PointerKind.touch]) {
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
+      tooltipRenderer.paintTooltip(_selectedIndex, null, MapLayerElement.vector, kind,
+          state.ancestor.sublayers?.indexOf(polygonLayer), position);
     }
   }
 
@@ -4279,32 +4127,22 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
       return false;
     }
     int index = _polygonsInList!.length - 1;
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = getTranslationOffset(_controller!);
     for (final MapPolygon polygon in _polygonsInList!.reversed) {
       if (polygon.onTap != null || _tooltipBuilder != null || isDesktop) {
         final Path path = Path();
 
         final MapLatLng startCoordinate = polygon.points[0];
-        Offset startPoint = pixelFromLatLng(
-            startCoordinate.latitude,
-            startCoordinate.longitude,
-            boxSize,
-            translationOffset,
-            getLayerSizeFactor(_controller!));
+        Offset startPoint = pixelFromLatLng(startCoordinate.latitude, startCoordinate.longitude, boxSize,
+            translationOffset, getLayerSizeFactor(_controller!));
         startPoint = _getScaledOffset(startPoint, _controller!);
         path.moveTo(startPoint.dx, startPoint.dy);
 
         for (int j = 1; j < polygon.points.length; j++) {
           final MapLatLng nextCoordinate = polygon.points[j];
-          Offset nextPoint = pixelFromLatLng(
-              nextCoordinate.latitude,
-              nextCoordinate.longitude,
-              boxSize,
-              translationOffset,
-              getLayerSizeFactor(_controller!));
+          Offset nextPoint = pixelFromLatLng(nextCoordinate.latitude, nextCoordinate.longitude, boxSize,
+              translationOffset, getLayerSizeFactor(_controller!));
           nextPoint = _getScaledOffset(nextPoint, _controller!);
           path.lineTo(nextPoint.dx, nextPoint.dy);
         }
@@ -4334,8 +4172,7 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
 
       // ignore: avoid_as
       final RenderBox renderBox = context.findRenderObject()! as RenderBox;
-      _handleInteraction(
-          renderBox.globalToLocal(event.position), PointerKind.hover);
+      _handleInteraction(renderBox.globalToLocal(event.position), PointerKind.hover);
     }
   }
 
@@ -4384,9 +4221,7 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
     final Paint strokePaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke;
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = getTranslationOffset(_controller!);
     // Check whether the color will apply to the inner side or outer side of
     // the polygon shape.
@@ -4404,23 +4239,15 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
 
       final MapLatLng startLatLng = polygon.points[0];
       Offset startPoint = pixelFromLatLng(
-          startLatLng.latitude,
-          startLatLng.longitude,
-          boxSize,
-          translationOffset,
-          getLayerSizeFactor(_controller!));
+          startLatLng.latitude, startLatLng.longitude, boxSize, translationOffset, getLayerSizeFactor(_controller!));
 
       startPoint = _getScaledOffset(startPoint, _controller!);
       path.moveTo(startPoint.dx, startPoint.dy);
 
       for (int j = 1; j < polygon.points.length; j++) {
         final MapLatLng nextCoordinate = polygon.points[j];
-        Offset nextPoint = pixelFromLatLng(
-            nextCoordinate.latitude,
-            nextCoordinate.longitude,
-            boxSize,
-            translationOffset,
-            getLayerSizeFactor(_controller!));
+        Offset nextPoint = pixelFromLatLng(nextCoordinate.latitude, nextCoordinate.longitude, boxSize,
+            translationOffset, getLayerSizeFactor(_controller!));
         nextPoint = _getScaledOffset(nextPoint, _controller!);
         path.lineTo(nextPoint.dx, nextPoint.dy);
       }
@@ -4440,8 +4267,7 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
       strokePaint
         ..strokeWidth = _strokeWidth
         ..color = _strokeColor;
-      _drawInvertedPath(
-          context, path, _controller!, fillPaint, strokePaint, offset);
+      _drawInvertedPath(context, path, _controller!, fillPaint, strokePaint, offset);
     }
     context.canvas.restore();
   }
@@ -4476,8 +4302,7 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
       paint.strokeWidth = polygon.strokeWidth ?? _strokeWidth;
     } else if (_currentHoverItem != null && _currentHoverItem == polygon) {
       _updateHoverStrokeColor(paint, polygon, _forwardHoverStrokeColor);
-      if (_themeData.shapeHoverStrokeWidth != null &&
-          _themeData.shapeHoverStrokeWidth! > 0.0) {
+      if (_themeData.shapeHoverStrokeWidth != null && _themeData.shapeHoverStrokeWidth! > 0.0) {
         paint.strokeWidth = _themeData.shapeHoverStrokeWidth!;
       } else {
         paint.strokeWidth = polygon.strokeWidth ?? _strokeWidth;
@@ -4493,8 +4318,7 @@ class _RenderMapPolygon extends RenderBox implements MouseTrackerAnnotation {
       ..strokeWidth = polygon.strokeWidth ?? _strokeWidth;
   }
 
-  void _updateHoverStrokeColor(
-      Paint paint, MapPolygon polygon, ColorTween tween) {
+  void _updateHoverStrokeColor(Paint paint, MapPolygon polygon, ColorTween tween) {
     if (_themeData.shapeHoverStrokeColor != Colors.transparent) {
       paint.color = tween.evaluate(_hoverColorAnimation)!;
     } else {
@@ -4993,14 +4817,11 @@ class MapCircleLayer extends MapVectorLayer {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     if (circles.isNotEmpty) {
-      final _DebugVectorShapeTree pointerTreeNode =
-          _DebugVectorShapeTree(circles);
+      final _DebugVectorShapeTree pointerTreeNode = _DebugVectorShapeTree(circles);
       properties.add(pointerTreeNode.toDiagnosticsNode());
     }
-    properties
-        .add(ObjectFlagProperty<Animation<double>>.has('animation', animation));
-    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has(
-        'tooltip', tooltipBuilder));
+    properties.add(ObjectFlagProperty<Animation<double>>.has('animation', animation));
+    properties.add(ObjectFlagProperty<IndexedWidgetBuilder>.has('tooltip', tooltipBuilder));
 
     if (color != null) {
       properties.add(ColorProperty('color', color));
@@ -5039,8 +4860,7 @@ class _MapCircleLayer extends StatefulWidget {
   _MapCircleLayerState createState() => _MapCircleLayerState();
 }
 
-class _MapCircleLayerState extends State<_MapCircleLayer>
-    with SingleTickerProviderStateMixin {
+class _MapCircleLayerState extends State<_MapCircleLayer> with SingleTickerProviderStateMixin {
   MapController? _controller;
   late AnimationController _hoverAnimationController;
   late SfMapsThemeData _mapsThemeData;
@@ -5049,15 +4869,13 @@ class _MapCircleLayerState extends State<_MapCircleLayer>
   @override
   void initState() {
     super.initState();
-    _hoverAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
+    _hoverAnimationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
   }
 
   @override
   void didChangeDependencies() {
     if (_controller == null) {
-      ancestor = context
-          .dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
+      ancestor = context.dependOnInheritedWidgetOfExactType<MapLayerInheritedWidget>()!;
       _controller = ancestor.controller;
     }
     super.didChangeDependencies();
@@ -5079,8 +4897,7 @@ class _MapCircleLayerState extends State<_MapCircleLayer>
               circle.color == null,
               throw FlutterError.fromParts(<DiagnosticsNode>[
                 ErrorSummary('Incorrect MapCircle arguments.'),
-                ErrorDescription(
-                    'Inverted circles cannot be customized individually.'),
+                ErrorDescription('Inverted circles cannot be customized individually.'),
                 ErrorHint("To customize all the circle's color,"
                     ' use MapCircleLayer.color')
               ]));
@@ -5088,8 +4905,7 @@ class _MapCircleLayerState extends State<_MapCircleLayer>
               circle.strokeColor == null,
               throw FlutterError.fromParts(<DiagnosticsNode>[
                 ErrorSummary('Incorrect MapCircle arguments.'),
-                ErrorDescription(
-                    'Inverted circles cannot be customized individually.'),
+                ErrorDescription('Inverted circles cannot be customized individually.'),
                 ErrorHint("To customize all the circle's stroke color,"
                     ' use MapCircleLayer.strokeColor')
               ]));
@@ -5097,8 +4913,7 @@ class _MapCircleLayerState extends State<_MapCircleLayer>
               circle.strokeWidth == null,
               throw FlutterError.fromParts(<DiagnosticsNode>[
                 ErrorSummary('Incorrect MapCircle arguments.'),
-                ErrorDescription(
-                    'Inverted circles cannot be customized individually.'),
+                ErrorDescription('Inverted circles cannot be customized individually.'),
                 ErrorHint("To customize all the circle's stroke width,"
                     ' use MapCircleLayer.strokeWidth')
               ]));
@@ -5236,8 +5051,7 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
     _reverseHoverColor = ColorTween();
     _forwardHoverStrokeColor = ColorTween();
     _reverseHoverStrokeColor = ColorTween();
-    _hoverColorAnimation = CurvedAnimation(
-        parent: hoverAnimationController, curve: Curves.easeInOut);
+    _hoverColorAnimation = CurvedAnimation(parent: hoverAnimationController, curve: Curves.easeInOut);
     _circlesInList = _circles.toList();
     _tapGestureRecognizer = TapGestureRecognizer()..onTapUp = _handleTapUp;
   }
@@ -5347,22 +5161,17 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
   bool get canHover => hasHoverColor || hasHoverStrokeColor;
 
   bool get hasHoverColor =>
-      isDesktop &&
-      _themeData.shapeHoverColor != null &&
-      _themeData.shapeHoverColor != Colors.transparent;
+      isDesktop && _themeData.shapeHoverColor != null && _themeData.shapeHoverColor != Colors.transparent;
 
   bool get hasHoverStrokeColor =>
-      isDesktop &&
-      _themeData.shapeHoverStrokeColor != null &&
-      _themeData.shapeHoverStrokeColor != Colors.transparent;
+      isDesktop && _themeData.shapeHoverStrokeColor != null && _themeData.shapeHoverStrokeColor != Colors.transparent;
 
   void _initializeHoverItemTween() {
     if (isDesktop) {
       final Color hoverFillColor = _getHoverFillColor(_selectedCircle);
       final Color hoverStrokeColor = _getHoverStrokeColor(_selectedCircle);
       final Color defaultFillColor = _selectedCircle.color ?? _color;
-      final Color defaultStrokeColor =
-          _selectedCircle.strokeColor ?? _strokeColor;
+      final Color defaultStrokeColor = _selectedCircle.strokeColor ?? _strokeColor;
 
       if (_previousHoverItem != null) {
         _reverseHoverColor.begin = hoverFillColor;
@@ -5404,13 +5213,10 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
       _initializeHoverItemTween();
     }
 
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
       tooltipRenderer.hideTooltip();
     }
   }
@@ -5423,18 +5229,12 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
     markNeedsPaint();
   }
 
-  void _handleInteraction(Offset position,
-      [PointerKind kind = PointerKind.touch]) {
-    if (_controller != null &&
-        _controller!.tooltipKey != null &&
-        _controller!.tooltipKey!.currentContext != null) {
-      final ShapeLayerChildRenderBoxBase tooltipRenderer =
-          _controller!.tooltipKey!.currentContext!.findRenderObject()!
-              // ignore: avoid_as
-              as ShapeLayerChildRenderBoxBase;
-      final Size boxSize = _controller?.layerType == LayerType.tile
-          ? _controller!.totalTileSize!
-          : size;
+  void _handleInteraction(Offset position, [PointerKind kind = PointerKind.touch]) {
+    if (_controller != null && _controller!.tooltipKey != null && _controller!.tooltipKey!.currentContext != null) {
+      final ShapeLayerChildRenderBoxBase tooltipRenderer = _controller!.tooltipKey!.currentContext!.findRenderObject()!
+          // ignore: avoid_as
+          as ShapeLayerChildRenderBoxBase;
+      final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
       final Offset translationOffset = _getTranslation(_controller!);
 
       if (_selectedIndex != -1) {
@@ -5447,8 +5247,7 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
         );
         center = _getScaledOffset(center, _controller!);
 
-        final Rect circleRect =
-            Rect.fromCircle(center: center, radius: _selectedCircle.radius);
+        final Rect circleRect = Rect.fromCircle(center: center, radius: _selectedCircle.radius);
         tooltipRenderer.paintTooltip(
           _selectedIndex,
           circleRect,
@@ -5487,16 +5286,12 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
 
   @override
   bool hitTestSelf(Offset position) {
-    if ((_animation != null && !_animation!.isCompleted) ||
-        _circlesInList == null ||
-        _circlesInList!.isEmpty) {
+    if ((_animation != null && !_animation!.isCompleted) || _circlesInList == null || _circlesInList!.isEmpty) {
       return false;
     }
 
     int index = _circlesInList!.length - 1;
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = getTranslationOffset(_controller!);
 
     for (final MapCircle circle in _circlesInList!.reversed) {
@@ -5571,8 +5366,7 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
 
       // ignore: avoid_as
       final RenderBox renderBox = context.findRenderObject()! as RenderBox;
-      _handleInteraction(
-          renderBox.globalToLocal(event.position), PointerKind.hover);
+      _handleInteraction(renderBox.globalToLocal(event.position), PointerKind.hover);
     }
   }
 
@@ -5595,9 +5389,7 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
     final Paint strokePaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.stroke;
-    final Size boxSize = _controller?.layerType == LayerType.tile
-        ? _controller!.totalTileSize!
-        : size;
+    final Size boxSize = _controller?.layerType == LayerType.tile ? _controller!.totalTileSize! : size;
     final Offset translationOffset = getTranslationOffset(_controller!);
     // Check whether the color will apply to the inner side or outer side of
     // the circle shape.
@@ -5641,8 +5433,7 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
       strokePaint
         ..strokeWidth = _strokeWidth
         ..color = _strokeColor;
-      _drawInvertedPath(
-          context, path, _controller!, fillPaint, strokePaint, offset);
+      _drawInvertedPath(context, path, _controller!, fillPaint, strokePaint, offset);
     }
     context.canvas.restore();
   }
@@ -5677,8 +5468,7 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
       paint.strokeWidth = circle.strokeWidth ?? _strokeWidth;
     } else if (_currentHoverItem != null && _currentHoverItem == circle) {
       _updateHoverStrokeColor(paint, circle, _forwardHoverStrokeColor);
-      if (_themeData.shapeHoverStrokeWidth != null &&
-          _themeData.shapeHoverStrokeWidth! > 0.0) {
+      if (_themeData.shapeHoverStrokeWidth != null && _themeData.shapeHoverStrokeWidth! > 0.0) {
         paint.strokeWidth = _themeData.shapeHoverStrokeWidth!;
       } else {
         paint.strokeWidth = circle.strokeWidth ?? _strokeWidth;
@@ -5694,8 +5484,7 @@ class _RenderMapCircle extends RenderBox implements MouseTrackerAnnotation {
       ..strokeWidth = circle.strokeWidth ?? _strokeWidth;
   }
 
-  void _updateHoverStrokeColor(
-      Paint paint, MapCircle circle, ColorTween tween) {
+  void _updateHoverStrokeColor(Paint paint, MapCircle circle, ColorTween tween) {
     if (_themeData.shapeHoverStrokeColor != Colors.transparent) {
       paint.color = tween.evaluate(_hoverColorAnimation)!;
     } else {
@@ -8218,12 +8007,8 @@ Path? _dashPath(
         double startPoint = distance;
         double endPoint = distance + length;
         if (capRadius != 0) {
-          startPoint = _getPointAlongLineWithCap(
-                  Offset(startPoint, 0), Offset(endPoint, 0), capRadius, true)
-              .dx;
-          endPoint = _getPointAlongLineWithCap(
-                  Offset(startPoint, 0), Offset(endPoint, 0), capRadius, false)
-              .dx;
+          startPoint = _getPointAlongLineWithCap(Offset(startPoint, 0), Offset(endPoint, 0), capRadius, true).dx;
+          endPoint = _getPointAlongLineWithCap(Offset(startPoint, 0), Offset(endPoint, 0), capRadius, false).dx;
         }
         path.addPath(matric.extractPath(startPoint, endPoint), Offset.zero);
       }
@@ -8234,9 +8019,7 @@ Path? _dashPath(
   return path;
 }
 
-void _drawDashedLine(
-    Canvas canvas, List<double> dashArray, Paint paint, Path path,
-    [double capRadius = 0]) {
+void _drawDashedLine(Canvas canvas, List<double> dashArray, Paint paint, Path path, [double capRadius = 0]) {
   bool even = false;
   for (int i = 1; i < dashArray.length; i = i + 2) {
     if (dashArray[i] == 0) {
@@ -8272,8 +8055,7 @@ class _IntervalList<double> {
   }
 }
 
-bool _liesPointOnLine(Offset startPoint, Offset endPoint, double touchTolerance,
-    Offset touchPosition) {
+bool _liesPointOnLine(Offset startPoint, Offset endPoint, double touchTolerance, Offset touchPosition) {
   final Path path = Path();
   // Calculate distance between two points i.e, d = sqrt[(x1-x2)^2+(y1-y2)^2].
   final double width = endPoint.dx - startPoint.dx;
@@ -8282,14 +8064,10 @@ bool _liesPointOnLine(Offset startPoint, Offset endPoint, double touchTolerance,
   final double horizontalTouchLength = touchTolerance * height / lineLength;
   final double verticalTouchLength = touchTolerance * width / lineLength;
 
-  final Offset lineTopLeft = Offset(startPoint.dx - horizontalTouchLength,
-      startPoint.dy + verticalTouchLength);
-  final Offset lineTopRight = Offset(startPoint.dx + horizontalTouchLength,
-      startPoint.dy - verticalTouchLength);
-  final Offset lineBottomRight = Offset(
-      endPoint.dx + horizontalTouchLength, endPoint.dy - verticalTouchLength);
-  final Offset lineBottomLeft = Offset(
-      endPoint.dx - horizontalTouchLength, endPoint.dy + verticalTouchLength);
+  final Offset lineTopLeft = Offset(startPoint.dx - horizontalTouchLength, startPoint.dy + verticalTouchLength);
+  final Offset lineTopRight = Offset(startPoint.dx + horizontalTouchLength, startPoint.dy - verticalTouchLength);
+  final Offset lineBottomRight = Offset(endPoint.dx + horizontalTouchLength, endPoint.dy - verticalTouchLength);
+  final Offset lineBottomLeft = Offset(endPoint.dx - horizontalTouchLength, endPoint.dy + verticalTouchLength);
   path
     ..moveTo(lineTopLeft.dx, lineTopLeft.dy)
     ..lineTo(lineTopRight.dx, lineTopRight.dy)
@@ -8303,21 +8081,16 @@ Path _getAnimatedPath(Path originalPath, Animation<double> animation) {
   final Path extractedPath = Path();
   double currentLength = 0.0;
   final PathMetrics pathMetrics = originalPath.computeMetrics();
-  final double pathLength = pathMetrics.fold(
-      0.0,
-      (double previousValue, PathMetric pathMetric) =>
-          previousValue + pathMetric.length);
+  final double pathLength =
+      pathMetrics.fold(0.0, (double previousValue, PathMetric pathMetric) => previousValue + pathMetric.length);
   final double requiredPathLength = pathLength * animation.value;
-  final Iterator<PathMetric> metricsIterator =
-      originalPath.computeMetrics().iterator;
+  final Iterator<PathMetric> metricsIterator = originalPath.computeMetrics().iterator;
 
   while (metricsIterator.moveNext()) {
     final PathMetric metric = metricsIterator.current;
     final double nextLength = currentLength + metric.length;
     if (nextLength > requiredPathLength) {
-      extractedPath.addPath(
-          metric.extractPath(0.0, requiredPathLength - currentLength),
-          Offset.zero);
+      extractedPath.addPath(metric.extractPath(0.0, requiredPathLength - currentLength), Offset.zero);
       break;
     }
     extractedPath.addPath(metric.extractPath(0.0, metric.length), Offset.zero);
@@ -8327,8 +8100,8 @@ Path _getAnimatedPath(Path originalPath, Animation<double> animation) {
   return extractedPath;
 }
 
-bool _liesPointOnArc(Offset startPoint, Offset endPoint, Offset controlPoint,
-    double touchTolerance, Offset touchPosition) {
+bool _liesPointOnArc(
+    Offset startPoint, Offset endPoint, Offset controlPoint, double touchTolerance, Offset touchPosition) {
   final Path path = Path();
   final double width = endPoint.dx - startPoint.dx;
   final double height = endPoint.dy - startPoint.dy;
@@ -8337,26 +8110,18 @@ bool _liesPointOnArc(Offset startPoint, Offset endPoint, Offset controlPoint,
   final double horizontalTouchLength = touchTolerance * height / lineLength;
   final double verticalTouchLength = touchTolerance * width / lineLength;
 
-  final Offset lineBottomLeft = Offset(startPoint.dx - horizontalTouchLength,
-      startPoint.dy + verticalTouchLength);
-  final Offset lineTopLeft = Offset(startPoint.dx + horizontalTouchLength,
-      startPoint.dy - verticalTouchLength);
-  final Offset lineTopRight = Offset(
-      endPoint.dx + horizontalTouchLength, endPoint.dy - verticalTouchLength);
-  final Offset lineBottomRight = Offset(
-      endPoint.dx - horizontalTouchLength, endPoint.dy + verticalTouchLength);
-  final Offset controlPointTop = Offset(controlPoint.dx + horizontalTouchLength,
-      controlPoint.dy - verticalTouchLength);
-  final Offset controlPointBottom = Offset(
-      controlPoint.dx - horizontalTouchLength,
-      controlPoint.dy + verticalTouchLength);
+  final Offset lineBottomLeft = Offset(startPoint.dx - horizontalTouchLength, startPoint.dy + verticalTouchLength);
+  final Offset lineTopLeft = Offset(startPoint.dx + horizontalTouchLength, startPoint.dy - verticalTouchLength);
+  final Offset lineTopRight = Offset(endPoint.dx + horizontalTouchLength, endPoint.dy - verticalTouchLength);
+  final Offset lineBottomRight = Offset(endPoint.dx - horizontalTouchLength, endPoint.dy + verticalTouchLength);
+  final Offset controlPointTop = Offset(controlPoint.dx + horizontalTouchLength, controlPoint.dy - verticalTouchLength);
+  final Offset controlPointBottom =
+      Offset(controlPoint.dx - horizontalTouchLength, controlPoint.dy + verticalTouchLength);
   path
     ..moveTo(lineTopLeft.dx, lineTopLeft.dy)
-    ..quadraticBezierTo(controlPointTop.dx, controlPointTop.dy, lineTopRight.dx,
-        lineTopRight.dy)
+    ..quadraticBezierTo(controlPointTop.dx, controlPointTop.dy, lineTopRight.dx, lineTopRight.dy)
     ..lineTo(lineBottomRight.dx, lineBottomRight.dy)
-    ..quadraticBezierTo(controlPointBottom.dx, controlPointBottom.dy,
-        lineBottomLeft.dx, lineBottomLeft.dy)
+    ..quadraticBezierTo(controlPointBottom.dx, controlPointBottom.dy, lineBottomLeft.dx, lineBottomLeft.dy)
     ..close();
   return path.contains(touchPosition);
 }
@@ -8391,17 +8156,13 @@ class _DebugVectorShapeTree extends DiagnosticableTree {
   @override
   String toStringShort() {
     if (vectorShapes is Set<MapLine>) {
-      return vectorShapes.length > 1
-          ? 'contains ${vectorShapes.length} lines'
-          : 'contains ${vectorShapes.length} line';
+      return vectorShapes.length > 1 ? 'contains ${vectorShapes.length} lines' : 'contains ${vectorShapes.length} line';
     } else if (vectorShapes is Set<MapCircle>) {
       return vectorShapes.length > 1
           ? 'contains ${vectorShapes.length} circles'
           : 'contains ${vectorShapes.length} circle';
     } else if (vectorShapes is Set<MapArc>) {
-      return vectorShapes.length > 1
-          ? 'contains ${vectorShapes.length} arcs'
-          : 'contains ${vectorShapes.length} arc';
+      return vectorShapes.length > 1 ? 'contains ${vectorShapes.length} arcs' : 'contains ${vectorShapes.length} arc';
     } else if (vectorShapes is Set<MapPolyline>) {
       return vectorShapes.length > 1
           ? 'contains ${vectorShapes.length} polylines'

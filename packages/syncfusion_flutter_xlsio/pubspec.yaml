@@ -17,6 +17,8 @@ dependencies:
   jiffy: ">=6.1.0 <7.0.0"
   syncfusion_officecore:
     path: ../syncfusion_officecore
+  flutter_test:
+    sdk: flutter
       
       
       

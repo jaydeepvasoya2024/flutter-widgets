@@ -1171,62 +1171,43 @@ class SfSlider extends StatefulWidget {
     properties.add(DiagnosticsProperty<dynamic>('value', value));
     properties.add(DiagnosticsProperty<dynamic>('min', min));
     properties.add(DiagnosticsProperty<dynamic>('max', max));
-    properties.add(DiagnosticsProperty<bool>('isInversed', isInversed,
-        defaultValue: false));
-    properties.add(ObjectFlagProperty<ValueChanged<double>>(
-        'onChanged', onChanged,
-        ifNull: 'disabled'));
-    properties.add(ObjectFlagProperty<ValueChanged<dynamic>>.has(
-        'onChangeStart', onChangeStart));
-    properties.add(ObjectFlagProperty<ValueChanged<dynamic>>.has(
-        'onChangeEnd', onChangeEnd));
+    properties.add(DiagnosticsProperty<bool>('isInversed', isInversed, defaultValue: false));
+    properties.add(ObjectFlagProperty<ValueChanged<double>>('onChanged', onChanged, ifNull: 'disabled'));
+    properties.add(ObjectFlagProperty<ValueChanged<dynamic>>.has('onChangeStart', onChangeStart));
+    properties.add(ObjectFlagProperty<ValueChanged<dynamic>>.has('onChangeEnd', onChangeEnd));
     properties.add(DoubleProperty('interval', interval));
     properties.add(DoubleProperty('stepSize', stepSize));
     if (stepDuration != null) {
       properties.add(stepDuration!.toDiagnosticsNode(name: 'stepDuration'));
     }
     properties.add(IntProperty('minorTicksPerInterval', minorTicksPerInterval));
-    properties.add(FlagProperty('showTicks',
-        value: showTicks,
-        ifTrue: 'Ticks are showing',
-        ifFalse: 'Ticks are not showing'));
-    properties.add(FlagProperty('showLabels',
-        value: showLabels,
-        ifTrue: 'Labels are showing',
-        ifFalse: 'Labels are not showing'));
+    properties.add(
+        FlagProperty('showTicks', value: showTicks, ifTrue: 'Ticks are showing', ifFalse: 'Ticks are not showing'));
+    properties.add(
+        FlagProperty('showLabels', value: showLabels, ifTrue: 'Labels are showing', ifFalse: 'Labels are not showing'));
     properties.add(FlagProperty('showDividers',
-        value: showDividers,
-        ifTrue: 'Dividers are  showing',
-        ifFalse: 'Dividers are not showing'));
+        value: showDividers, ifTrue: 'Dividers are  showing', ifFalse: 'Dividers are not showing'));
     if (shouldAlwaysShowTooltip) {
-      properties.add(FlagProperty('shouldAlwaysShowTooltip',
-          value: shouldAlwaysShowTooltip, ifTrue: 'Tooltip is always visible'));
+      properties.add(
+          FlagProperty('shouldAlwaysShowTooltip', value: shouldAlwaysShowTooltip, ifTrue: 'Tooltip is always visible'));
     } else {
       properties.add(FlagProperty('enableTooltip',
-          value: enableTooltip,
-          ifTrue: 'Tooltip is enabled',
-          ifFalse: 'Tooltip is disabled'));
+          value: enableTooltip, ifTrue: 'Tooltip is enabled', ifFalse: 'Tooltip is disabled'));
     }
     properties.add(ColorProperty('activeColor', activeColor));
     properties.add(ColorProperty('inactiveColor', inactiveColor));
-    properties
-        .add(EnumProperty<LabelPlacement>('labelPlacement', labelPlacement));
-    properties.add(EnumProperty<EdgeLabelPlacement>(
-        'edgeLabelPlacement', edgeLabelPlacement));
-    properties
-        .add(DiagnosticsProperty<NumberFormat>('numberFormat', numberFormat));
+    properties.add(EnumProperty<LabelPlacement>('labelPlacement', labelPlacement));
+    properties.add(EnumProperty<EdgeLabelPlacement>('edgeLabelPlacement', edgeLabelPlacement));
+    properties.add(DiagnosticsProperty<NumberFormat>('numberFormat', numberFormat));
     if (value.runtimeType == DateTime && dateFormat != null) {
-      properties.add(StringProperty(
-          'dateFormat', 'Formatted value is ${dateFormat!.format(value)}'));
+      properties.add(StringProperty('dateFormat', 'Formatted value is ${dateFormat!.format(value)}'));
     }
-    properties.add(
-        EnumProperty<DateIntervalType>('dateIntervalType', dateIntervalType));
+    properties.add(EnumProperty<DateIntervalType>('dateIntervalType', dateIntervalType));
     properties.add(ObjectFlagProperty<TooltipTextFormatterCallback>.has(
         'tooltipTextFormatterCallback', tooltipTextFormatterCallback));
-    properties.add(ObjectFlagProperty<LabelFormatterCallback>.has(
-        'labelFormatterCallback', labelFormatterCallback));
-    properties.add(ObjectFlagProperty<ValueChanged<dynamic>>.has(
-        'semanticFormatterCallback', semanticFormatterCallback));
+    properties.add(ObjectFlagProperty<LabelFormatterCallback>.has('labelFormatterCallback', labelFormatterCallback));
+    properties
+        .add(ObjectFlagProperty<ValueChanged<dynamic>>.has('semanticFormatterCallback', semanticFormatterCallback));
   }
 }
 
@@ -1272,12 +1253,10 @@ class _SfSliderState extends State<SfSlider> with TickerProviderStateMixin {
     final Color labelColor = isMaterial3
         ? themeData.colorScheme.onSurfaceVariant
         : isActive
-            ? themeData.textTheme.bodyLarge!.color!.withValues(alpha: 0.87)
-            : themeData.colorScheme.onSurface.withValues(alpha: 0.32);
-    final double minTrackHeight = math.min(
-        sliderThemeData.activeTrackHeight, sliderThemeData.inactiveTrackHeight);
-    final double maxTrackHeight = math.max(
-        sliderThemeData.activeTrackHeight, sliderThemeData.inactiveTrackHeight);
+            ? themeData.textTheme.bodyLarge!.color!.withOpacity(0.87)
+            : themeData.colorScheme.onSurface.withOpacity(0.32);
+    final double minTrackHeight = math.min(sliderThemeData.activeTrackHeight, sliderThemeData.inactiveTrackHeight);
+    final double maxTrackHeight = math.max(sliderThemeData.activeTrackHeight, sliderThemeData.inactiveTrackHeight);
     sliderThemeData = sliderThemeData.copyWith(
       activeTrackHeight: sliderThemeData.activeTrackHeight,
       inactiveTrackHeight: sliderThemeData.inactiveTrackHeight,
@@ -1291,70 +1270,46 @@ class _SfSliderState extends State<SfSlider> with TickerProviderStateMixin {
       tooltipTextStyle: themeData.textTheme.bodyLarge!
           .copyWith(
               fontSize: isMaterial3 ? 12 : 14,
-              color: isMaterial3
-                  ? themeData.colorScheme.onPrimary
-                  : themeData.colorScheme.surface)
+              color: isMaterial3 ? themeData.colorScheme.onPrimary : themeData.colorScheme.surface)
           .merge(sliderThemeData.tooltipTextStyle),
-      inactiveTrackColor: widget.inactiveColor ??
-          sliderThemeData.inactiveTrackColor ??
-          effectiveThemeData.inactiveTrackColor,
-      activeTrackColor: widget.activeColor ??
-          sliderThemeData.activeTrackColor ??
-          effectiveThemeData.activeTrackColor,
-      thumbColor: widget.activeColor ??
-          sliderThemeData.thumbColor ??
-          effectiveThemeData.thumbColor,
-      activeTickColor:
-          sliderThemeData.activeTickColor ?? effectiveThemeData.activeTickColor,
-      inactiveTickColor: sliderThemeData.inactiveTickColor ??
-          effectiveThemeData.inactiveTickColor,
-      disabledActiveTickColor: sliderThemeData.disabledActiveTickColor ??
-          effectiveThemeData.disabledActiveTickColor,
-      disabledInactiveTickColor: sliderThemeData.disabledInactiveTickColor ??
-          effectiveThemeData.disabledInactiveTickColor,
-      activeMinorTickColor: sliderThemeData.activeMinorTickColor ??
-          effectiveThemeData.activeMinorTickColor,
-      inactiveMinorTickColor: sliderThemeData.inactiveMinorTickColor ??
-          effectiveThemeData.inactiveMinorTickColor,
+      inactiveTrackColor:
+          widget.inactiveColor ?? sliderThemeData.inactiveTrackColor ?? effectiveThemeData.inactiveTrackColor,
+      activeTrackColor: widget.activeColor ?? sliderThemeData.activeTrackColor ?? effectiveThemeData.activeTrackColor,
+      thumbColor: widget.activeColor ?? sliderThemeData.thumbColor ?? effectiveThemeData.thumbColor,
+      activeTickColor: sliderThemeData.activeTickColor ?? effectiveThemeData.activeTickColor,
+      inactiveTickColor: sliderThemeData.inactiveTickColor ?? effectiveThemeData.inactiveTickColor,
+      disabledActiveTickColor: sliderThemeData.disabledActiveTickColor ?? effectiveThemeData.disabledActiveTickColor,
+      disabledInactiveTickColor:
+          sliderThemeData.disabledInactiveTickColor ?? effectiveThemeData.disabledInactiveTickColor,
+      activeMinorTickColor: sliderThemeData.activeMinorTickColor ?? effectiveThemeData.activeMinorTickColor,
+      inactiveMinorTickColor: sliderThemeData.inactiveMinorTickColor ?? effectiveThemeData.inactiveMinorTickColor,
       disabledActiveMinorTickColor:
-          sliderThemeData.disabledActiveMinorTickColor ??
-              effectiveThemeData.disabledActiveMinorTickColor,
+          sliderThemeData.disabledActiveMinorTickColor ?? effectiveThemeData.disabledActiveMinorTickColor,
       disabledInactiveMinorTickColor:
-          sliderThemeData.disabledInactiveMinorTickColor ??
-              effectiveThemeData.disabledInactiveMinorTickColor,
-      overlayColor: widget.activeColor?.withValues(alpha: 0.12) ??
-          sliderThemeData.overlayColor ??
-          effectiveThemeData.overlayColor,
-      inactiveDividerColor: widget.activeColor ??
-          sliderThemeData.inactiveDividerColor ??
-          effectiveThemeData.inactiveDividerColor,
-      activeDividerColor: widget.inactiveColor ??
-          sliderThemeData.activeDividerColor ??
-          effectiveThemeData.activeDividerColor,
+          sliderThemeData.disabledInactiveMinorTickColor ?? effectiveThemeData.disabledInactiveMinorTickColor,
+      overlayColor:
+          widget.activeColor?.withOpacity(0.12) ?? sliderThemeData.overlayColor ?? effectiveThemeData.overlayColor,
+      inactiveDividerColor:
+          widget.activeColor ?? sliderThemeData.inactiveDividerColor ?? effectiveThemeData.inactiveDividerColor,
+      activeDividerColor:
+          widget.inactiveColor ?? sliderThemeData.activeDividerColor ?? effectiveThemeData.activeDividerColor,
       disabledInactiveDividerColor:
-          sliderThemeData.disabledInactiveDividerColor ??
-              effectiveThemeData.disabledInactiveDividerColor,
-      disabledActiveDividerColor: sliderThemeData.disabledActiveDividerColor ??
-          effectiveThemeData.disabledActiveDividerColor,
-      disabledActiveTrackColor: sliderThemeData.disabledActiveTrackColor ??
-          effectiveThemeData.disabledActiveTrackColor,
-      disabledInactiveTrackColor: sliderThemeData.disabledInactiveTrackColor ??
-          effectiveThemeData.disabledInactiveTrackColor,
-      disabledThumbColor: sliderThemeData.disabledThumbColor ??
-          effectiveThemeData.disabledThumbColor,
-      tooltipBackgroundColor: sliderThemeData.tooltipBackgroundColor ??
-          effectiveThemeData.tooltipBackgroundColor,
+          sliderThemeData.disabledInactiveDividerColor ?? effectiveThemeData.disabledInactiveDividerColor,
+      disabledActiveDividerColor:
+          sliderThemeData.disabledActiveDividerColor ?? effectiveThemeData.disabledActiveDividerColor,
+      disabledActiveTrackColor: sliderThemeData.disabledActiveTrackColor ?? effectiveThemeData.disabledActiveTrackColor,
+      disabledInactiveTrackColor:
+          sliderThemeData.disabledInactiveTrackColor ?? effectiveThemeData.disabledInactiveTrackColor,
+      disabledThumbColor: sliderThemeData.disabledThumbColor ?? effectiveThemeData.disabledThumbColor,
+      tooltipBackgroundColor: sliderThemeData.tooltipBackgroundColor ?? effectiveThemeData.tooltipBackgroundColor,
       thumbStrokeColor: sliderThemeData.thumbStrokeColor,
       activeDividerStrokeColor: sliderThemeData.activeDividerStrokeColor,
       inactiveDividerStrokeColor: sliderThemeData.inactiveDividerStrokeColor,
-      trackCornerRadius:
-          sliderThemeData.trackCornerRadius ?? maxTrackHeight / 2,
+      trackCornerRadius: sliderThemeData.trackCornerRadius ?? maxTrackHeight / 2,
       thumbRadius: sliderThemeData.thumbRadius,
       overlayRadius: sliderThemeData.overlayRadius,
-      activeDividerRadius:
-          sliderThemeData.activeDividerRadius ?? minTrackHeight / 4,
-      inactiveDividerRadius:
-          sliderThemeData.inactiveDividerRadius ?? minTrackHeight / 4,
+      activeDividerRadius: sliderThemeData.activeDividerRadius ?? minTrackHeight / 4,
+      inactiveDividerRadius: sliderThemeData.inactiveDividerRadius ?? minTrackHeight / 4,
       thumbStrokeWidth: sliderThemeData.thumbStrokeWidth,
       activeDividerStrokeWidth: sliderThemeData.activeDividerStrokeWidth,
       inactiveDividerStrokeWidth: sliderThemeData.inactiveDividerStrokeWidth,
@@ -1363,18 +1318,14 @@ class _SfSliderState extends State<SfSlider> with TickerProviderStateMixin {
       return sliderThemeData.copyWith(
           tickSize: sliderThemeData.tickSize ?? const Size(1.0, 8.0),
           minorTickSize: sliderThemeData.minorTickSize ?? const Size(1.0, 5.0),
-          labelOffset: sliderThemeData.labelOffset ??
-              (widget.showTicks
-                  ? const Offset(0.0, 5.0)
-                  : const Offset(0.0, 13.0)));
+          labelOffset:
+              sliderThemeData.labelOffset ?? (widget.showTicks ? const Offset(0.0, 5.0) : const Offset(0.0, 13.0)));
     } else {
       return sliderThemeData.copyWith(
           tickSize: sliderThemeData.tickSize ?? const Size(8.0, 1.0),
           minorTickSize: sliderThemeData.minorTickSize ?? const Size(5.0, 1.0),
-          labelOffset: sliderThemeData.labelOffset ??
-              (widget.showTicks
-                  ? const Offset(5.0, 0.0)
-                  : const Offset(13.0, 0.0)));
+          labelOffset:
+              sliderThemeData.labelOffset ?? (widget.showTicks ? const Offset(5.0, 0.0) : const Offset(13.0, 0.0)));
     }
   }
 
@@ -1395,10 +1346,8 @@ class _SfSliderState extends State<SfSlider> with TickerProviderStateMixin {
     super.initState();
     overlayController = AnimationController(vsync: this, duration: duration);
     stateController = AnimationController(vsync: this, duration: duration);
-    tooltipAnimationController =
-        AnimationController(vsync: this, duration: duration);
-    stateController.value =
-        widget.onChanged != null && (widget.min != widget.max) ? 1.0 : 0.0;
+    tooltipAnimationController = AnimationController(vsync: this, duration: duration);
+    stateController.value = widget.onChanged != null && (widget.min != widget.max) ? 1.0 : 0.0;
   }
 
   @override
@@ -1412,8 +1361,7 @@ class _SfSliderState extends State<SfSlider> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final bool isActive =
-        widget.onChanged != null && (widget.min != widget.max);
+    final bool isActive = widget.onChanged != null && (widget.min != widget.max);
     final ThemeData themeData = Theme.of(context);
 
     return _SliderRenderObjectWidget(
@@ -1433,21 +1381,17 @@ class _SfSliderState extends State<SfSlider> with TickerProviderStateMixin {
         showDividers: widget.showDividers,
         enableTooltip: widget.enableTooltip,
         shouldAlwaysShowTooltip: widget.shouldAlwaysShowTooltip,
-        isInversed: widget._sliderType == SliderType.horizontal &&
-                Directionality.of(context) == TextDirection.rtl ||
+        isInversed: widget._sliderType == SliderType.horizontal && Directionality.of(context) == TextDirection.rtl ||
             widget.isInversed,
-        inactiveColor: widget.inactiveColor ??
-            themeData.primaryColor.withValues(alpha: 0.24),
+        inactiveColor: widget.inactiveColor ?? themeData.primaryColor.withOpacity(0.24),
         activeColor: widget.activeColor ?? themeData.primaryColor,
         labelPlacement: widget.labelPlacement,
         edgeLabelPlacement: widget.edgeLabelPlacement,
         numberFormat: widget.numberFormat ?? NumberFormat('#.##'),
         dateIntervalType: widget.dateIntervalType,
         dateFormat: widget.dateFormat,
-        labelFormatterCallback:
-            widget.labelFormatterCallback ?? _getFormattedLabelText,
-        tooltipTextFormatterCallback:
-            widget.tooltipTextFormatterCallback ?? _getFormattedTooltipText,
+        labelFormatterCallback: widget.labelFormatterCallback ?? _getFormattedLabelText,
+        tooltipTextFormatterCallback: widget.tooltipTextFormatterCallback ?? _getFormattedTooltipText,
         semanticFormatterCallback: widget.semanticFormatterCallback,
         trackShape: widget.trackShape,
         dividerShape: widget.dividerShape,
@@ -1715,8 +1659,7 @@ class _RenderSliderElement extends RenderObjectElement {
   }
 
   @override
-  void moveRenderObjectChild(
-      RenderObject child, dynamic oldSlot, dynamic newSlot) {
+  void moveRenderObjectChild(RenderObject child, dynamic oldSlot, dynamic newSlot) {
     assert(false, 'not reachable');
   }
 }
@@ -1824,14 +1767,11 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
       ..onTapDown = _onTapDown
       ..onTapUp = _onTapUp;
 
-    _overlayAnimation = CurvedAnimation(
-        parent: _state.overlayController, curve: Curves.fastOutSlowIn);
+    _overlayAnimation = CurvedAnimation(parent: _state.overlayController, curve: Curves.fastOutSlowIn);
 
-    _stateAnimation = CurvedAnimation(
-        parent: _state.stateController, curve: Curves.easeInOut);
+    _stateAnimation = CurvedAnimation(parent: _state.stateController, curve: Curves.easeInOut);
 
-    _tooltipAnimation = CurvedAnimation(
-        parent: _state.tooltipAnimationController, curve: Curves.fastOutSlowIn);
+    _tooltipAnimation = CurvedAnimation(parent: _state.tooltipAnimationController, curve: Curves.fastOutSlowIn);
 
     if (shouldAlwaysShowTooltip) {
       _state.tooltipAnimationController.value = 1;
@@ -1864,11 +1804,9 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
 
   double? _valueInMilliseconds;
 
-  final Map<ChildElements, RenderBox> slotToChild =
-      <ChildElements, RenderBox>{};
+  final Map<ChildElements, RenderBox> slotToChild = <ChildElements, RenderBox>{};
 
-  final Map<RenderBox, ChildElements> childToSlot =
-      <RenderBox, ChildElements>{};
+  final Map<RenderBox, ChildElements> childToSlot = <RenderBox, ChildElements>{};
 
   dynamic get value => _value;
   dynamic _value;
@@ -1908,8 +1846,7 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
     }
   }
 
-  SfSliderSemanticFormatterCallback? get semanticFormatterCallback =>
-      _semanticFormatterCallback;
+  SfSliderSemanticFormatterCallback? get semanticFormatterCallback => _semanticFormatterCallback;
   SfSliderSemanticFormatterCallback? _semanticFormatterCallback;
 
   set semanticFormatterCallback(SfSliderSemanticFormatterCallback? value) {
@@ -1942,17 +1879,14 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
   }
 
   dynamic get _increasedValue {
-    return getNextSemanticValue(value, semanticActionUnit,
-        actualValue: actualValue);
+    return getNextSemanticValue(value, semanticActionUnit, actualValue: actualValue);
   }
 
   dynamic get _decreasedValue {
-    return getPrevSemanticValue(value, semanticActionUnit,
-        actualValue: actualValue);
+    return getPrevSemanticValue(value, semanticActionUnit, actualValue: actualValue);
   }
 
-  RenderBox? _updateChild(
-      RenderBox? oldChild, RenderBox? newChild, ChildElements slot) {
+  RenderBox? _updateChild(RenderBox? oldChild, RenderBox? newChild, ChildElements slot) {
     if (oldChild != null) {
       dropChild(oldChild);
       childToSlot.remove(oldChild);
@@ -2032,8 +1966,7 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
         _state.tooltipDelayTimer = null;
         if (isInteractionEnd &&
             willDrawTooltip &&
-            _state.tooltipAnimationController.status ==
-                AnimationStatus.completed &&
+            _state.tooltipAnimationController.status == AnimationStatus.completed &&
             !shouldAlwaysShowTooltip) {
           _state.tooltipAnimationController.reverse();
         }
@@ -2057,12 +1990,9 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
   void _endInteraction() {
     if (!isInteractionEnd) {
       _state.overlayController.reverse();
-      if (enableTooltip &&
-          _state.tooltipDelayTimer == null &&
-          !shouldAlwaysShowTooltip) {
+      if (enableTooltip && _state.tooltipDelayTimer == null && !shouldAlwaysShowTooltip) {
         _state.tooltipAnimationController.reverse();
-        if (_state.tooltipAnimationController.status ==
-            AnimationStatus.dismissed) {
+        if (_state.tooltipAnimationController.status == AnimationStatus.dismissed) {
           willDrawTooltip = false;
         }
       }
@@ -2080,8 +2010,8 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
     }
   }
 
-  void _drawTooltip(PaintingContext context, Offset thumbCenter, Offset offset,
-      Offset actualTrackOffset, Rect trackRect) {
+  void _drawTooltip(
+      PaintingContext context, Offset thumbCenter, Offset offset, Offset actualTrackOffset, Rect trackRect) {
     if (willDrawTooltip || shouldAlwaysShowTooltip) {
       final Paint paint = Paint()
         ..color = sliderThemeData.tooltipBackgroundColor!
@@ -2091,15 +2021,12 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
       final dynamic actualText = sliderType == SliderType.horizontal
           ? getValueFromPosition(thumbCenter.dx - offset.dx)
           : getValueFromPosition(trackRect.bottom - thumbCenter.dy);
-      final String tooltipText = tooltipTextFormatterCallback(
-          actualText, getFormattedText(actualText));
-      final TextSpan textSpan =
-          TextSpan(text: tooltipText, style: sliderThemeData.tooltipTextStyle);
+      final String tooltipText = tooltipTextFormatterCallback(actualText, getFormattedText(actualText));
+      final TextSpan textSpan = TextSpan(text: tooltipText, style: sliderThemeData.tooltipTextStyle);
       textPainter.text = textSpan;
       textPainter.layout();
 
-      tooltipShape.paint(context, thumbCenter,
-          Offset(actualTrackOffset.dx, tooltipStartY), textPainter,
+      tooltipShape.paint(context, thumbCenter, Offset(actualTrackOffset.dx, tooltipStartY), textPainter,
           parentBox: this,
           sliderThemeData: sliderThemeData,
           paint: paint,
@@ -2193,8 +2120,8 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
   @override
   void performLayout() {
     super.performLayout();
-    final BoxConstraints contentConstraints = BoxConstraints.tightFor(
-        width: actualThumbSize.width, height: actualThumbSize.height);
+    final BoxConstraints contentConstraints =
+        BoxConstraints.tightFor(width: actualThumbSize.width, height: actualThumbSize.height);
     _thumbIcon?.layout(contentConstraints, parentUsesSize: true);
   }
 
@@ -2202,8 +2129,7 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
   bool hitTest(BoxHitTestResult result, {required Offset position}) {
     if (size.contains(position) && isInteractive) {
       if (_thumbIcon != null &&
-          ((_thumbIcon!.parentData! as BoxParentData).offset & _thumbIcon!.size)
-              .contains(position)) {
+          ((_thumbIcon!.parentData! as BoxParentData).offset & _thumbIcon!.size).contains(position)) {
         final Offset center = _thumbIcon!.size.center(Offset.zero);
         result.addWithRawTransform(
           transform: MatrixUtils.forceToPoint(center),
@@ -2223,26 +2149,13 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
   @override
   void paint(PaintingContext context, Offset offset) {
     final Offset actualTrackOffset = sliderType == SliderType.horizontal
-        ? Offset(
-            offset.dx,
-            offset.dy +
-                (size.height - actualHeight) / 2 +
-                trackOffset.dy -
-                maxTrackHeight / 2)
-        : Offset(
-            offset.dx +
-                (size.width - actualHeight) / 2 +
-                trackOffset.dx -
-                maxTrackHeight / 2,
-            offset.dy);
+        ? Offset(offset.dx, offset.dy + (size.height - actualHeight) / 2 + trackOffset.dy - maxTrackHeight / 2)
+        : Offset(offset.dx + (size.width - actualHeight) / 2 + trackOffset.dx - maxTrackHeight / 2, offset.dy);
 
     // Drawing track.
-    final Rect trackRect =
-        trackShape.getPreferredRect(this, sliderThemeData, actualTrackOffset);
-    final double thumbPosition = getFactorFromValue(actualValue) *
-        (sliderType == SliderType.horizontal
-            ? trackRect.width
-            : trackRect.height);
+    final Rect trackRect = trackShape.getPreferredRect(this, sliderThemeData, actualTrackOffset);
+    final double thumbPosition =
+        getFactorFromValue(actualValue) * (sliderType == SliderType.horizontal ? trackRect.width : trackRect.height);
     final Offset thumbCenter = sliderType == SliderType.horizontal
         ? Offset(trackRect.left + thumbPosition, trackRect.center.dy)
         : Offset(trackRect.center.dx, trackRect.bottom - thumbPosition);
@@ -2257,8 +2170,7 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
         inactivePaint: null);
 
     if (showLabels || showTicks || showDividers) {
-      drawLabelsTicksAndDividers(context, trackRect, offset, thumbCenter, null,
-          null, _stateAnimation, _value, null);
+      drawLabelsTicksAndDividers(context, trackRect, offset, thumbCenter, null, null, _stateAnimation, _value, null);
     }
 
     // Drawing overlay.
@@ -2271,9 +2183,8 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
         paint: null);
 
     if (_thumbIcon != null) {
-      (_thumbIcon!.parentData! as BoxParentData).offset = thumbCenter -
-          Offset(_thumbIcon!.size.width / 2, _thumbIcon!.size.height / 2) -
-          offset;
+      (_thumbIcon!.parentData! as BoxParentData).offset =
+          thumbCenter - Offset(_thumbIcon!.size.width / 2, _thumbIcon!.size.height / 2) - offset;
     }
     // Drawing thumb.
     thumbShape.paint(context, thumbCenter,
@@ -2287,10 +2198,8 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
         paint: null);
 
     // To avoid positioning the tooltip text on the edge, used a 5px margin.
-    final Rect tooltipTargetRect = Rect.fromLTWH(
-        5.0, trackRect.top, mediaQueryData.size.width - 5.0, trackRect.height);
-    _drawTooltip(
-        context, thumbCenter, offset, actualTrackOffset, tooltipTargetRect);
+    final Rect tooltipTargetRect = Rect.fromLTWH(5.0, trackRect.top, mediaQueryData.size.width - 5.0, trackRect.height);
+    _drawTooltip(context, thumbCenter, offset, actualTrackOffset, tooltipTargetRect);
   }
 
   @override
@@ -2316,23 +2225,13 @@ class _RenderSlider extends RenderBaseSlider implements MouseTrackerAnnotation {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
+    properties.add(StringProperty('thumbSize', thumbShape.getPreferredSize(sliderThemeData).toString()));
+    properties.add(
+        StringProperty('activeDividerSize', dividerShape.getPreferredSize(sliderThemeData, isActive: true).toString()));
     properties.add(StringProperty(
-        'thumbSize', thumbShape.getPreferredSize(sliderThemeData).toString()));
-    properties.add(StringProperty(
-        'activeDividerSize',
-        dividerShape
-            .getPreferredSize(sliderThemeData, isActive: true)
-            .toString()));
-    properties.add(StringProperty(
-        'inactiveDividerSize',
-        dividerShape
-            .getPreferredSize(sliderThemeData, isActive: false)
-            .toString()));
-    properties.add(StringProperty('overlaySize',
-        overlayShape.getPreferredSize(sliderThemeData).toString()));
-    properties.add(StringProperty(
-        'tickSize', tickShape.getPreferredSize(sliderThemeData).toString()));
-    properties.add(StringProperty('minorTickSize',
-        minorTickShape.getPreferredSize(sliderThemeData).toString()));
+        'inactiveDividerSize', dividerShape.getPreferredSize(sliderThemeData, isActive: false).toString()));
+    properties.add(StringProperty('overlaySize', overlayShape.getPreferredSize(sliderThemeData).toString()));
+    properties.add(StringProperty('tickSize', tickShape.getPreferredSize(sliderThemeData).toString()));
+    properties.add(StringProperty('minorTickSize', minorTickShape.getPreferredSize(sliderThemeData).toString()));
   }
 }

@@ -19,8 +19,7 @@ enum _LegendType {
 }
 
 /// Signature to return a [Widget] for the given value.
-typedef MapLegendPointerBuilder = Widget Function(
-    BuildContext context, dynamic value);
+typedef MapLegendPointerBuilder = Widget Function(BuildContext context, dynamic value);
 
 /// Shows legend for the bubbles or shapes.
 ///
@@ -2088,13 +2087,10 @@ class MapLegend extends DiagnosticableTree {
         textStyle: textStyle ?? this.textStyle,
         iconSize: iconSize ?? this.iconSize,
         overflowMode: overflowMode ?? this.overflowMode,
-        enableToggleInteraction:
-            enableToggleInteraction ?? this.enableToggleInteraction,
+        enableToggleInteraction: enableToggleInteraction ?? this.enableToggleInteraction,
         toggledItemColor: toggledItemColor ?? this.toggledItemColor,
-        toggledItemStrokeColor:
-            toggledItemStrokeColor ?? this.toggledItemStrokeColor,
-        toggledItemStrokeWidth:
-            toggledItemStrokeWidth ?? this.toggledItemStrokeWidth,
+        toggledItemStrokeColor: toggledItemStrokeColor ?? this.toggledItemStrokeColor,
+        toggledItemStrokeWidth: toggledItemStrokeWidth ?? this.toggledItemStrokeWidth,
         toggledItemOpacity: toggledItemOpacity ?? this.toggledItemOpacity,
       );
     } else {
@@ -2134,8 +2130,7 @@ class MapLegend extends DiagnosticableTree {
       properties.add(EnumProperty<Axis>('direction', direction));
     }
 
-    properties
-        .add(EnumProperty<MapLegendOverflowMode>('overflowMode', overflowMode));
+    properties.add(EnumProperty<MapLegendOverflowMode>('overflowMode', overflowMode));
     properties.add(EnumProperty<MapLegendPosition>('position', position));
     if (textStyle != null) {
       properties.add(textStyle!.toDiagnosticsNode(name: 'textStyle'));
@@ -2145,31 +2140,23 @@ class MapLegend extends DiagnosticableTree {
       properties.add(DiagnosticsProperty<Size>('iconSize', iconSize));
       properties.add(EnumProperty<MapIconType>('iconType', iconType));
       properties.add(FlagProperty('enableToggleInteraction',
-          value: enableToggleInteraction,
-          ifTrue: 'Toggle is enabled',
-          ifFalse: 'Toggle is disabled'));
+          value: enableToggleInteraction, ifTrue: 'Toggle is enabled', ifFalse: 'Toggle is disabled'));
       if (toggledItemColor != null) {
         properties.add(ColorProperty('toggledItemColor', toggledItemColor));
       }
 
       if (toggledItemStrokeColor != null) {
-        properties.add(
-            ColorProperty('toggledItemStrokeColor', toggledItemStrokeColor));
+        properties.add(ColorProperty('toggledItemStrokeColor', toggledItemStrokeColor));
       }
 
-      properties.add(
-          DoubleProperty('toggledItemStrokeWidth', toggledItemStrokeWidth));
+      properties.add(DoubleProperty('toggledItemStrokeWidth', toggledItemStrokeWidth));
       properties.add(DoubleProperty('toggledItemOpacity', toggledItemOpacity));
     } else {
       properties.add(DiagnosticsProperty<Size>('segmentSize', segmentSize));
-      properties.add(EnumProperty<MapLegendLabelsPlacement>(
-          'labelsPlacement', labelsPlacement));
-      properties.add(EnumProperty<MapLegendEdgeLabelsPlacement>(
-          'edgeLabelsPlacement', edgeLabelsPlacement));
-      properties.add(
-          EnumProperty<MapLabelOverflow>('labelOverflowMode', labelOverflow));
-      properties.add(EnumProperty<MapLegendPaintingStyle>(
-          'segmentPaintingStyle', segmentPaintingStyle));
+      properties.add(EnumProperty<MapLegendLabelsPlacement>('labelsPlacement', labelsPlacement));
+      properties.add(EnumProperty<MapLegendEdgeLabelsPlacement>('edgeLabelsPlacement', edgeLabelsPlacement));
+      properties.add(EnumProperty<MapLabelOverflow>('labelOverflowMode', labelOverflow));
+      properties.add(EnumProperty<MapLegendPaintingStyle>('segmentPaintingStyle', segmentPaintingStyle));
     }
   }
 }
@@ -2230,22 +2217,16 @@ class _LegendState extends State<Legend> {
         final MapColorMapper colorMapper = widget.colorMappers![index];
 
         if (widget.legend._type == _LegendType.bar &&
-            widget.legend.labelsPlacement ==
-                MapLegendLabelsPlacement.betweenItems) {
+            widget.legend.labelsPlacement == MapLegendLabelsPlacement.betweenItems) {
           if (index == 0) {
             final String startValue = _getStartSegmentLabel(colorMapper);
-            legendItems
-                .add(LegendItem(text: startValue, color: colorMapper.color));
+            legendItems.add(LegendItem(text: startValue, color: colorMapper.color));
           } else {
-            final String text = colorMapper.text ??
-                colorMapper.value ??
-                colorMapper.to.toString();
+            final String text = colorMapper.text ?? colorMapper.value ?? colorMapper.to.toString();
             legendItems.add(LegendItem(text: text, color: colorMapper.color));
           }
         } else {
-          final String text = colorMapper.text ??
-              colorMapper.value ??
-              '${colorMapper.from} - ${colorMapper.to}';
+          final String text = colorMapper.text ?? colorMapper.value ?? '${colorMapper.from} - ${colorMapper.to}';
           legendItems.add(LegendItem(text: text, color: colorMapper.color));
         }
       }
@@ -2272,9 +2253,7 @@ class _LegendState extends State<Legend> {
         colorMapper.text!.isNotEmpty &&
         colorMapper.text![0] == '{') {
       startText = colorMapper.text!;
-    } else if (colorMapper.from != null &&
-        colorMapper.text != null &&
-        colorMapper.text!.isNotEmpty) {
+    } else if (colorMapper.from != null && colorMapper.text != null && colorMapper.text!.isNotEmpty) {
       startText = '{${colorMapper.from}},{${colorMapper.text}}';
     } else {
       if (colorMapper.from != null) {
@@ -2300,8 +2279,7 @@ class _LegendState extends State<Legend> {
     return MapLegendLabelsPlacement.onItem;
   }
 
-  LegendPaintingStyle _getEffectiveSegmentPaintingStyle(
-      MapLegendPaintingStyle paintingStyle) {
+  LegendPaintingStyle _getEffectiveSegmentPaintingStyle(MapLegendPaintingStyle paintingStyle) {
     switch (paintingStyle) {
       case MapLegendPaintingStyle.solid:
         return LegendPaintingStyle.solid;
@@ -2310,8 +2288,7 @@ class _LegendState extends State<Legend> {
     }
   }
 
-  LegendLabelOverflow _getEffectiveLabelOverflow(
-      MapLabelOverflow labelOverflow) {
+  LegendLabelOverflow _getEffectiveLabelOverflow(MapLabelOverflow labelOverflow) {
     switch (labelOverflow) {
       case MapLabelOverflow.visible:
         return LegendLabelOverflow.visible;
@@ -2322,8 +2299,7 @@ class _LegendState extends State<Legend> {
     }
   }
 
-  LegendEdgeLabelsPlacement _getEffectiveEdgeLabelsPlacement(
-      MapLegendEdgeLabelsPlacement edgeLabelsPlacement) {
+  LegendEdgeLabelsPlacement _getEffectiveEdgeLabelsPlacement(MapLegendEdgeLabelsPlacement edgeLabelsPlacement) {
     switch (edgeLabelsPlacement) {
       case MapLegendEdgeLabelsPlacement.center:
         return LegendEdgeLabelsPlacement.center;
@@ -2332,8 +2308,7 @@ class _LegendState extends State<Legend> {
     }
   }
 
-  LegendLabelsPlacement _getEffectiveLabelPlacement(
-      MapLegendLabelsPlacement labelsPlacement) {
+  LegendLabelsPlacement _getEffectiveLabelPlacement(MapLegendLabelsPlacement labelsPlacement) {
     switch (labelsPlacement) {
       case MapLegendLabelsPlacement.betweenItems:
         return LegendLabelsPlacement.betweenItems;
@@ -2355,8 +2330,7 @@ class _LegendState extends State<Legend> {
     }
   }
 
-  LegendOverflowMode _getEffectiveOverflowMode(
-      MapLegendOverflowMode overflowMode) {
+  LegendOverflowMode _getEffectiveOverflowMode(MapLegendOverflowMode overflowMode) {
     switch (overflowMode) {
       case MapLegendOverflowMode.scroll:
         return LegendOverflowMode.scroll;
@@ -2386,8 +2360,7 @@ class _LegendState extends State<Legend> {
 
   @override
   void didUpdateWidget(Legend oldWidget) {
-    if (oldWidget.legend.source != widget.legend.source ||
-        oldWidget.legend._type != widget.legend._type) {
+    if (oldWidget.legend.source != widget.legend.source || oldWidget.legend._type != widget.legend._type) {
       _toggledIndices?.clear();
       widget.controller!
         ..toggledIndices.clear()
@@ -2406,8 +2379,7 @@ class _LegendState extends State<Legend> {
 
   Color? _getEffectiveToggledItemColor() {
     if (widget.themeData.toggledItemColor != Colors.transparent) {
-      return widget.themeData.toggledItemColor!
-          .withValues(alpha: widget.legend.toggledItemOpacity);
+      return widget.themeData.toggledItemColor!.withOpacity(widget.legend.toggledItemOpacity);
     }
     return widget.themeData.toggledItemColor;
   }
@@ -2456,20 +2428,14 @@ class _LegendState extends State<Legend> {
           offset: widget.legend.offset,
           padding: widget.legend.padding,
           textStyle: widget.themeData.legendTextStyle,
-          labelsPlacement:
-              _getEffectiveLabelPlacement(_getActualLabelsPlacement()),
-          edgeLabelsPlacement: _getEffectiveEdgeLabelsPlacement(
-              widget.legend.edgeLabelsPlacement),
-          labelOverflow:
-              _getEffectiveLabelOverflow(widget.legend.labelOverflow),
+          labelsPlacement: _getEffectiveLabelPlacement(_getActualLabelsPlacement()),
+          edgeLabelsPlacement: _getEffectiveEdgeLabelsPlacement(widget.legend.edgeLabelsPlacement),
+          labelOverflow: _getEffectiveLabelOverflow(widget.legend.labelOverflow),
           segmentSize: widget.legend.segmentSize,
-          segmentPaintingStyle: _getEffectiveSegmentPaintingStyle(
-              widget.legend.segmentPaintingStyle),
+          segmentPaintingStyle: _getEffectiveSegmentPaintingStyle(widget.legend.segmentPaintingStyle),
           pointerBuilder: widget.legend.pointerBuilder,
           pointerColor: widget.legend.pointerColor,
-          pointerSize: widget.legend.showPointerOnHover
-              ? widget.legend.pointerSize
-              : Size.zero,
+          pointerSize: widget.legend.showPointerOnHover ? widget.legend.pointerSize : Size.zero,
           pointerController: widget.pointerController,
           child: widget.child,
         );
